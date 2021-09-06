@@ -17,6 +17,9 @@ public class Apprenant extends User {
     @NotNull(message = "L'état ne peut pas être nul")
     private String etat;
 
+    @NotNull(message = "Le rôle ne peut pas être nul")
+    private String role = "APPRENANT";
+
     private String motif;
     private byte[] droitImage;
     private byte[] extraitNaissance;
