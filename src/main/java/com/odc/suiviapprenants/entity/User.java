@@ -55,8 +55,6 @@ public class User {
     @NotNull(message = "La date de naissance ne doit pas être nulle")
     protected LocalDate dateNaissance;
 
-    @NotBlank(message = "L'avatar est obligatoire")
-    @NotNull(message = "L'avatar ne doit pas être nul")
     protected byte[] avatar;
 
     protected boolean suspended = false;
