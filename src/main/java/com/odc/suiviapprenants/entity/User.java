@@ -51,11 +51,23 @@ public class User {
     @Column(unique=true)
     protected String numeroTelephone;
 
-    @NotBlank(message = "La date de naissance est obligatoire")
-    @NotNull(message = "La date de naissance ne doit pas être nulle")
+//    @NotBlank(message = "La date de naissance est obligatoire")
+//    @NotNull(message = "La date de naissance ne doit pas être nulle")
     protected LocalDate dateNaissance;
 
     protected byte[] avatar;
+
+    public User(Long id, String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.prenom = prenom;
+        this.nom = nom;
+        this.email = email;
+        this.cni = cni;
+        this.adresse = adresse;
+        this.numeroTelephone = numeroTelephone;
+    }
 
     protected boolean suspended = false;
 

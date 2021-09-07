@@ -8,4 +8,5 @@ public interface ApplicationService {
     public User findUserByUsername(String username);
     public Admin findUserByUsernameAdmin(String username);
     public Apprenant findAppByUsername(String username);
+    public Admin addAdmin(Admin admin);
 }

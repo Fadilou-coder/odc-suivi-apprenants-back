@@ -35,7 +35,7 @@ public class JwtAuthFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-        com.odc.suiviapprenants.entity.User appUser = null;
+        com.odc.suiviapprenants.entity.User appUser;
         try {
             appUser = new ObjectMapper().readValue(request.getInputStream(), com.odc.suiviapprenants.entity.User.class); // pour deserializer
         } catch (IOException e) {

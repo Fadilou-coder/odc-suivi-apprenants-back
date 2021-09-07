@@ -42,10 +42,6 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         } else {
 
             String jwt = request.getHeader(SecurityConstants.HEADER_STRING);
-            System.out.println(jwt);
-            if (request.getServletPath().equals("/refreshToken")){
-                filterChain.doFilter(request, response);
-            }else {
                 if (jwt == null || !jwt.startsWith(SecurityConstants.TOKEN_PREFIX)) {
                     filterChain.doFilter(request, response);
                     return;
@@ -71,7 +67,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                     response.setHeader("error-message", e.getMessage());
                     response.sendError(HttpServletResponse.SC_FORBIDDEN);
                 }
-            }
+
         }
 
     }

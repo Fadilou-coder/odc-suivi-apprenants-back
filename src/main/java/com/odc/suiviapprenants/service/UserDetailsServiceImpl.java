@@ -14,26 +14,22 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
-    private ApplicationService applicationService;
+    private ApplicationService service;
 
-    private String role;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Admin admin = applicationService.findUserByUsernameAdmin(username);
-        Apprenant apprenant = applicationService.findAppByUsername(username);
-        Collection<GrantedAuthority> authorities=new ArrayList<>();
-        if (admin == null){
-            if (apprenant == null) throw new UsernameNotFoundException(username);
-            authorities.add(new SimpleGrantedAuthority((apprenant.getRole())));
-            return new User(apprenant.getUsername(), apprenant.getPassword(), authorities);
-        }
-        authorities.add(new SimpleGrantedAuthority((admin.getRole().getLibelle())));
+        Admin admin = service.findUserByUsernameAdmin(username);
+
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(admin.getRole().getLibelle()));
+
         return new User(admin.getUsername(), admin.getPassword(), authorities);
     }
 
