@@ -19,6 +19,4 @@ public class ProfilSortie {
     @NotNull(message = "Le libelle ne peut pas être nul")
     private String libelle;
 
-    @ManyToMany
-    private Collection<Apprenant> apprenants;
 }
