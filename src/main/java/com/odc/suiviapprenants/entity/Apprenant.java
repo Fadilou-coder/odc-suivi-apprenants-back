@@ -30,7 +30,7 @@ public class Apprenant extends User {
     @OneToMany(mappedBy = "apprenant")
     private Collection<Pret> prets;
 
-    @ManyToMany(mappedBy = "apprenants")
+    @ManyToMany
     private Collection<ProfilSortie> profilSorties;
 
     @OneToMany(mappedBy = "apprenant")
