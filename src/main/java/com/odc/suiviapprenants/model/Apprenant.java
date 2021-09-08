@@ -23,17 +23,14 @@ public class Apprenant extends User {
     private String role = "APPRENANT";
 
     private String motif;
-    private byte[] droitImage;
-    private byte[] extraitNaissance;
-    private byte[] casierJudiciaire;
-    private byte[] diplomeBac;
-    private byte[] carteIdentité;
-    private byte[] certificatVisite;
+
+    @OneToMany(mappedBy = "apprenant")
+    private Collection<DocumentApprenant> docs;
 
     @OneToMany(mappedBy = "apprenant")
     private Collection<Pret> prets;
 
-    @ManyToMany(mappedBy = "apprenants")
+    @ManyToMany
     private Collection<ProfilSortie> profilSorties;
 
     @OneToMany(mappedBy = "apprenant")

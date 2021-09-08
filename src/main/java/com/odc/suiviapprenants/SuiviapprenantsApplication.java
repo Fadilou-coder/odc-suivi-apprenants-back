@@ -20,6 +20,6 @@ public class SuiviapprenantsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		applicationService.addAdmin(new Admin(null, "admin", "passer", "prenom", "nom", "email@email.com", "12345678", "adresse", "777777777", new Role(null, "ADMIN", null)));
+	//	applicationService.addAdmin(new Admin(null, "admin", "passer", "prenom", "nom", "email@email.com", "12345678", "adresse", "777777777", new Role(null, "ADMIN", null)));
 	}
 }

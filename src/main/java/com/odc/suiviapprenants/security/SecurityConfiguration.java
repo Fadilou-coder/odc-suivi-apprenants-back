@@ -1,6 +1,6 @@
 package com.odc.suiviapprenants.security;
 
-import com.odc.suiviapprenants.service.UserDetailsServiceImpl;
+import com.odc.suiviapprenants.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;

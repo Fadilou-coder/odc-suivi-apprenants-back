@@ -1,4 +1,4 @@
-package com.odc.suiviapprenants.service;
+package com.odc.suiviapprenants.service.impl;
 
 import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Apprenant;
@@ -6,6 +6,7 @@ import com.odc.suiviapprenants.model.User;
 import com.odc.suiviapprenants.repository.AdminRepository;
 import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
+import com.odc.suiviapprenants.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
