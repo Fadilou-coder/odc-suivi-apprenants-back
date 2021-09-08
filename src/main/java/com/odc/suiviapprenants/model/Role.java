@@ -1,4 +1,4 @@
-package com.odc.suiviapprenants.entity;
+package com.odc.suiviapprenants.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

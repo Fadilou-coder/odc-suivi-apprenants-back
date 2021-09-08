@@ -1,4 +1,4 @@
-package com.odc.suiviapprenants.entity;
+package com.odc.suiviapprenants.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,8 +8,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor

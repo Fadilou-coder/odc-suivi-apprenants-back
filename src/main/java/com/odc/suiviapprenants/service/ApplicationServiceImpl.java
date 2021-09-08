@@ -1,8 +1,8 @@
 package com.odc.suiviapprenants.service;
 
-import com.odc.suiviapprenants.entity.Admin;
-import com.odc.suiviapprenants.entity.Apprenant;
-import com.odc.suiviapprenants.entity.User;
+import com.odc.suiviapprenants.model.Admin;
+import com.odc.suiviapprenants.model.Apprenant;
+import com.odc.suiviapprenants.model.User;
 import com.odc.suiviapprenants.repository.AdminRepository;
 import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.UserRepository;

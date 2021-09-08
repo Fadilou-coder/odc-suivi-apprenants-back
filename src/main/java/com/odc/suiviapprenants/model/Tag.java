@@ -1,4 +1,4 @@
-package com.odc.suiviapprenants.entity;
+package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ import java.util.Collection;
 
 @Entity
 @Data
-public class GroupeTag {
+public class Tag {
     private @Id @GeneratedValue Long id;
 
     @NotBlank(message = "Le libelle est obligatoire")
@@ -20,5 +20,8 @@ public class GroupeTag {
     private String libelle;
 
     @ManyToMany
-    private Collection<Tag> tags;
+    private Collection<GroupeCompetence> groupeCompetences;
+
+    @ManyToMany(mappedBy = "tags")
+    private Collection<GroupeTag> groupeTags;
 }

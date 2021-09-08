@@ -1,4 +1,4 @@
-package com.odc.suiviapprenants.entity;
+package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
@@ -12,13 +12,22 @@ import java.util.Collection;
 
 @Entity
 @Data
-public class ProfilSortie {
+public class GroupeCompetence {
     private @Id @GeneratedValue Long id;
 
     @NotBlank(message = "Le libelle est obligatoire")
     @NotNull(message = "Le libelle ne peut pas être nul")
     private String libelle;
 
+    @NotBlank(message = "La description est obligatoire")
+    private String description;
+
     @ManyToMany
-    private Collection<Apprenant> apprenants;
+    private Collection<Competence> competences;
+
+    @ManyToMany(mappedBy = "groupeCompetences")
+    private Collection<Referentiel> referentiels;
+
+    @ManyToMany(mappedBy = "groupeCompetences")
+    private Collection<Tag> tags;
 }
