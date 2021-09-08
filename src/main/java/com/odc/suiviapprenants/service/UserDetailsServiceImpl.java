@@ -26,11 +26,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Admin admin = service.findUserByUsernameAdmin(username);
-
+        Apprenant apprenant = service.findAppByUsername(username);
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(admin.getRole().getLibelle()));
-
-        return new User(admin.getUsername(), admin.getPassword(), authorities);
+        if (admin != null) {
+            authorities.add(new SimpleGrantedAuthority(admin.getRole().getLibelle()));
+            return new User(admin.getUsername(), admin.getPassword(), authorities);
+        }else if (apprenant != null){
+            authorities.add(new SimpleGrantedAuthority(apprenant.getRole()));
+            return new User(apprenant.getUsername(), apprenant.getPassword(), authorities);
+        }else
+            throw new UsernameNotFoundException(username);
     }
 
 
