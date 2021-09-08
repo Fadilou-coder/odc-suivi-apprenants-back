@@ -16,9 +16,6 @@ public class Competence {
     @NotNull(message = "Le libelle ne peut pas être nul")
     private String libelle;
 
-    @OneToMany(mappedBy = "competence")
-    private Collection<CompetenceValide> competenceValides;
-
     @ManyToMany(mappedBy = "competences")
     private Collection<GroupeCompetence> groupeCompetences;
 
