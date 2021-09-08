@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public interface AuthenticationApi {
 
-  @PostMapping("/authenticate")
+  @PostMapping("/login")
   public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request);
 
 }

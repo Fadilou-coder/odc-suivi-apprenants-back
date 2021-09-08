@@ -40,8 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.addFilterBefore(corsFilter(), SessionManagementFilter.class)
         .csrf().disable()
-        .authorizeRequests().antMatchers("/**/authenticate",
-        "/**/entreprises/create",
+        .authorizeRequests().antMatchers("/**/login",
         "/v2/api-docs",
         "/swagger-resources",
         "/swagger-resources/**",
@@ -56,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     ;
     http
             .authorizeRequests()
-            .antMatchers("/**").access("hasAuthority('ADMIN')")
+            .antMatchers("/**").access("hasAnyAuthority('ADMIN', 'CM')")
             .anyRequest().fullyAuthenticated();
 
     http.addFilterBefore(applicationRequestFilter, UsernamePasswordAuthenticationFilter.class);
