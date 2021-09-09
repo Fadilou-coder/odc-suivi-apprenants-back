@@ -40,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.addFilterBefore(corsFilter(), SessionManagementFilter.class)
         .csrf().disable()
-        .authorizeRequests().antMatchers("/**/login",
+        .authorizeRequests().antMatchers("/**/login","/roles/create",
         "/v2/api-docs",
         "/swagger-resources",
         "/swagger-resources/**",

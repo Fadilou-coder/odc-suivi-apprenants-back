@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -32,7 +31,7 @@ public class RoleDto {
         Role role = new Role();
         role.setId(roleDto.getId());
         role.setLibelle(roleDto.getLibelle());
-        role.setAdmins(roleDto.getAdmin().stream().map(AdminDto::toEntity).collect(Collectors.toList()));
+       // role.setAdmins(roleDto.getAdmin().stream().map(AdminDto::toEntity).collect(Collectors.toList()));
 
         return role;
     }

@@ -28,7 +28,7 @@ public class RoleServiceImpl implements RoleService {
         List<String> errors = RoleValidator.validate(roleDto);
         if (!errors.isEmpty()) {
             log.error("Role is not valid {}", roleDto);
-            throw new InvalidEntityException("Le role n'est pas valide", ErrorCodes.ARTICLE_NOT_VALID, errors);
+           // throw new InvalidEntityException("Le role n'est pas valide", ErrorCodes.ARTICLE_NOT_VALID, errors);
         }
 
         return RoleDto.fromEntity(

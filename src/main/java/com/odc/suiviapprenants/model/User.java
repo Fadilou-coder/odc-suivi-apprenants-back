@@ -51,8 +51,8 @@ public class User {
     @Column(unique=true)
     protected String numeroTelephone;
 
-    @NotBlank(message = "La date de naissance est obligatoire")
-    @NotNull(message = "La date de naissance ne doit pas être nulle")
+    // @NotBlank(message = "La date de naissance est obligatoire")
+    // @NotNull(message = "La date de naissance ne doit pas être nulle")
     protected LocalDate dateNaissance;
 
     protected byte[] avatar;

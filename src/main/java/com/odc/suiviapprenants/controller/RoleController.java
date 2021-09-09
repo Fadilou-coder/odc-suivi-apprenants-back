@@ -17,7 +17,7 @@ public class RoleController implements RoleApi {
 
     @Override
     public RoleDto save(RoleDto roleDto) {
-        return null;
+        return roleService.save(roleDto);
     }
 
     @Override

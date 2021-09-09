@@ -10,7 +10,7 @@ import java.util.List;
 @Api("role")
 public interface RoleApi {
 
-    @PostMapping("roles/create")
+    @PostMapping("/roles/create")
     RoleDto save(@RequestBody RoleDto roleDto);
 
     @GetMapping("/roles")
