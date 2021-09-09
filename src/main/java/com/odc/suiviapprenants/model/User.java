@@ -1,5 +1,6 @@
-package com.odc.suiviapprenants.entity;
+package com.odc.suiviapprenants.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,8 +13,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User {
-    protected @Id @GeneratedValue Long id;
+public class User extends AbstractEntity {
 
     @NotBlank(message = "Le nom d'utilisateur est obligatoire")
     @NotNull(message = "Le nom d'utilisateur ne peut pas être nul")
@@ -51,14 +51,13 @@ public class User {
     @Column(unique=true)
     protected String numeroTelephone;
 
-//    @NotBlank(message = "La date de naissance est obligatoire")
+  //  @NotBlank(message = "La date de naissance est obligatoire")
 //    @NotNull(message = "La date de naissance ne doit pas être nulle")
     protected LocalDate dateNaissance;
 
     protected byte[] avatar;
 
-    public User(Long id, String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone) {
-        this.id = id;
+    public User(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone) {
         this.username = username;
         this.password = password;
         this.prenom = prenom;
@@ -68,8 +67,4 @@ public class User {
         this.adresse = adresse;
         this.numeroTelephone = numeroTelephone;
     }
-
-    protected boolean suspended = false;
-
-    protected boolean enabled = true;
 }

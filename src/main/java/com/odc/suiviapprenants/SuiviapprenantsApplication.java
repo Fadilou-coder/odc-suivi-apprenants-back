@@ -1,7 +1,7 @@
 package com.odc.suiviapprenants;
 
-import com.odc.suiviapprenants.entity.Admin;
-import com.odc.suiviapprenants.entity.Role;
+import com.odc.suiviapprenants.model.Admin;
+import com.odc.suiviapprenants.model.Role;
 import com.odc.suiviapprenants.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,6 +20,6 @@ public class SuiviapprenantsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-	//	applicationService.addAdmin(new Admin(null, "admin", "passer", "prenom", "nom", "email@email.com", "12345678", "adresse", "777777777", new Role(null, "ADMIN", null)));
+	//	applicationService.addAdmin(new Admin("admin", "passer", "prenom", "nom", "email@email.com", "12345678", "adresse", "777777777", new Role("ADMIN",null )));
 	}
 }

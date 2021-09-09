@@ -1,6 +1,6 @@
 package com.odc.suiviapprenants.security;
 
-import com.odc.suiviapprenants.service.UserDetailsServiceImpl;
+import com.odc.suiviapprenants.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     ;
     http
             .authorizeRequests()
-            .antMatchers("/**").access("hasAnyAuthority('ADMIN', 'CM')")
+            .antMatchers("/**", "/**/roles/create").access("hasAnyAuthority('ADMIN', 'CM')")
             .anyRequest().fullyAuthenticated();
 
     http.addFilterBefore(applicationRequestFilter, UsernamePasswordAuthenticationFilter.class);

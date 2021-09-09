@@ -1,18 +1,15 @@
-package com.odc.suiviapprenants.entity;
+package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Data
-public class NiveauEvaluation {
-    private @Id @GeneratedValue Long id;
+public class NiveauEvaluation extends AbstractEntity {
 
     @NotBlank(message = "Le libelle est obligatoire")
     @NotNull(message = "Le libelle ne peut pas être nul")

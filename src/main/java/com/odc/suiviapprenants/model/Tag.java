@@ -1,24 +1,24 @@
-package com.odc.suiviapprenants.entity;
+package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
 @Data
-public class Competence {
-    private @Id @GeneratedValue Long id;
+public class Tag extends AbstractEntity {
 
     @NotBlank(message = "Le libelle est obligatoire")
     @NotNull(message = "Le libelle ne peut pas être nul")
     private String libelle;
 
-    @ManyToMany(mappedBy = "competences")
+    @ManyToMany
     private Collection<GroupeCompetence> groupeCompetences;
 
-    @OneToMany(mappedBy = "competence")
-    private Collection<NiveauEvaluation> niveauEvaluations;
+    @ManyToMany(mappedBy = "tags")
+    private Collection<GroupeTag> groupeTags;
 }

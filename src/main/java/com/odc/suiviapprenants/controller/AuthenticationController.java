@@ -4,7 +4,7 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.AuthenticationApi;
 import com.odc.suiviapprenants.dto.auth.AuthenticationRequest;
 import com.odc.suiviapprenants.dto.auth.AuthenticationResponse;
-import com.odc.suiviapprenants.service.UserDetailsServiceImpl;
+import com.odc.suiviapprenants.service.impl.UserDetailsServiceImpl;
 import com.odc.suiviapprenants.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

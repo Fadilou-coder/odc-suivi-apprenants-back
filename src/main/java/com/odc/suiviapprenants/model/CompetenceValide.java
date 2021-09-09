@@ -1,16 +1,13 @@
-package com.odc.suiviapprenants.entity;
+package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
 @Data
-public class CompetenceValide {
-    private @Id @GeneratedValue Long id;
+public class CompetenceValide extends AbstractEntity {
 
     private boolean niveau1;
     private boolean niveau2;

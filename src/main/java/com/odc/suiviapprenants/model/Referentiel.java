@@ -1,4 +1,4 @@
-package com.odc.suiviapprenants.entity;
+package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
@@ -9,8 +9,7 @@ import java.util.Collection;
 
 @Entity
 @Data
-public class Referentiel {
-    private @Id @GeneratedValue Long id;
+public class Referentiel extends AbstractEntity{
 
     @NotBlank(message = "Le libelle est obligatoire")
     @NotNull(message = "Le libelle ne peut pas être nul")
