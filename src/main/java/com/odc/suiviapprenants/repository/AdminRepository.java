@@ -10,4 +10,6 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
     Admin findByUsernameAndArchiveFalse(String username);
 
     List<Admin> findAllByRoleId(Long id);
+
+    List<Admin> findAllByArchiveFalse();
 }

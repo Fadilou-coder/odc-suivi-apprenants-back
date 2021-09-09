@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 @Data
 @AllArgsConstructor
 public class Admin extends User{
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 //    @NotNull(message = "Le rôle ne peut pas être null")
     private Role role;
 
