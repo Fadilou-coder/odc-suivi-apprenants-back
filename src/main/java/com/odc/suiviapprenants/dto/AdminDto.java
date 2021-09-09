@@ -1,21 +1,25 @@
 package com.odc.suiviapprenants.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.odc.suiviapprenants.model.Admin;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AdminDto {
 
     private Long id;
 
     protected String username;
 
-    @JsonIgnore
     protected String password;
 
     protected String prenom;
@@ -30,8 +34,10 @@ public class AdminDto {
 
     protected String numeroTelephone;
 
+    @JsonFormat(pattern = "yyyy-MM-dd")
     protected LocalDate dateNaissance;
 
+    @Column(length = 150000)
     protected byte[] avatar;
 
     private RoleDto role;
@@ -67,7 +73,7 @@ public class AdminDto {
         admin.setNom(adminDto.getNom());
         admin.setEmail(adminDto.getEmail());
         admin.setCni(adminDto.getCni());
-        admin.setAdresse(admin.getAdresse());
+        admin.setAdresse(adminDto.getAdresse());
         admin.setNumeroTelephone(adminDto.getNumeroTelephone());
         admin.setDateNaissance(adminDto.getDateNaissance());
         admin.setAvatar(adminDto.getAvatar());

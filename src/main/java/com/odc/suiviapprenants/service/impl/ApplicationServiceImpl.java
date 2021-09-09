@@ -33,7 +33,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username).get();
     }
 
     @Override
