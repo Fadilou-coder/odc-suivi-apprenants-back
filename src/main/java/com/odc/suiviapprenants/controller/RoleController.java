@@ -17,7 +17,7 @@ public class RoleController implements RoleApi {
 
     @Override
     public RoleDto save(RoleDto roleDto) {
-        return null;
+        return roleService.save(roleDto);
     }
 
     @Override
@@ -27,12 +27,12 @@ public class RoleController implements RoleApi {
 
     @Override
     public RoleDto findById(Long id) {
-        return null;
+        return roleService.findById(id);
     }
 
     @Override
     public void delete(Long id) {
-
+        roleService.delete(id);
     }
 
     @Override

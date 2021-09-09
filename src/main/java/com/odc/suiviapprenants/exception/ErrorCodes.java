@@ -2,9 +2,9 @@ package com.odc.suiviapprenants.exception;
 
 public enum ErrorCodes {
 
-  ARTICLE_NOT_FOUND(1000),
-  ARTICLE_NOT_VALID(1001),
-  ARTICLE_ALREADY_IN_USE(1002),
+  ROLE_NOT_FOUND(1000),
+  ROLE_NOT_VALID(1001),
+  ROLE_ALREADY_IN_USE(1002),
 
   CATEGORY_NOT_FOUND(2000),
   CATEGORY_NOT_VALID(2001),

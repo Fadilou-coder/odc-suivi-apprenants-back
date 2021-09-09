@@ -32,7 +32,6 @@ public class RoleDto {
         Role role = new Role();
         role.setId(roleDto.getId());
         role.setLibelle(roleDto.getLibelle());
-        role.setAdmins(roleDto.getAdmin().stream().map(AdminDto::toEntity).collect(Collectors.toList()));
 
         return role;
     }
