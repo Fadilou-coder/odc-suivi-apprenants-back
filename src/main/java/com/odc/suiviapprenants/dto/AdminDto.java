@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.Admin;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +15,7 @@ public class AdminDto {
 
     protected String username;
 
+    @JsonIgnore
     protected String password;
 
     protected String prenom;

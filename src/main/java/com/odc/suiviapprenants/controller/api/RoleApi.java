@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.controller.api;
 
+import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.RoleDto;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -24,5 +25,8 @@ public interface RoleApi {
 
     @PutMapping("/roles/{id}")
     RoleDto put(@PathVariable Long id);
+
+    @GetMapping("roles/{id}/admins")
+    List<AdminDto> findAdminsByRole(@PathVariable Long id);
 
 }

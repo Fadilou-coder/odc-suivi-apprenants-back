@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.service.impl;
 
+import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.RoleDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
@@ -84,6 +85,21 @@ public class RoleServiceImpl implements RoleService {
         rolerepository.flush();
         adminRepository.flush();
 
+    }
+
+    @Override
+    public List<AdminDto> findAdminsByRole(Long id) {
+        if (id == null) {
+            log.error("role ID is null");
+        }
+
+        Role role = rolerepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(
+                        "Aucun role avec l'ID = " + id + " n' ete trouve dans la BDD",
+                        ErrorCodes.ROLE_NOT_FOUND));
+        return adminRepository.findAllByRoleId(id).stream()
+                .map(AdminDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
 }

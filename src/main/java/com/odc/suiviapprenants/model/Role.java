@@ -12,7 +12,6 @@ import java.util.Collection;
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Role extends AbstractEntity {
 
-    @NotNull(message = "le libelle du rôle ne peut pas être null")
     private String libelle;
 
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
