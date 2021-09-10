@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface ApprenantRepository extends JpaRepository<Apprenant, Long> {
 
-    Optional<Apprenant> findByUsernameAndArchiveFalse(String username);
+    Apprenant findByUsernameAndArchiveFalse(String username);
 
     List<Apprenant> findAllByArchiveFalse();
 
