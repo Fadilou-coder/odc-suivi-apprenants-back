@@ -1,8 +1,15 @@
 package com.odc.suiviapprenants.repository;
 
 import com.odc.suiviapprenants.model.Admin;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface AdminRepository extends PagingAndSortingRepository<Admin, Long> {
-    Admin findByUsername(String username);
+import java.util.List;
+
+public interface AdminRepository extends JpaRepository<Admin, Long> {
+    Admin findByUsernameAndArchiveFalse(String username);
+
+    List<Admin> findAllByRoleId(Long id);
+
+    List<Admin> findAllByArchiveFalse();
 }

@@ -4,6 +4,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 @Component
+@Slf4j
 public class ApplicationRequestFilter extends OncePerRequestFilter {
 
   @Override
@@ -56,6 +58,7 @@ public class ApplicationRequestFilter extends OncePerRequestFilter {
 
       } catch (Exception e) {
         response.setHeader("error-message", e.getMessage());
+        log.error(e.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
       }
     }

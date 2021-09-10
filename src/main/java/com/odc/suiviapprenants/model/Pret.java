@@ -3,8 +3,6 @@ package com.odc.suiviapprenants.model;
 import lombok.Data;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,8 +10,7 @@ import java.util.Date;
 
 @Entity
 @Data
-public class Pret {
-    private @Id @GeneratedValue Long id;
+public class Pret extends AbstractEntity {
 
     private Date datePret = new Date();
 

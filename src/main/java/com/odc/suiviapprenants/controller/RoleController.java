@@ -2,6 +2,7 @@ package com.odc.suiviapprenants.controller;
 
 
 import com.odc.suiviapprenants.controller.api.RoleApi;
+import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.RoleDto;
 import com.odc.suiviapprenants.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +28,21 @@ public class RoleController implements RoleApi {
 
     @Override
     public RoleDto findById(Long id) {
-        return null;
+        return roleService.findById(id);
     }
 
     @Override
     public void delete(Long id) {
-
+        roleService.delete(id);
     }
 
     @Override
     public RoleDto put(Long id) {
         return null;
+    }
+
+    @Override
+    public List<AdminDto> findAdminsByRole(Long id) {
+        return roleService.findAdminsByRole(id);
     }
 }

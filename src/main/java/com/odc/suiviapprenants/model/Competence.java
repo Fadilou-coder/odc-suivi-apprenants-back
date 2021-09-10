@@ -9,8 +9,7 @@ import java.util.Collection;
 
 @Entity
 @Data
-public class Competence {
-    private @Id @GeneratedValue Long id;
+public class Competence extends AbstractEntity {
 
     @NotBlank(message = "Le libelle est obligatoire")
     @NotNull(message = "Le libelle ne peut pas être nul")

@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.service;
 
+import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.RoleDto;
 
 import java.util.List;
@@ -14,5 +15,6 @@ public interface RoleService {
 
     void delete(Long id);
 
-    RoleDto put(Long id);
+    List<AdminDto> findAdminsByRole(Long id);
+
 }
