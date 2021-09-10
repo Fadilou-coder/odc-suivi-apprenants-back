@@ -5,7 +5,7 @@ import com.odc.suiviapprenants.dto.RoleDto;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Role;
-import com.odc.suiviapprenants.model.User;
+import com.odc.suiviapprenants.model.UserOwner;
 import com.odc.suiviapprenants.repository.AdminRepository;
 import com.odc.suiviapprenants.repository.RoleRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
@@ -121,15 +121,15 @@ public class AdminServiceImpl implements AdminService {
         return null;
     }
     private boolean userAlreadyExists(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
+        Optional<UserOwner> user = userRepository.findByEmail(email);
         return user.isPresent();
     }
     private boolean userAlreadyExistsUsername(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
+        Optional<UserOwner> user = userRepository.findByUsername(username);
         return user.isPresent();
     }
     private boolean userAlreadyExistsPhone(String phone) {
-        Optional<User> user = userRepository.findByNumeroTelephone(phone);
+        Optional<UserOwner> user = userRepository.findByNumeroTelephone(phone);
         return user.isPresent();
     }
     public static byte[] compressBytes(byte[] data) {
