@@ -2,37 +2,45 @@ package com.odc.suiviapprenants.dto;
 
 import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Apprenant;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Builder
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ApprenantDto {
     private Long id;
 
-    protected String username;
+    private String username;
 
-    protected String password;
+    private String password;
 
-    protected String prenom;
+    private String prenom;
 
-    protected String nom;
+    private String nom;
 
-    protected String email;
+    private String email;
 
-    protected String cni;
+    private String cni;
 
-    protected String adresse;
+    private String adresse;
 
-    protected String numeroTelephone;
+    private String numeroTelephone;
 
-    protected LocalDate dateNaissance;
+    private LocalDate dateNaissance;
 
-    protected byte[] avatar;
+    private byte[] avatar;
 
     private String role;
+
+    private String etat;
+
+    private String matricule;
 
     public static ApprenantDto fromEntity(Apprenant apprenant){
         if (apprenant == null){
@@ -51,6 +59,8 @@ public class ApprenantDto {
                 .dateNaissance(apprenant.getDateNaissance())
                 .avatar(apprenant.getAvatar())
                 .role(apprenant.getRole())
+                .etat(apprenant.getEtat())
+                .matricule(apprenant.getMatricule())
                 .build();
     }
 
@@ -58,7 +68,6 @@ public class ApprenantDto {
         if (apprenantDto == null) return null;
 
         Apprenant apprenant = new Apprenant();
-        apprenant.setId(apprenantDto.getId());
         apprenant.setUsername(apprenantDto.getUsername());
         apprenant.setPassword(apprenantDto.getPassword());
         apprenant.setPrenom(apprenantDto.getPrenom());
@@ -70,6 +79,8 @@ public class ApprenantDto {
         apprenant.setDateNaissance(apprenantDto.getDateNaissance());
         apprenant.setAvatar(apprenantDto.getAvatar());
         apprenant.setRole(apprenantDto.getRole());
+        apprenant.setEtat(apprenantDto.getEtat());
+        apprenant.setMatricule(apprenantDto.getMatricule());
 
         return apprenant;
 
