@@ -46,21 +46,35 @@ public class AdminController implements AdminApi {
 
     @Override
     public List<AdminDto> findAll() {
-        return null;
+        return adminService.findAll();
     }
 
     @Override
     public AdminDto findById(Long id) {
-        return null;
+        return adminService.findById(id);
     }
 
     @Override
-    public Void delete(Long id) {
-        return null;
+    public void delete(Long id) {
+         adminService.delete(id);
     }
 
     @Override
-    public AdminDto put(Long id) {
-        return null;
+    public AdminDto put(Long id, String username, String email, String prenom, String nom, String telephone, String adresse, String role, String cni, MultipartFile avatar, String dateNaissance) throws IOException {
+        return adminService.put(
+                id,
+                username ,
+                email,
+                prenom,
+                nom,
+                telephone,
+                adresse,
+                role,
+                cni,
+                avatar,
+                dateNaissance
+        );
     }
+
+
 }
