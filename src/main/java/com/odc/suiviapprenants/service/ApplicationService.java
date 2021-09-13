@@ -3,6 +3,7 @@ package com.odc.suiviapprenants.service;
 import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Apprenant;
 import com.odc.suiviapprenants.model.AppUser;
+import com.odc.suiviapprenants.model.Competence;
 
 import java.util.List;
 
@@ -12,4 +13,5 @@ public interface ApplicationService {
     public Apprenant findAppByUsername(String username);
     public Admin addAdmin(Admin admin);
     public void saveAllAdmin(List<Admin> adminList);
+    public void saveAllCompetence(List<Competence> competenceList);
 }

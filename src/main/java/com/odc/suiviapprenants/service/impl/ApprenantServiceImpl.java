@@ -55,9 +55,7 @@ public class ApprenantServiceImpl implements ApprenantService {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         apprenantDto.setPassword(encoder.encode("password"));
 
-     //   validation(apprenantDto);
-
-        log.info(apprenantDto.toString());
+        validation(apprenantDto);
 
         return ApprenantDto.fromEntity(
                 apprenantRepository.save(
@@ -162,23 +160,42 @@ public class ApprenantServiceImpl implements ApprenantService {
             throw new InvalidEntityException("L'admin n'est pas valide", ErrorCodes.APPRENANT_NOT_VALID, errors);
         }
     }
-
-
     private boolean userAlreadyExists(String email, Long id) {
-        Optional<AppUser> user = userRepository.findByEmailAndIdNot(email, id);
+        Optional<AppUser> user;
+        if (id == null){
+            user = userRepository.findByEmail(email);
+        }else {
+            user = userRepository.findByEmailAndIdNot(email, id);
+        }
         return user.isPresent();
     }
     private boolean userAlreadyExistsUsername(String username, Long id) {
-        Optional<AppUser> user = userRepository.findByUsernameAndIdNot(username, id);
+        Optional<AppUser> user;
+        if (id == null) {
+            user = userRepository.findByUsername(username);
+        }else {
+            user = userRepository.findByUsernameAndIdNot(username, id);
+        }
         return user.isPresent();
     }
     private boolean userAlreadyExistsPhone(String phone, Long id) {
-        Optional<AppUser> user = userRepository.findByNumeroTelephoneAndIdNot(phone, id);
+        Optional<AppUser> user;
+        if (id == null) {
+            user = userRepository.findByNumeroTelephone(phone);
+        }else {
+            user = userRepository.findByNumeroTelephoneAndIdNot(phone, id);
+        }
         return user.isPresent();
     }
 
     private boolean userAlreadyExistsCni(String cni, Long id) {
-        Optional<AppUser> user = userRepository.findByCniAndIdNot(cni, id);
+        Optional<AppUser> user;
+        if (id == null) {
+            user = userRepository.findByCni(cni);
+        }else {
+            user = userRepository.findByCniAndIdNot(cni, id);
+        }
         return user.isPresent();
     }
+
 }

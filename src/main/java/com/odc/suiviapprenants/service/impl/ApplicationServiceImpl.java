@@ -3,8 +3,10 @@ package com.odc.suiviapprenants.service.impl;
 import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Apprenant;
 import com.odc.suiviapprenants.model.AppUser;
+import com.odc.suiviapprenants.model.Competence;
 import com.odc.suiviapprenants.repository.AdminRepository;
 import com.odc.suiviapprenants.repository.ApprenantRepository;
+import com.odc.suiviapprenants.repository.CompetenceRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
 import com.odc.suiviapprenants.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private CompetenceRepository competenceRepository;
+
 
     @Override
     public AppUser findUserByUsername(String username) {
@@ -58,4 +63,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public void saveAllAdmin(List<Admin> adminList) {
         adminRepository.saveAll(adminList);
     }
+
+    @Override
+    public void saveAllCompetence(List<Competence> competenceList) {competenceRepository.saveAll(competenceList);}
 }

@@ -72,14 +72,15 @@ public class AdminServiceImpl implements AdminService {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         adminDto.setPassword(encoder.encode("password"));
         adminDto.setRole(RoleDto.fromEntity(role1));
-       // validation(adminDto);
-
+        validation(adminDto);
+        log.info(adminDto.toString());
         return AdminDto.fromEntity(
                 adminRepository.save(
                         AdminDto.toEntity(adminDto)
                 )
         );
     }
+
 
     @Override
     public List<AdminDto> findAll() {
@@ -158,14 +159,16 @@ public class AdminServiceImpl implements AdminService {
     private void validation(AdminDto adminDto) {
         List<String> errors = UserValidator.validate(adminDto);
 
-        if(userAlreadyExists(adminDto.getEmail(), adminDto.getId())) {
-            throw new InvalidEntityException("Un autre utilisateur avec le meme email existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
-                    Collections.singletonList("Un autre utilisateur avec le meme email existe deja dans la BDD"));
-        }
         if(userAlreadyExistsUsername(adminDto.getUsername(), adminDto.getId())) {
             throw new InvalidEntityException("Un autre utilisateur avec le meme nom d'utilisateur existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
                     Collections.singletonList("Un autre utilisateur avec le meme nom d'utilisateur existe deja dans la BDD"));
         }
+
+        if(userAlreadyExists(adminDto.getEmail(), adminDto.getId())) {
+            throw new InvalidEntityException("Un autre utilisateur avec le meme email existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
+                    Collections.singletonList("Un autre utilisateur avec le meme email existe deja dans la BDD"));
+        }
+
 
         if(userAlreadyExistsPhone(adminDto.getNumeroTelephone(), adminDto.getId())) {
             throw new InvalidEntityException("Un autre utilisateur avec le meme numero de telephone existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
@@ -185,20 +188,40 @@ public class AdminServiceImpl implements AdminService {
 
 
     private boolean userAlreadyExists(String email, Long id) {
-        Optional<AppUser> user = userRepository.findByEmailAndIdNot(email, id);
+        Optional<AppUser> user;
+        if (id == null){
+            user = userRepository.findByEmail(email);
+        }else {
+            user = userRepository.findByEmailAndIdNot(email, id);
+        }
         return user.isPresent();
     }
     private boolean userAlreadyExistsUsername(String username, Long id) {
-        Optional<AppUser> user = userRepository.findByUsernameAndIdNot(username, id);
+        Optional<AppUser> user;
+        if (id == null) {
+            user = userRepository.findByUsername(username);
+        }else {
+            user = userRepository.findByUsernameAndIdNot(username, id);
+        }
         return user.isPresent();
     }
     private boolean userAlreadyExistsPhone(String phone, Long id) {
-        Optional<AppUser> user = userRepository.findByNumeroTelephoneAndIdNot(phone, id);
+        Optional<AppUser> user;
+        if (id == null) {
+            user = userRepository.findByNumeroTelephone(phone);
+        }else {
+            user = userRepository.findByNumeroTelephoneAndIdNot(phone, id);
+        }
         return user.isPresent();
     }
 
     private boolean userAlreadyExistsCni(String cni, Long id) {
-        Optional<AppUser> user = userRepository.findByCniAndIdNot(cni, id);
+        Optional<AppUser> user;
+        if (id == null) {
+            user = userRepository.findByCni(cni);
+        }else {
+            user = userRepository.findByCniAndIdNot(cni, id);
+        }
         return user.isPresent();
     }
     public static byte[] compressBytes(byte[] data) {

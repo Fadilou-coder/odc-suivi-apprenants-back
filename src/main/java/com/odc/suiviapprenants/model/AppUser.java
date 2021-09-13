@@ -33,6 +33,7 @@ public class AppUser extends AbstractEntity {
 
     protected LocalDate dateNaissance;
 
+    @Lob
     protected byte[] avatar;
 
     public AppUser(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone) {
