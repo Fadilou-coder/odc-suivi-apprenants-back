@@ -1,14 +1,10 @@
 package com.odc.suiviapprenants.service.impl;
 
-import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.ApprenantDto;
-import com.odc.suiviapprenants.dto.RoleDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
-import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Apprenant;
-import com.odc.suiviapprenants.model.Role;
 import com.odc.suiviapprenants.model.User;
 import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
@@ -169,20 +165,40 @@ public class ApprenantServiceImpl implements ApprenantService {
 
 
     private boolean userAlreadyExists(String email, Long id) {
-        Optional<User> user = userRepository.findByEmailAndIdNot(email, id);
+        Optional<User> user;
+        if (id == null){
+            user = userRepository.findByEmail(email);
+        }else {
+            user = userRepository.findByEmailAndIdNot(email, id);
+        }
         return user.isPresent();
     }
     private boolean userAlreadyExistsUsername(String username, Long id) {
-        Optional<User> user = userRepository.findByUsernameAndIdNot(username, id);
+        Optional<User> user;
+        if (id == null) {
+            user = userRepository.findByUsername(username);
+        }else {
+            user = userRepository.findByUsernameAndIdNot(username, id);
+        }
         return user.isPresent();
     }
     private boolean userAlreadyExistsPhone(String phone, Long id) {
-        Optional<User> user = userRepository.findByNumeroTelephoneAndIdNot(phone, id);
+        Optional<User> user;
+        if (id == null) {
+            user = userRepository.findByNumeroTelephone(phone);
+        }else {
+            user = userRepository.findByNumeroTelephoneAndIdNot(phone, id);
+        }
         return user.isPresent();
     }
 
     private boolean userAlreadyExistsCni(String cni, Long id) {
-        Optional<User> user = userRepository.findByCniAndIdNot(cni, id);
+        Optional<User> user;
+        if (id == null) {
+            user = userRepository.findByCni(cni);
+        }else {
+            user = userRepository.findByCniAndIdNot(cni, id);
+        }
         return user.isPresent();
     }
 }

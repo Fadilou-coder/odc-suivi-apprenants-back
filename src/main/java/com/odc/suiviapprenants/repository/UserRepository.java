@@ -12,4 +12,8 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
     Optional<User> findByUsernameAndIdNot(String username, Long id);
     Optional<User> findByCniAndIdNot(String cni, Long id);
 
+    Optional<User> findByEmail(String email);
+    Optional<User> findByNumeroTelephone(String num);
+    Optional<User> findByCni(String cni);
+
 }

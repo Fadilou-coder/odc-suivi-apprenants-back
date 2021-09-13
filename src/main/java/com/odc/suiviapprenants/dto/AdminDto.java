@@ -19,21 +19,21 @@ public class AdminDto {
 
     private Long id;
 
-    protected String username;
+    private String username;
 
-    protected String password;
+    private String password;
 
-    protected String prenom;
+    private String prenom;
 
-    protected String nom;
+    private String nom;
 
-    protected String email;
+    private String email;
 
-    protected String cni;
+    private String cni;
 
-    protected String adresse;
+    private String adresse;
 
-    protected String numeroTelephone;
+    private String numeroTelephone;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     protected LocalDate dateNaissance;
