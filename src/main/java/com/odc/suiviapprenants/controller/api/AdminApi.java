@@ -13,7 +13,7 @@ public interface AdminApi {
 
     @PostMapping("/admin/create")
     AdminDto save(
-            @RequestParam("username") String username ,
+                  @RequestParam("username") String username ,
                   @RequestParam("email") String email,
                   @RequestParam("prenom") String prenom,
                   @RequestParam("nom") String nom,
