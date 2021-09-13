@@ -129,10 +129,6 @@ public class AdminServiceImpl implements AdminService {
                         String cni,
                         MultipartFile avatar,
                         String dateNaissance) throws IOException {
-        if (id == null) {
-            log.error("User ID is null");
-        }
-
         Admin admin = adminRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
                 new EntityNotFoundException(
                         "Aucun admin avec l'ID = " + id + " ne se trouve dans la BDD",
@@ -241,6 +237,7 @@ public class AdminServiceImpl implements AdminService {
             ignore.printStackTrace();
         }
         System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+
 
         return outputStream.toByteArray();
     }
