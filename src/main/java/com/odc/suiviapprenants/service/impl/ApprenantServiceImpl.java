@@ -5,7 +5,7 @@ import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Apprenant;
-import com.odc.suiviapprenants.model.User;
+import com.odc.suiviapprenants.model.AppUser;
 import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
 import com.odc.suiviapprenants.service.ApprenantService;
@@ -165,7 +165,7 @@ public class ApprenantServiceImpl implements ApprenantService {
 
 
     private boolean userAlreadyExists(String email, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null){
             user = userRepository.findByEmail(email);
         }else {
@@ -174,7 +174,7 @@ public class ApprenantServiceImpl implements ApprenantService {
         return user.isPresent();
     }
     private boolean userAlreadyExistsUsername(String username, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null) {
             user = userRepository.findByUsername(username);
         }else {
@@ -183,7 +183,7 @@ public class ApprenantServiceImpl implements ApprenantService {
         return user.isPresent();
     }
     private boolean userAlreadyExistsPhone(String phone, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null) {
             user = userRepository.findByNumeroTelephone(phone);
         }else {
@@ -193,7 +193,7 @@ public class ApprenantServiceImpl implements ApprenantService {
     }
 
     private boolean userAlreadyExistsCni(String cni, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null) {
             user = userRepository.findByCni(cni);
         }else {

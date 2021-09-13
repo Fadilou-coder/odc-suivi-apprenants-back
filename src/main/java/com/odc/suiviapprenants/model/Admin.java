@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class Admin extends User{
+public class Admin extends AppUser {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Role role;
 

@@ -2,7 +2,7 @@ package com.odc.suiviapprenants.service.impl;
 
 import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Apprenant;
-import com.odc.suiviapprenants.model.User;
+import com.odc.suiviapprenants.model.AppUser;
 import com.odc.suiviapprenants.repository.AdminRepository;
 import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
@@ -32,7 +32,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
 
     @Override
-    public User findUserByUsername(String username) {
+    public AppUser findUserByUsername(String username) {
         return userRepository.findByUsername(username).get();
     }
 

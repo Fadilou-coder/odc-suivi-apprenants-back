@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public class User extends AbstractEntity {
+public class AppUser extends AbstractEntity {
 
     @Column(unique=true)
     protected String username;
@@ -40,7 +40,7 @@ public class User extends AbstractEntity {
     @Lob
     protected byte[] avatar;
 
-    public User(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone) {
+    public AppUser(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone) {
         this.username = username;
         this.password = password;
         this.prenom = prenom;
