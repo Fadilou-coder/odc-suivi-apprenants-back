@@ -5,10 +5,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.odc.suiviapprenants.security.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class JwtUtil {
 
+  private String SECRET_KEY = "secret";
 
   public String extractUsername(String token) {
     return extractClaim(token, Claims::getSubject);
@@ -69,3 +72,4 @@ public class JwtUtil {
   }
 
 }
+

@@ -58,6 +58,7 @@ public class ApplicationRequestFilter extends OncePerRequestFilter {
 
       } catch (Exception e) {
         response.setHeader("error-message", e.getMessage());
+        log.error(e.getMessage());
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
       }
     }

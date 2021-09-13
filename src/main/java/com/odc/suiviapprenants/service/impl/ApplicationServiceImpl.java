@@ -33,17 +33,17 @@ public class ApplicationServiceImpl implements ApplicationService {
 
     @Override
     public User findUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+        return userRepository.findByUsername(username).get();
     }
 
     @Override
     public Admin findUserByUsernameAdmin(String username) {
-        return adminRepository.findByUsernameAndArchiveFalse(username);
+        return adminRepository.findByUsernameAndArchiveFalse(username).get();
     }
 
     @Override
     public Apprenant findAppByUsername(String username) {
-        return apprenantRepository.findByUsername(username);
+        return apprenantRepository.findByUsernameAndArchiveFalse(username);
     }
 
     @Override
