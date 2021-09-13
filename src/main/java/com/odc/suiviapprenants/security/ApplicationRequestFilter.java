@@ -26,7 +26,7 @@ public class ApplicationRequestFilter extends OncePerRequestFilter {
 
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
-      throws ServletException, IOException {
+          throws ServletException, IOException {
 
     if (request.getMethod().equals("OPTIONS")) {
       response.setStatus(HttpServletResponse.SC_OK);

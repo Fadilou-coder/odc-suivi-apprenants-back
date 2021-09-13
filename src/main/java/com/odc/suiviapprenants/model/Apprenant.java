@@ -13,14 +13,12 @@ import java.util.Collection;
 @NoArgsConstructor
 @Data
 public class Apprenant extends User {
-    @NotNull(message = "Le matricule ne peut pas être nul")
-    private String matricule;
 
-    @NotNull(message = "L'état ne peut pas être nul")
+    private String matricule ;
+
     private String etat;
 
-    @NotNull(message = "Le rôle ne peut pas être nul")
-    private String role = "APPRENANT";
+    private String role;
 
     private String motif;
 

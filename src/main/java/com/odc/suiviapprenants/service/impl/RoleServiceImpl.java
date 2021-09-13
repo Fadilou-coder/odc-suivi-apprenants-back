@@ -92,7 +92,8 @@ public class RoleServiceImpl implements RoleService {
             log.error("role ID is null");
         }
 
-          rolerepository.findById(id).orElseThrow(() ->
+
+        rolerepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(
                         "Aucun role avec l'ID = " + id + " n' ete trouve dans la BDD",
                         ErrorCodes.ROLE_NOT_FOUND));

@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
+import javax.persistence.Lob;
 import java.time.LocalDate;
 
 @Data
@@ -37,7 +38,7 @@ public class AdminDto {
     @JsonFormat(pattern = "yyyy-MM-dd")
     protected LocalDate dateNaissance;
 
-    @Column(length = 150000)
+    @Lob
     protected byte[] avatar;
 
     private RoleDto role;

@@ -15,8 +15,8 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 public class Admin extends User{
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @NotNull(message = "Le rôle ne peut pas être null")
     private Role role;
 
     public Admin(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone, Role role) {
