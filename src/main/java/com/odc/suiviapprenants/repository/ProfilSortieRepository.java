@@ -1,7 +1,6 @@
 package com.odc.suiviapprenants.repository;
 
 import com.odc.suiviapprenants.model.ProfilSortie;
-import com.odc.suiviapprenants.model.UserOwner;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;

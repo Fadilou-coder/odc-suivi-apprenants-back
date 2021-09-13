@@ -11,12 +11,12 @@ import java.util.Collection;
 @Entity
 @NoArgsConstructor
 @Data
-public class Apprenant extends UserOwner {
+public class Apprenant extends AppUser {
     private String matricule;
 
     private String etat;
 
-    private String role = "APPRENANT";
+    private String role;
 
     private String motif;
 

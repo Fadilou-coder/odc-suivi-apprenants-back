@@ -1,15 +1,11 @@
 package com.odc.suiviapprenants.service.impl;
 
-import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.ApprenantDto;
-import com.odc.suiviapprenants.dto.RoleDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
-import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Apprenant;
-import com.odc.suiviapprenants.model.Role;
-import com.odc.suiviapprenants.model.UserOwner;
+import com.odc.suiviapprenants.model.AppUser;
 import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
 import com.odc.suiviapprenants.service.ApprenantService;
@@ -169,20 +165,20 @@ public class ApprenantServiceImpl implements ApprenantService {
 
 
     private boolean userAlreadyExists(String email, Long id) {
-        Optional<UserOwner> user = userRepository.findByEmailAndIdNot(email, id);
+        Optional<AppUser> user = userRepository.findByEmailAndIdNot(email, id);
         return user.isPresent();
     }
     private boolean userAlreadyExistsUsername(String username, Long id) {
-        Optional<UserOwner> user = userRepository.findByUsernameAndIdNot(username, id);
+        Optional<AppUser> user = userRepository.findByUsernameAndIdNot(username, id);
         return user.isPresent();
     }
     private boolean userAlreadyExistsPhone(String phone, Long id) {
-        Optional<UserOwner> user = userRepository.findByNumeroTelephoneAndIdNot(phone, id);
+        Optional<AppUser> user = userRepository.findByNumeroTelephoneAndIdNot(phone, id);
         return user.isPresent();
     }
 
     private boolean userAlreadyExistsCni(String cni, Long id) {
-        Optional<UserOwner> user = userRepository.findByCniAndIdNot(cni, id);
+        Optional<AppUser> user = userRepository.findByCniAndIdNot(cni, id);
         return user.isPresent();
     }
 }

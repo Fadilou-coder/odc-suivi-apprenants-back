@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @Data
 @AllArgsConstructor
-public class Admin extends UserOwner {
+public class Admin extends AppUser {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Role role;
 
