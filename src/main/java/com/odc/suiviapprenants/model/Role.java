@@ -14,6 +14,10 @@ public class Role extends AbstractEntity {
 
     private String libelle;
 
+    public Role(String libelle) {
+        this.libelle = libelle;
+    }
+
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private Collection<Admin> admins;
 }

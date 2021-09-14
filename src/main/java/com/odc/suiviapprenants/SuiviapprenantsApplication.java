@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
+@EnableSwagger2
 public class SuiviapprenantsApplication implements CommandLineRunner {
 
 	@Autowired
@@ -20,6 +22,5 @@ public class SuiviapprenantsApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-	//	applicationService.addAdmin(new Admin("admin", "passer", "prenom", "nom", "email@email.com", "12345678", "adresse", "777777777", new Role("ADMIN",null )));
 	}
 }

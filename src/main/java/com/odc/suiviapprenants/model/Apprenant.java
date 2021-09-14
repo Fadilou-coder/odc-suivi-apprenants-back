@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
@@ -14,13 +13,20 @@ import java.util.Collection;
 @Data
 public class Apprenant extends User {
 
-    private String matricule ;
+    private String matricule;
 
     private String etat;
 
     private String role;
 
     private String motif;
+
+    public Apprenant(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone, String etat, String matricule, String role) {
+        super(username, password, prenom, nom, email, cni, adresse, numeroTelephone);
+        this.etat = etat;
+        this.matricule = matricule;
+        this.role = role;
+    }
 
     @OneToMany(mappedBy = "apprenant")
     private Collection<DocumentApprenant> docs;
