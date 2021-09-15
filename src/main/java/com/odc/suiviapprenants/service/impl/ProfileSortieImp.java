@@ -89,7 +89,7 @@ public class ProfileSortieImp implements ProfileSortieService {
                         "Aucun ProfileSortie avec l'ID = " + id + " n' ete trouve dans la BDD",
                         ErrorCodes.PROFIL_SORTIE_NOT_FOUND));
         profilSortie.setLibelle(profilSortieDto.getLibelle());
-        profilSortieRepository.save(profilSortie);
+        profilSortieRepository.flush();
         return profilSortieDto;
     }
 
