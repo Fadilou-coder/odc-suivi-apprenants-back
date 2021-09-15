@@ -5,6 +5,7 @@ import com.odc.suiviapprenants.model.Apprenant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -66,7 +67,6 @@ public class ApprenantDto {
         if (apprenantDto == null) return null;
 
         Apprenant apprenant = new Apprenant();
-        apprenant.setId(apprenantDto.getId());
         apprenant.setUsername(apprenantDto.getUsername());
         apprenant.setPassword(apprenantDto.getPassword());
         apprenant.setPrenom(apprenantDto.getPrenom());

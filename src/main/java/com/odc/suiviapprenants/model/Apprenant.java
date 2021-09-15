@@ -6,15 +6,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
 @Entity
 @NoArgsConstructor
 @Data
-public class Apprenant extends User {
 
-    private String matricule ;
+public class Apprenant extends AppUser {
+    private String matricule;
 
     private String etat;
 

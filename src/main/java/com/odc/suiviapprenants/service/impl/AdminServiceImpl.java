@@ -7,7 +7,7 @@ import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Role;
-import com.odc.suiviapprenants.model.User;
+import com.odc.suiviapprenants.model.AppUser;
 import com.odc.suiviapprenants.repository.AdminRepository;
 import com.odc.suiviapprenants.repository.RoleRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
@@ -81,7 +81,6 @@ public class AdminServiceImpl implements AdminService {
         );
     }
 
-
     @Override
     public List<AdminDto> findAll() {
         return adminRepository.findAllByArchiveFalse().stream()
@@ -129,6 +128,7 @@ public class AdminServiceImpl implements AdminService {
                         String cni,
                         MultipartFile avatar,
                         String dateNaissance) throws IOException {
+
         Admin admin = adminRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
                 new EntityNotFoundException(
                         "Aucun admin avec l'ID = " + id + " ne se trouve dans la BDD",
@@ -159,12 +159,10 @@ public class AdminServiceImpl implements AdminService {
             throw new InvalidEntityException("Un autre utilisateur avec le meme nom d'utilisateur existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
                     Collections.singletonList("Un autre utilisateur avec le meme nom d'utilisateur existe deja dans la BDD"));
         }
-
         if(userAlreadyExists(adminDto.getEmail(), adminDto.getId())) {
             throw new InvalidEntityException("Un autre utilisateur avec le meme email existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
                     Collections.singletonList("Un autre utilisateur avec le meme email existe deja dans la BDD"));
         }
-
 
         if(userAlreadyExistsPhone(adminDto.getNumeroTelephone(), adminDto.getId())) {
             throw new InvalidEntityException("Un autre utilisateur avec le meme numero de telephone existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
@@ -184,7 +182,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     private boolean userAlreadyExists(String email, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null){
             user = userRepository.findByEmail(email);
         }else {
@@ -193,7 +191,7 @@ public class AdminServiceImpl implements AdminService {
         return user.isPresent();
     }
     private boolean userAlreadyExistsUsername(String username, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null) {
             user = userRepository.findByUsername(username);
         }else {
@@ -202,7 +200,7 @@ public class AdminServiceImpl implements AdminService {
         return user.isPresent();
     }
     private boolean userAlreadyExistsPhone(String phone, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null) {
             user = userRepository.findByNumeroTelephone(phone);
         }else {
@@ -212,7 +210,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private boolean userAlreadyExistsCni(String cni, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null) {
             user = userRepository.findByCni(cni);
         }else {

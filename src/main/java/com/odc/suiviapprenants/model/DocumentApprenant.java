@@ -1,7 +1,6 @@
 package com.odc.suiviapprenants.model;
 
 import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 
