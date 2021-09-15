@@ -53,9 +53,6 @@ public enum ErrorCodes {
   REFERENTIEL_NOT_VALID(13001),
   REFERENTIEL_ALREADY_IN_USE(13002),
 
-  // Liste des exception techniaues
-  UPDATE_PHOTO_EXCEPTION(14000),
-  UNKNOWN_CONTEXT(14001)
   ;
 
   private int code;
