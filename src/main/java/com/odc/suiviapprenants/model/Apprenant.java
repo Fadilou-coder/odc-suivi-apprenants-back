@@ -12,6 +12,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @Data
 
+
 public class Apprenant extends AppUser {
     private String matricule;
 
@@ -20,6 +21,13 @@ public class Apprenant extends AppUser {
     private String role;
 
     private String motif;
+
+    public Apprenant(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone, String etat, String matricule, String role) {
+        super(username, password, prenom, nom, email, cni, adresse, numeroTelephone);
+        this.etat = etat;
+        this.matricule = matricule;
+        this.role = role;
+    }
 
     @OneToMany(mappedBy = "apprenant")
     private Collection<DocumentApprenant> docs;
