@@ -78,5 +78,5 @@ public class UserValidator {
 
         return errors;
     }
-
 }
+

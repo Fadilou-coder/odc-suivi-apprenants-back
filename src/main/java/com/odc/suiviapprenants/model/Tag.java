@@ -1,13 +1,16 @@
 package com.odc.suiviapprenants.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Collection;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Data
 public class Tag extends AbstractEntity {
@@ -19,4 +22,13 @@ public class Tag extends AbstractEntity {
 
     @ManyToMany(mappedBy = "tags")
     private Collection<GroupeTag> groupeTags;
+
+    public Tag(String libelle){
+        this.libelle = libelle;
+    }
+
+    public void removeGroupeTag(GroupeTag groupeTag){
+        this.groupeTags.remove(groupeTag);
+        groupeTag.getTags().remove(this);
+    }
 }

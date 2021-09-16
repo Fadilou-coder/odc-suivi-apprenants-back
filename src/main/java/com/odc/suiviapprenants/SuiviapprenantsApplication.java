@@ -1,7 +1,5 @@
 package com.odc.suiviapprenants;
 
-import com.odc.suiviapprenants.model.Admin;
-import com.odc.suiviapprenants.model.Role;
 import com.odc.suiviapprenants.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

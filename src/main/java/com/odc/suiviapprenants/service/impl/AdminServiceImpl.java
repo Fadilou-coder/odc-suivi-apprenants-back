@@ -7,7 +7,7 @@ import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Role;
-import com.odc.suiviapprenants.model.User;
+import com.odc.suiviapprenants.model.AppUser;
 import com.odc.suiviapprenants.repository.AdminRepository;
 import com.odc.suiviapprenants.repository.RoleRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
@@ -72,7 +72,7 @@ public class AdminServiceImpl implements AdminService {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         adminDto.setPassword(encoder.encode("password"));
         adminDto.setRole(RoleDto.fromEntity(role1));
-        //validation(adminDto);
+        validation(adminDto);
 
         return AdminDto.fromEntity(
                 adminRepository.save(
@@ -159,14 +159,16 @@ public class AdminServiceImpl implements AdminService {
     private void validation(AdminDto adminDto) {
         List<String> errors = UserValidator.validate(adminDto);
 
-        if(userAlreadyExists(adminDto.getEmail(), adminDto.getId())) {
-            throw new InvalidEntityException("Un autre utilisateur avec le meme email existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
-                    Collections.singletonList("Un autre utilisateur avec le meme email existe deja dans la BDD"));
-        }
         if(userAlreadyExistsUsername(adminDto.getUsername(), adminDto.getId())) {
             throw new InvalidEntityException("Un autre utilisateur avec le meme nom d'utilisateur existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
                     Collections.singletonList("Un autre utilisateur avec le meme nom d'utilisateur existe deja dans la BDD"));
         }
+
+        if(userAlreadyExists(adminDto.getEmail(), adminDto.getId())) {
+            throw new InvalidEntityException("Un autre utilisateur avec le meme email existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
+                    Collections.singletonList("Un autre utilisateur avec le meme email existe deja dans la BDD"));
+        }
+
 
         if(userAlreadyExistsPhone(adminDto.getNumeroTelephone(), adminDto.getId())) {
             throw new InvalidEntityException("Un autre utilisateur avec le meme numero de telephone existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
@@ -186,20 +188,40 @@ public class AdminServiceImpl implements AdminService {
 
 
     private boolean userAlreadyExists(String email, Long id) {
-        Optional<User> user = userRepository.findByEmailAndIdNot(email, id);
+        Optional<AppUser> user;
+        if (id == null){
+            user = userRepository.findByEmail(email);
+        }else {
+            user = userRepository.findByEmailAndIdNot(email, id);
+        }
         return user.isPresent();
     }
     private boolean userAlreadyExistsUsername(String username, Long id) {
-        Optional<User> user = userRepository.findByUsernameAndIdNot(username, id);
+        Optional<AppUser> user;
+        if (id == null) {
+            user = userRepository.findByUsername(username);
+        }else {
+            user = userRepository.findByUsernameAndIdNot(username, id);
+        }
         return user.isPresent();
     }
     private boolean userAlreadyExistsPhone(String phone, Long id) {
-        Optional<User> user = userRepository.findByNumeroTelephoneAndIdNot(phone, id);
+        Optional<AppUser> user;
+        if (id == null) {
+            user = userRepository.findByNumeroTelephone(phone);
+        }else {
+            user = userRepository.findByNumeroTelephoneAndIdNot(phone, id);
+        }
         return user.isPresent();
     }
 
     private boolean userAlreadyExistsCni(String cni, Long id) {
-        Optional<User> user = userRepository.findByCniAndIdNot(cni, id);
+        Optional<AppUser> user;
+        if (id == null) {
+            user = userRepository.findByCni(cni);
+        }else {
+            user = userRepository.findByCniAndIdNot(cni, id);
+        }
         return user.isPresent();
     }
     public static byte[] compressBytes(byte[] data) {
