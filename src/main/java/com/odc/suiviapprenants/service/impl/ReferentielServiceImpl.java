@@ -46,17 +46,7 @@ public class ReferentielServiceImpl implements ReferentielService {
                 null
         );
 
-        String[] groupeCompetences = grpCompetences.split(",");
-
-        List<GroupeCompetenceDto> = new ArrayList<GroupeCompetenceDto>();
-        for (String g : grpCompetences.split(",")) {
-            if (groupeCompetenceRepository.findByLibelleAndArchiveFalse(g).isPresent()){
-
-            }
-
-        }
-
-        validation(referentielDto);
+        handleGrpCompetences(grpCompetences, referentielDto);
 
         return ReferentielDto.fromEntity(
                 referentielRepository.save(
@@ -95,7 +85,7 @@ public class ReferentielServiceImpl implements ReferentielService {
         referentiel.setCritereAdmission(critereAdmission);
 
         ReferentielDto referentielDto = ReferentielDto.fromEntity(referentiel);
-        validation(referentielDto);
+        handleGrpCompetences(grpCompetences, referentielDto);
 
         referentielRepository.flush();
         return referentielDto;
@@ -113,7 +103,7 @@ public class ReferentielServiceImpl implements ReferentielService {
 
     private void validation(ReferentielDto referentielDto) {
         List<String> errors = ReferentielValidator.validate(referentielDto);
-        if(userAlreadyExists(referentielDto.getLibelle(), referentielDto.getId())) {
+        if(refAlreadyExists(referentielDto.getLibelle(), referentielDto.getId())) {
             throw new InvalidEntityException("Un autre referentiel avec le meme libelle existe deja", ErrorCodes.REFERENTIEL_ALREADY_IN_USE,
                     Collections.singletonList("Un autre referenteil avec le meme libelle existe deja dans la BDD"));
         }
@@ -122,7 +112,7 @@ public class ReferentielServiceImpl implements ReferentielService {
         }
     }
 
-    private boolean userAlreadyExists(String libelle, Long id) {
+    private boolean refAlreadyExists(String libelle, Long id) {
         Optional<Referentiel> ref;
         if (id == null){
             ref = referentielRepository.findByLibelle(libelle);
@@ -130,5 +120,16 @@ public class ReferentielServiceImpl implements ReferentielService {
             ref = referentielRepository.findByLibelleAndIdNot(libelle, id);
         }
         return ref.isPresent();
+    }
+
+    private void handleGrpCompetences(String grpCompetences, ReferentielDto referentielDto) {
+        List<GroupeCompetenceDto> groupeCompetences= new ArrayList<GroupeCompetenceDto>();
+        for (String g : grpCompetences.split(",")) {
+            if (groupeCompetenceRepository.findByLibelleAndArchiveFalse(g).isPresent()){
+                groupeCompetences.add(GroupeCompetenceDto.fromEntity(groupeCompetenceRepository.findByLibelleAndArchiveFalse(g).get()));
+            }
+
+        }
+        validation(referentielDto);
     }
 }

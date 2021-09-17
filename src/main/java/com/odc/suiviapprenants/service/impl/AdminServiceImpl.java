@@ -73,13 +73,13 @@ public class AdminServiceImpl implements AdminService {
         adminDto.setPassword(encoder.encode("password"));
         adminDto.setRole(RoleDto.fromEntity(role1));
         validation(adminDto);
-
         return AdminDto.fromEntity(
                 adminRepository.save(
                         AdminDto.toEntity(adminDto)
                 )
         );
     }
+
 
     @Override
     public List<AdminDto> findAll() {

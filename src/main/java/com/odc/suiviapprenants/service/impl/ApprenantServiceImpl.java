@@ -54,11 +54,7 @@ public class ApprenantServiceImpl implements ApprenantService {
         );
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         apprenantDto.setPassword(encoder.encode("password"));
-
         validation(apprenantDto);
-
-        log.info(apprenantDto.toString());
-
         return ApprenantDto.fromEntity(
                 apprenantRepository.save(
                         ApprenantDto.toEntity(apprenantDto)
@@ -130,9 +126,6 @@ public class ApprenantServiceImpl implements ApprenantService {
         return apprenantDto;
     }
 
-
-
-
     private void validation(ApprenantDto apprenantDto) {
         List<String> errors = UserValidator.Appvalidate(apprenantDto);
         if(userAlreadyExists(apprenantDto.getEmail(), apprenantDto.getId())) {
@@ -159,8 +152,6 @@ public class ApprenantServiceImpl implements ApprenantService {
             throw new InvalidEntityException("L'admin n'est pas valide", ErrorCodes.APPRENANT_NOT_VALID, errors);
         }
     }
-
-
     private boolean userAlreadyExists(String email, Long id) {
         Optional<AppUser> user;
         if (id == null){
@@ -198,4 +189,5 @@ public class ApprenantServiceImpl implements ApprenantService {
         }
         return user.isPresent();
     }
+
 }

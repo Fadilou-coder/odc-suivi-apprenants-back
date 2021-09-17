@@ -84,7 +84,6 @@ public class RoleServiceImpl implements RoleService {
 
         rolerepository.flush();
         adminRepository.flush();
-
     }
 
     @Override
@@ -92,6 +91,7 @@ public class RoleServiceImpl implements RoleService {
         if (id == null) {
             log.error("role ID is null");
         }
+
 
         rolerepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(

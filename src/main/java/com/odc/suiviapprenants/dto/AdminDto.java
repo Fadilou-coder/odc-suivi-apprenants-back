@@ -38,7 +38,6 @@ public class AdminDto {
     @JsonFormat(pattern = "yyyy-MM-dd")
     protected LocalDate dateNaissance;
 
-    @Lob
     protected byte[] avatar;
 
     private RoleDto role;

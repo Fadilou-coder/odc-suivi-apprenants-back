@@ -1,12 +1,16 @@
 package com.odc.suiviapprenants.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Referentiel extends AbstractEntity{
 
     private String libelle;
@@ -25,5 +29,10 @@ public class Referentiel extends AbstractEntity{
 
     @OneToMany(mappedBy = "referentiel")
     private Collection<NiveauEvaluation> niveauEvaluations;
-
+    public Referentiel(String libelle, String description, String critereAdmission, String critereEvaluation) {
+        this.libelle = libelle;
+        this.description = description;
+        this.critereAdmission = critereAdmission;
+        this.critereEvaluation = critereEvaluation;
+    }
 }

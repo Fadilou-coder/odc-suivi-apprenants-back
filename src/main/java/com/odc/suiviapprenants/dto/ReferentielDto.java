@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.Id;
+
 import javax.persistence.Lob;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +15,7 @@ import java.util.stream.Collectors;
 @Builder
 @AllArgsConstructor
 public class ReferentielDto {
-
+    @Id
     private Long id;
 
     private String libelle;
@@ -65,6 +67,4 @@ public class ReferentielDto {
 
         return referentiel;
     }
-
-
 }

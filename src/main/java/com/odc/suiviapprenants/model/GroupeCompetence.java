@@ -23,7 +23,6 @@ public class GroupeCompetence extends AbstractEntity {
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Tag> tags;
-
     public void addCompetence(Competence competence){
         this.competences.add(competence);
         competence.getGroupeCompetences().add(this);

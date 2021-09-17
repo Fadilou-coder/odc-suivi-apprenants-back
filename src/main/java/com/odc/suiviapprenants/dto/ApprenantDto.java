@@ -1,11 +1,9 @@
 package com.odc.suiviapprenants.dto;
 
-import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Apprenant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -40,6 +38,7 @@ public class ApprenantDto {
     private String etat;
 
     private String matricule;
+
 
     public static ApprenantDto fromEntity(Apprenant apprenant){
         if (apprenant == null){
