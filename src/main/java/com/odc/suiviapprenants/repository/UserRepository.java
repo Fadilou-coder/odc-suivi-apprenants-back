@@ -1,5 +1,4 @@
 package com.odc.suiviapprenants.repository;
-
 import com.odc.suiviapprenants.model.AppUser;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

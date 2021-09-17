@@ -13,15 +13,20 @@ import java.util.List;
 public class UserValidator {
 
     public static List<String> validate(AdminDto userDto) {
-        return getStrings(userDto == null, userDto.getUsername(), userDto.getPrenom(), userDto.getNom(), userDto.getEmail(), userDto.getCni(), userDto.getAdresse(), userDto.getNumeroTelephone(), userDto.getDateNaissance(), userDto.getRole() == null);
+        return getStrings(userDto == null, userDto.getUsername(), userDto.getPrenom(),
+                userDto.getNom(), userDto.getEmail(), userDto.getCni(), userDto.getAdresse(),
+                userDto.getNumeroTelephone(), userDto.getDateNaissance(), userDto.getRole() == null);
     }
 
     public static List<String> Appvalidate(ApprenantDto apprenantDto) {
-        return getStrings(apprenantDto == null, apprenantDto.getUsername(), apprenantDto.getPrenom(), apprenantDto.getNom(), apprenantDto.getEmail(), apprenantDto.getCni(), apprenantDto.getAdresse(), apprenantDto.getNumeroTelephone(), apprenantDto.getDateNaissance(), false);
+        return getStrings(apprenantDto == null, apprenantDto.getUsername(), apprenantDto.getPrenom(),
+                apprenantDto.getNom(), apprenantDto.getEmail(), apprenantDto.getCni(), apprenantDto.getAdresse(),
+                apprenantDto.getNumeroTelephone(), apprenantDto.getDateNaissance(), false);
     }
 
-    private static List<String> getStrings(boolean b, String username, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone, LocalDate dateNaissance, boolean b2) {
-
+    private static List<String> getStrings(boolean b, String username, String prenom,
+                                           String nom, String email, String cni, String adresse,
+                                           String numeroTelephone, LocalDate dateNaissance, boolean b2) {
         List<String> errors = new ArrayList<>();
 
         if (b) {
@@ -79,4 +84,3 @@ public class UserValidator {
         return errors;
     }
 }
-

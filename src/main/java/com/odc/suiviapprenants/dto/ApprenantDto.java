@@ -1,6 +1,5 @@
 package com.odc.suiviapprenants.dto;
 
-import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Apprenant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,6 +39,7 @@ public class ApprenantDto {
 
     private String matricule;
 
+
     public static ApprenantDto fromEntity(Apprenant apprenant){
         if (apprenant == null){
             return null;
@@ -66,7 +66,6 @@ public class ApprenantDto {
         if (apprenantDto == null) return null;
 
         Apprenant apprenant = new Apprenant();
-        apprenant.setId(apprenantDto.getId());
         apprenant.setUsername(apprenantDto.getUsername());
         apprenant.setPassword(apprenantDto.getPassword());
         apprenant.setPrenom(apprenantDto.getPrenom());

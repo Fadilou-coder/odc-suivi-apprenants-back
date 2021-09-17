@@ -10,9 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class AuthenticationController implements AuthenticationApi {
@@ -37,8 +41,13 @@ public class AuthenticationController implements AuthenticationApi {
     final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
 
     final String jwt = jwtUtil.generateToken((User) userDetails);
+    List<String> roles = userDetails.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
 
-    return ResponseEntity.ok(AuthenticationResponse.builder().accessToken(jwt).build());
+    return ResponseEntity.ok(
+            new AuthenticationResponse(jwt,roles)
+    );
   }
 
 }

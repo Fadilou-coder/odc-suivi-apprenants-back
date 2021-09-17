@@ -33,4 +33,5 @@ public class Apprenant extends AppUser {
     @OneToMany(mappedBy = "apprenant")
     private Collection<CompetenceValide> competenceValides;
 
+
 }

@@ -1,7 +1,10 @@
 package com.odc.suiviapprenants.repository;
 
 import com.odc.suiviapprenants.model.Referentiel;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface ReferentielRepository extends PagingAndSortingRepository<Referentiel, Long> {
+import java.util.Optional;
+
+public interface ReferentielRepository extends JpaRepository<Referentiel, Long> {
 }
