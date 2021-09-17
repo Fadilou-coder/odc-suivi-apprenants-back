@@ -2,16 +2,13 @@ package com.odc.suiviapprenants.service.impl;
 
 import com.odc.suiviapprenants.dto.CompetenceDto;
 import com.odc.suiviapprenants.dto.NiveauEvaluationDto;
-import com.odc.suiviapprenants.dto.ReferentielDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Competence;
 import com.odc.suiviapprenants.model.NiveauEvaluation;
-import com.odc.suiviapprenants.model.Referentiel;
 import com.odc.suiviapprenants.repository.CompetenceRepository;
 import com.odc.suiviapprenants.repository.NiveauEvaluationRepository;
-import com.odc.suiviapprenants.repository.ReferentielRepository;
 import com.odc.suiviapprenants.service.CompetenceService;
 import com.odc.suiviapprenants.validator.CompetenceValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -28,24 +25,30 @@ public class CompetenceServiceImpl implements CompetenceService {
 
     @Autowired
     private CompetenceRepository competenceRepository;
-
-    @Autowired
-    private ReferentielRepository referentielRepository;
-
     @Autowired
     private NiveauEvaluationRepository niveauEvaluationRepository;
 
     @Override
     public CompetenceDto save(CompetenceDto competenceDto) {
-        validdate(competenceDto);
-        log.info(competenceDto.toString());
-        return CompetenceDto.mapFromEntity(
-                competenceRepository.save(Objects.requireNonNull(CompetenceDto.mapToEntity(competenceDto))));
+        List<String> errors = CompetenceValidator.validateCompetence(competenceDto);
+        if (isExistLibelleCompetence(competenceDto.getLibelle()))
+        {
+            throw new InvalidEntityException("Competence existe deja", ErrorCodes.COMPETENCE_ALREADY_IN_USE, errors);
+        }
+        if (!errors.isEmpty()) {
+            throw new InvalidEntityException("competence n'est pas valide", ErrorCodes.COMPETENCE_NOT_VALID, errors);
+        }
+
+        return CompetenceDto.fromEntity(
+                competenceRepository.save(
+                        CompetenceDto.toEntity(competenceDto)
+                )
+        );
     }
     @Override
     public List<CompetenceDto> findAll() {
         return competenceRepository.findAllByArchiveFalse().stream()
-                .map(CompetenceDto::mapFromEntity)
+                .map(CompetenceDto::fromEntity)
                 .collect(Collectors.toList());
     }
 
@@ -57,9 +60,9 @@ public class CompetenceServiceImpl implements CompetenceService {
         }
 
         return competenceRepository.findById(id)
-                .map(CompetenceDto::mapFromEntity)
+                .map(CompetenceDto::fromEntity)
                 .orElseThrow(() -> new EntityNotFoundException("Aucun Competence  avec l'ID = " + id + " n' ete trouve dans la BDD", ErrorCodes.COMPETENCE_NOT_FOUND)
-        );
+                );
     }
 
     @Override
@@ -73,6 +76,9 @@ public class CompetenceServiceImpl implements CompetenceService {
                         "Aucun Competence avec l'ID = " + id + " n' ete trouve dans la BDD",
                         ErrorCodes.COMPETENCE_NOT_FOUND));
         competence.setArchive(true);
+        competence.getNiveauEvaluations().forEach(niveauEvaluation -> {
+            niveauEvaluation.setCompetence(null);
+        });
         competenceRepository.flush();
 
     }
@@ -85,32 +91,36 @@ public class CompetenceServiceImpl implements CompetenceService {
 
         Competence competence = competenceRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(
-                        "Aucun ProfileSortie avec l'ID = " + id + " n' ete trouve dans la BDD",
-                        ErrorCodes.PROFIL_SORTIE_NOT_FOUND));
+                        "Aucun Competence avec l'ID = " + id + " n' ete trouve dans la BDD",
+                        ErrorCodes.COMPETENCE_NOT_FOUND));
         if (StringUtils.hasLength(competenceDto.getLibelle())){
 
             competence.setLibelle(competenceDto.getLibelle());
         }
-        if (!competenceDto.getNiveauEvaluations().isEmpty())
+/*        if (!competenceDto.getNiveauEvaluations().isEmpty())
         {
             for (NiveauEvaluationDto niveauEvaluationDto: competenceDto.getNiveauEvaluations())
             {
                 NiveauEvaluation niveauEvaluation = niveauEvaluationRepository.findById(niveauEvaluationDto.getId()).get();
 
-                for (NiveauEvaluation niveauEvaluationNew: competence.getNiveauEvaluations())
+                if (niveauEvaluationRepository.findById(niveauEvaluationDto.getId()).isPresent())
                 {
-                    if (!Objects.equals(niveauEvaluationNew.getId(), niveauEvaluationDto.getId()))
-                    {
-                        throw new EntityNotFoundException("Le niveau d'evaluation avec l'ID:" + niveauEvaluationDto.getId() +
-                                " n'appartient pas a ce competence", ErrorCodes.NIVEAU_EVALUATION_NOT_FOUND);
-                    }
+                    throw new EntityNotFoundException("Le niveau d'evaluation avec l'ID:" + niveauEvaluationDto.getId() +
+                            " n'appartient pas a ce competence", ErrorCodes.NIVEAU_EVALUATION_NOT_FOUND);
                 }
                 ifIssetValue(niveauEvaluationDto, niveauEvaluation);
             }
 
-        }
+        }*/
         competenceRepository.flush();
-        return CompetenceDto.mapFromEntity(competence);
+        return CompetenceDto.fromEntity(competence);
+    }
+
+    @Override
+    public CompetenceDto affectedNiveau(CompetenceDto competenceDto) {
+        Competence competence = competenceRepository.findById(competenceDto.getId()).get();
+        validate(competenceDto,competence);
+        return CompetenceDto.fromEntity(competence);
     }
 
     static void ifIssetValue(NiveauEvaluationDto niveauEvaluationDto, NiveauEvaluation niveauEvaluation) {
@@ -129,13 +139,18 @@ public class CompetenceServiceImpl implements CompetenceService {
         }
     }
 
-    public void validdate(CompetenceDto competenceDto)
+    public void validate(CompetenceDto competenceDto, Competence competence)
     {
 
-        if (competenceRepository.findByLibelle(competenceDto.getLibelle()).isPresent())
+        if (!competenceRepository.findById(competenceDto.getId()).isPresent())
         {
-            throw new InvalidEntityException("Competence existe deja dans le BD"
-                    ,ErrorCodes.COMPETENCE_ALREADY_IN_USE);
+            throw new InvalidEntityException("Cette Competence n'existe pas dans la BD veuillez la creer"
+                    ,ErrorCodes.COMPETENCE_NOT_FOUND);
+        }
+
+        if (competenceDto.getNiveauEvaluations().toArray().length > 3 | competenceDto.getNiveauEvaluations().toArray().length < 3 )
+        {
+            throw new InvalidEntityException("Vous ne pouvez mettre que trois niveau dans une competence");
         }
 
         for (NiveauEvaluationDto niveauEvaluationDto : competenceDto.getNiveauEvaluations()) {
@@ -147,20 +162,26 @@ public class CompetenceServiceImpl implements CompetenceService {
                         ,ErrorCodes.NIVEAU_EVALUATION_NOT_FOUND);
             }
             NiveauEvaluation niveauEvaluation = niveauEvaluationRepository.findById(id).get();
+
+            if (niveauEvaluationRepository.findById(competenceDto.getNiveauEvaluations().get(0).getId()).get().getReferentiel() != niveauEvaluationRepository.findById(competenceDto.getNiveauEvaluations().get(1).getId()).get().getReferentiel() ||
+                    niveauEvaluationRepository.findById(competenceDto.getNiveauEvaluations().get(1).getId()).get().getReferentiel() != niveauEvaluationRepository.findById(competenceDto.getNiveauEvaluations().get(2).getId()).get().getReferentiel())
+            {
+                throw new InvalidEntityException("Choisissez des niveaux de meme referentiel"
+                        ,ErrorCodes.NIVEAU_IN_SAME_REFERENTIEL);
+            }
+
             if (niveauEvaluation.getCompetence() == null)
             {
-                niveauEvaluation.setCompetence(CompetenceDto.mapToEntity(competenceDto));
+                niveauEvaluation.setCompetence(competence);
             }
             else {
-                throw new InvalidEntityException("Cet Niveau est deja affecter un competence : " +
+                throw new InvalidEntityException("Cet Niveau: "+niveauEvaluation.getLibelle()+" est deja affecter un competence : " +
                         niveauEvaluation.getCompetence().getLibelle(),ErrorCodes.NIVEAU_ALREADY_AFFECTED);
             }
         }
-
-        List<String> errors = CompetenceValidator.validateCompetence(competenceDto);
-        if (!errors.isEmpty()) {
-            log.error("competence is not valid {}", competenceDto);
-            throw new InvalidEntityException("competence n'est pas valide", ErrorCodes.COMPETENCE_NOT_VALID, errors);
-        }
+        niveauEvaluationRepository.flush();
+    }
+    public boolean isExistLibelleCompetence(String libelle){
+        return competenceRepository.findByLibelleAndArchiveFalse(libelle).isPresent();
     }
 }

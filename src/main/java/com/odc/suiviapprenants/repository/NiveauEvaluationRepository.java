@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface NiveauEvaluationRepository extends JpaRepository<NiveauEvaluation, Long> {
     List<NiveauEvaluation> findAllByArchiveFalse();
     Optional<NiveauEvaluation> findByIdAndArchiveFalse(Long id);
+    Optional<NiveauEvaluation> findByGroupeActionAndArchiveFalse(String groupeDaction);
+    Optional<NiveauEvaluation> findByCritereEvaluationAndArchiveFalse(String groupeDaction);
 }

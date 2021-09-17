@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface CompetenceRepository extends JpaRepository<Competence, Long> {
     List<Competence> findAllByArchiveFalse();
     Optional<Competence> findByLibelle(String libelle);
+    Optional<Competence> findByLibelleAndArchiveFalse(String libelle);
+
 }

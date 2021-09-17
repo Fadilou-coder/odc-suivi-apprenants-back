@@ -38,20 +38,19 @@ public class NiveauEvaluationServiceImpl  implements NiveauEvaluationService {
 
         Long id = niveauEvaluationDto.getReferentiel().getId();
         Referentiel referentiel =  referentielRepository.findById(id).get();
-        niveauEvaluationDto.setReferentiel(ReferentielDto.mapFromEntity(referentiel));
+        niveauEvaluationDto.setReferentiel(ReferentielDto.fromEntity(referentiel));
         validation(niveauEvaluationDto);
-        NiveauEvaluationDto.FromEntity(
+        return  NiveauEvaluationDto.fromEntity(
                 niveauEvaluationRepository.save(
-                        NiveauEvaluationDto.ToEntity(niveauEvaluationDto)
+                        NiveauEvaluationDto.toEntity(niveauEvaluationDto)
                 )
         );
-        return null;
     }
 
     @Override
     public List<NiveauEvaluationDto> findAll() {
         return niveauEvaluationRepository.findAllByArchiveFalse()
-                .stream().map(NiveauEvaluationDto::FromEntity).collect(Collectors.toList());
+                .stream().map(NiveauEvaluationDto::fromEntity).collect(Collectors.toList());
     }
 
     @Override
@@ -59,7 +58,7 @@ public class NiveauEvaluationServiceImpl  implements NiveauEvaluationService {
         if (id == null) {
             throw new InvalidOperationException("L'Id est peut etre nulle",ErrorCodes.NIVEAU_EVALUATION_NOT_FOUND);
         }
-        return niveauEvaluationRepository.findByIdAndArchiveFalse(id).map(NiveauEvaluationDto::FromEntity)
+        return niveauEvaluationRepository.findByIdAndArchiveFalse(id).map(NiveauEvaluationDto::fromEntity)
                 .orElseThrow(() ->
                         new EntityNotFoundException(
                                 "Aucun Niveau d'evaluation avec l'ID = " + id + " ne se trouve dans la BDD",
@@ -93,30 +92,34 @@ public class NiveauEvaluationServiceImpl  implements NiveauEvaluationService {
                         ErrorCodes.NIVEAU_EVALUATION_NOT_FOUND));
         CompetenceServiceImpl.ifIssetValue(niveauEvaluationDto, niveauEvaluation);
 
-            niveauEvaluationRepository.flush();
+        niveauEvaluationRepository.flush();
 
-        return  NiveauEvaluationDto.FromEntity(niveauEvaluation);
+        return  NiveauEvaluationDto.fromEntity(niveauEvaluation);
     }
 
     private void validation(NiveauEvaluationDto niveauEvaluationDto)
     {
         List<String> errors = NiveauEvaluationValidator.validateNiveauEvalutaion(niveauEvaluationDto);
 
-              Referentiel referentiel =  referentielRepository.findById(niveauEvaluationDto.getReferentiel().getId()).get();
-        for (NiveauEvaluation niveauEvaluationDto1: referentiel.getNiveauEvaluations())
+        Referentiel referentiel =  referentielRepository.findById(niveauEvaluationDto.getReferentiel().getId()).get();
+        if (isExisteGroupeDaction(niveauEvaluationDto.getGroupeAction()) && isExisteCritereEvaluation(niveauEvaluationDto.getCritereEvaluation()))
         {
-            if (niveauEvaluationDto1.getGroupeAction().equals(niveauEvaluationDto.getGroupeAction())
-                    && niveauEvaluationDto1.getCritereEvaluation().equals(niveauEvaluationDto.getCritereEvaluation()))
-            {
-                throw new InvalidEntityException("Niveau d'evaluation existe deja dans ce referentiel... LIBELLE: " + niveauEvaluationDto1.getLibelle(), ErrorCodes.NIVEAU_EVALUATION_ALREADY_IN_USE,
-                        Collections.singletonList("Niveau d'evaluation existe deja dans ce referentiel"));
-            }
+            throw new InvalidEntityException("Niveau d'evaluation existe deja dans ce referentiel... LIBELLE: " +
+                    niveauEvaluationDto.getLibelle(), ErrorCodes.NIVEAU_EVALUATION_ALREADY_IN_USE,
+                    Collections.singletonList("Niveau d'evaluation existe deja dans ce referentiel"));
         }
 
         if (!errors.isEmpty()) {
             log.error("Le niveau d'evaluation is not valid {}", niveauEvaluationDto);
             throw new InvalidEntityException("Le niveau d'evaluation n'est pas valide", ErrorCodes.ADMIN_NOT_VALID, errors);
         }
+    }
+
+    public boolean isExisteGroupeDaction(String groupeAction){
+        return niveauEvaluationRepository.findByGroupeActionAndArchiveFalse(groupeAction).isPresent();
+    }
+    public boolean isExisteCritereEvaluation(String critereEvaluation){
+        return niveauEvaluationRepository.findByCritereEvaluationAndArchiveFalse(critereEvaluation).isPresent();
     }
 
 }

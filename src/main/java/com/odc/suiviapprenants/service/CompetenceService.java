@@ -1,5 +1,7 @@
 package com.odc.suiviapprenants.service;
 import com.odc.suiviapprenants.dto.CompetenceDto;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import java.util.List;
 
 public interface CompetenceService {
@@ -12,4 +14,6 @@ public interface CompetenceService {
     void delete(Long id);
 
     CompetenceDto put(CompetenceDto competenceDto,Long id);
+
+    CompetenceDto affectedNiveau(CompetenceDto competenceDto);
 }

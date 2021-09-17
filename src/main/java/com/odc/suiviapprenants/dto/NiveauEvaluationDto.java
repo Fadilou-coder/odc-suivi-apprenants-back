@@ -8,13 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
-
 import javax.persistence.Id;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
 public class NiveauEvaluationDto {
     @Id
@@ -31,26 +27,27 @@ public class NiveauEvaluationDto {
     @JsonIgnore
     private CompetenceDto competence;
 
-    public static NiveauEvaluationDto FromEntity(NiveauEvaluation niveauEvaluation)
+    public static NiveauEvaluationDto fromEntity(NiveauEvaluation niveauEvaluation)
     {
-       // ModelMapper modelMapper = new ModelMapper();
         if(niveauEvaluation == null){
             return null;
         }
-      return   NiveauEvaluationDto.builder()
+        return   NiveauEvaluationDto.builder()
                 .id(niveauEvaluation.getId())
                 .libelle(niveauEvaluation.getLibelle())
                 .groupeAction(niveauEvaluation.getGroupeAction())
                 .critereEvaluation(niveauEvaluation.getCritereEvaluation())
-                .referentiel(ReferentielDto.mapFromEntity(niveauEvaluation.getReferentiel()))
+                .referentiel(
+                        ReferentielDto.builder()
+                                .id(niveauEvaluation.getReferentiel().getId())
+                                .libelle(niveauEvaluation.getReferentiel().getLibelle())
+                                .build()
+                )
                 .build();
-
-        //return modelMapper.map(niveauEvaluation,NiveauEvaluationDto.class);
     }
 
-    public static  NiveauEvaluation ToEntity(NiveauEvaluationDto niveauEvaluationDto)
+    public static  NiveauEvaluation toEntity(NiveauEvaluationDto niveauEvaluationDto)
     {
-      //  ModelMapper modelMapper = new ModelMapper();
         if(niveauEvaluationDto == null){
             return null;
         }
@@ -59,8 +56,7 @@ public class NiveauEvaluationDto {
         niveauEvaluation.setLibelle(niveauEvaluationDto.getLibelle());
         niveauEvaluation.setGroupeAction(niveauEvaluationDto.getGroupeAction());
         niveauEvaluation.setCritereEvaluation(niveauEvaluationDto.getCritereEvaluation());
-        niveauEvaluation.setReferentiel(ReferentielDto.mapToEntity(niveauEvaluationDto.getReferentiel()));
+        niveauEvaluation.setReferentiel(ReferentielDto.toEntity(niveauEvaluationDto.getReferentiel()));
         return niveauEvaluation;
-      //  return modelMapper.map(niveauEvaluationDto,NiveauEvaluation.class);
     }
 }

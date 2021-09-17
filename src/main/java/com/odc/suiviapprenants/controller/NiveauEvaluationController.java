@@ -2,6 +2,7 @@ package com.odc.suiviapprenants.controller;
 
 import com.odc.suiviapprenants.controller.api.NiveauEvaluationApi;
 import com.odc.suiviapprenants.dto.NiveauEvaluationDto;
+import com.odc.suiviapprenants.service.NiveauEvaluationService;
 import com.odc.suiviapprenants.service.impl.NiveauEvaluationServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +12,7 @@ import java.util.List;
 @RestController
 public class NiveauEvaluationController implements NiveauEvaluationApi {
     @Autowired
-    private NiveauEvaluationServiceImpl niveauEvaluationService;
+    private NiveauEvaluationService niveauEvaluationService;
 
     @Override
     public NiveauEvaluationDto save(NiveauEvaluationDto niveauEvaluationDto) {

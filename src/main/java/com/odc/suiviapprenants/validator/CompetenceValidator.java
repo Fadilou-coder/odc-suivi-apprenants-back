@@ -16,6 +16,7 @@ public class CompetenceValidator {
         return getString(competenceDto == null, competenceDto.getLibelle());
     }
 
+    public static List<String> validateAffectedNiveaux(CompetenceDto competenceDto){return null;}
     public static List<String> getString(boolean isCompetence, String libelle)
     {
         List<String> errors = new ArrayList<>();
@@ -27,34 +28,8 @@ public class CompetenceValidator {
         }
         if (!StringUtils.hasLength(libelle))
         {
-            errors.add("Defaal libele si competence bii");
+            errors.add("Veuillez renseigner le libellé");
         }
-//        if (niveauEvaluationDtos.isEmpty())
-//        {
-//            errors.add("Veuillez mettre au moins un niveau d'evaluation");
-//        }
-//
-//        if (niveauEvaluationDtos.toArray().length > 3)
-//        {
-//            errors.add("Vous ne pouvez mettre que trois niveau dans un referentiel");
-//        }
-//        if (niveauEvaluationDtos.toArray().length <= 3 | niveauEvaluationDtos.toArray().length <= 3){
-//            for (NiveauEvaluationDto key: niveauEvaluationDtos){
-//
-//                if (key.getLibelle() == null | key.getLibelle().isEmpty()){
-//                    errors.add("Veuillez mettre un libelle sur le niveau");
-//                }
-//
-//                if(key.getCritereEvaluation() == null | !StringUtils.hasLength(key.getCritereEvaluation()))
-//                {
-//                    errors.add(key.getLibelle() +" :n'a pas de  crictere d'evaluation");
-//                }
-//                if (key.getGroupeAction() == null | !StringUtils.hasLength(key.getGroupeAction()))
-//                {
-//                    errors.add(key.getLibelle() +" : n'a pas de groupeDaction");
-//                }
-//            }
-//        }
         return errors;
     }
 }

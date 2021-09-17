@@ -12,8 +12,6 @@ import javax.persistence.Id;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class ReferentielDto {
     @Id
     private Long id;
@@ -28,9 +26,8 @@ public class ReferentielDto {
 
     protected byte[] programme;
 
-    public static ReferentielDto mapFromEntity(Referentiel referentiel)
+    public static ReferentielDto fromEntity(Referentiel referentiel)
     {
-        //ModelMapper modelMapper = new ModelMapper();
         if(referentiel == null){
             return null;
         }
@@ -42,13 +39,10 @@ public class ReferentielDto {
                 .critereEvaluation(referentiel.getCritereEvaluation())
                 .programme(referentiel.getProgramme())
                 .build();
-
-       // return modelMapper.map(referentiel,ReferentielDto.class);
     }
 
-    public static  Referentiel mapToEntity(ReferentielDto referentielDto)
+    public static  Referentiel toEntity(ReferentielDto referentielDto)
     {
-      //  ModelMapper modelMapper = new ModelMapper();
         if(referentielDto == null){
             return null;
         }
@@ -60,6 +54,5 @@ public class ReferentielDto {
         referentiel.setCritereEvaluation(referentiel.getCritereEvaluation());
         referentiel.setProgramme(referentielDto.getProgramme());
         return referentiel;
-       // return modelMapper.map(referentielDto,Referentiel.class);
     }
 }

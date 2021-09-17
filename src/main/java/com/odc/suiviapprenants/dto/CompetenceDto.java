@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 
 import javax.persistence.Id;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -17,48 +18,33 @@ public class CompetenceDto {
 
     private List<NiveauEvaluationDto> niveauEvaluations;
 
-    public static CompetenceDto mapFromEntity(Competence competence)
+    public static CompetenceDto fromEntity(Competence competence)
     {
-        //  ModelMapper modelMapper = new ModelMapper();
         if(competence == null){
             return null;
         }
-        List<NiveauEvaluationDto> niveauEvaluationDtoList = new ArrayList<>();
-        for (NiveauEvaluation niveauEvaluation: competence.getNiveauEvaluations())
-        {
-            NiveauEvaluationDto niveauEvaluationDto = NiveauEvaluationDto.builder()
-                    .id(niveauEvaluation.getId())
-                    .libelle(niveauEvaluation.getLibelle())
-                    .critereEvaluation(niveauEvaluation.getCritereEvaluation())
-                    .groupeAction(niveauEvaluation.getGroupeAction()).build();
-            niveauEvaluationDtoList.add(niveauEvaluationDto);
-        }
+
         return  CompetenceDto.builder()
                 .id(competence.getId())
                 .libelle(competence.getLibelle())
-                .niveauEvaluations(niveauEvaluationDtoList)
+                .niveauEvaluations(
+                        competence.getNiveauEvaluations() == null
+                                ? null
+                                : competence.getNiveauEvaluations().stream().map(NiveauEvaluationDto::fromEntity).collect(Collectors.toList())
+                )
+
                 .build();
-
-
-        // return modelMapper.map(competence,CompetenceDto.class);
     }
 
-    public static  Competence mapToEntity(CompetenceDto competenceDto)
+    public static  Competence toEntity(CompetenceDto competenceDto)
     {
-        ModelMapper modelMapper = new ModelMapper();
         if(competenceDto == null){
             return null;
         }
         Competence competence = new Competence();
         competence.setId(competenceDto.getId());
         competence.setLibelle(competenceDto.getLibelle());
-        List<NiveauEvaluation> niveauEvaluationList = new ArrayList<>();
-        for (NiveauEvaluationDto niveauEvaluationDto : competenceDto.getNiveauEvaluations()) {
-            NiveauEvaluation evaluation = NiveauEvaluationDto.ToEntity(niveauEvaluationDto);
-            niveauEvaluationList.add(evaluation);
-        }
-        competence.setNiveauEvaluations(niveauEvaluationList);
+        //   competence.setNiveauEvaluations(competenceDto.getNiveauEvaluations().stream().map(NiveauEvaluationDto::toEntity).collect(Collectors.toList()));
         return competence;
-        //return modelMapper.map(competenceDto,Competence.class);
     }
 }

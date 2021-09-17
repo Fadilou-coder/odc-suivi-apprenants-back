@@ -7,18 +7,18 @@ import java.util.List;
 @Api("niveauEvaluation")
 public interface NiveauEvaluationApi {
 
-    @PostMapping("/niveauEvaluation/create")
+    @PostMapping("/niveau_evaluations/create")
     NiveauEvaluationDto save(@RequestBody NiveauEvaluationDto niveauEvaluationDto);
 
-    @GetMapping("/niveauEvaluation")
+    @GetMapping("/niveau_evaluations")
     List<NiveauEvaluationDto> findAll();
 
-    @GetMapping("/niveauEvaluation/{id}")
+    @GetMapping("/niveau_evaluations/{id}")
     NiveauEvaluationDto findById(@PathVariable Long id);
 
-    @DeleteMapping("/niveauEvaluation/{id}")
+    @DeleteMapping("/niveau_evaluations/{id}")
     void delete(@PathVariable Long id);
 
-    @PutMapping("/niveauEvaluation/{id}")
+    @PutMapping("/niveau_evaluations/{id}")
     NiveauEvaluationDto put(@RequestBody NiveauEvaluationDto niveauEvaluationDto ,@PathVariable Long id);
 }
