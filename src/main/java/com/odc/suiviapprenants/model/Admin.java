@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne;
 @Data
 @AllArgsConstructor
 public class Admin extends AppUser {
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Role role;
 
     public Admin(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone, Role role) {

@@ -22,4 +22,10 @@ public class GroupeCompetence extends AbstractEntity {
 
     @ManyToMany(mappedBy = "groupeCompetences")
     private Collection<Tag> tags;
+
+
+
+
+
+
 }

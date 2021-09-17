@@ -55,7 +55,7 @@ public class ApprenantServiceImpl implements ApprenantService {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         apprenantDto.setPassword(encoder.encode("password"));
 
-        validation(apprenantDto);
+      //  validation(apprenantDto);
 
         return ApprenantDto.fromEntity(
                 apprenantRepository.save(
@@ -127,9 +127,6 @@ public class ApprenantServiceImpl implements ApprenantService {
         apprenantRepository.flush();
         return apprenantDto;
     }
-
-
-
 
     private void validation(ApprenantDto apprenantDto) {
         List<String> errors = UserValidator.Appvalidate(apprenantDto);

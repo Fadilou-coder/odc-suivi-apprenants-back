@@ -33,6 +33,7 @@ public class RoleDto {
         role.setId(roleDto.getId());
         role.setLibelle(roleDto.getLibelle());
 
+
         return role;
     }
 }
