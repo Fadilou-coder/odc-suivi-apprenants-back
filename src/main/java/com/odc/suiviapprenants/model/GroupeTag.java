@@ -25,7 +25,8 @@ public class GroupeTag extends AbstractEntity {
         this.libelle = libelle;
     }
 
-    public void  removeTag(Tag tag){
+    public void removeTag(Tag tag){
         this.tags.remove(tag);
+        tag.getGroupeTags().remove(this);
     }
 }

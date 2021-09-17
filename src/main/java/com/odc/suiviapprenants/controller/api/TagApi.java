@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Api("Tags")
+@Api("tags")
 public interface TagApi {
 
 
@@ -20,5 +20,5 @@ public interface TagApi {
     void delete(@PathVariable Long id);
 
     @PutMapping("/tags/{id}")
-    TagDto put(@PathVariable Long id, TagDto tagDto);
+    TagDto put(@PathVariable Long id,@RequestBody TagDto tagDto);
 }

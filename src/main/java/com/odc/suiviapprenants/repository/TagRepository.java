@@ -11,6 +11,5 @@ public interface TagRepository extends JpaRepository<Tag, Long> {
     Optional<Tag> findByLibelle(String libelle);
     List<Tag> findAllByArchiveFalse();
     List<Tag> findAllByGroupeTagsId(Long id);
-
     Optional<Tag> findByIdAndArchiveFalse(Long id);
 }

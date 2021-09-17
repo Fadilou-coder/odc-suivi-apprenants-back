@@ -26,11 +26,11 @@ public class TagController implements TagApi {
 
     @Override
     public void delete(Long id) {
-
+        tagService.delete(id);
     }
 
     @Override
     public TagDto put(Long id, TagDto tagDto) {
-        return null;
+        return tagService.put(id, tagDto);
     }
 }
