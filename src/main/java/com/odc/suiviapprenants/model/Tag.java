@@ -12,11 +12,9 @@ import java.util.Collection;
 @Data
 public class Tag extends AbstractEntity {
 
-    @NotBlank(message = "Le libelle est obligatoire")
-    @NotNull(message = "Le libelle ne peut pas être nul")
     private String libelle;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "tags")
     private Collection<GroupeCompetence> groupeCompetences;
 
     @ManyToMany(mappedBy = "tags")
