@@ -97,21 +97,6 @@ public class CompetenceServiceImpl implements CompetenceService {
 
             competence.setLibelle(competenceDto.getLibelle());
         }
-/*        if (!competenceDto.getNiveauEvaluations().isEmpty())
-        {
-            for (NiveauEvaluationDto niveauEvaluationDto: competenceDto.getNiveauEvaluations())
-            {
-                NiveauEvaluation niveauEvaluation = niveauEvaluationRepository.findById(niveauEvaluationDto.getId()).get();
-
-                if (niveauEvaluationRepository.findById(niveauEvaluationDto.getId()).isPresent())
-                {
-                    throw new EntityNotFoundException("Le niveau d'evaluation avec l'ID:" + niveauEvaluationDto.getId() +
-                            " n'appartient pas a ce competence", ErrorCodes.NIVEAU_EVALUATION_NOT_FOUND);
-                }
-                ifIssetValue(niveauEvaluationDto, niveauEvaluation);
-            }
-
-        }*/
         competenceRepository.flush();
         return CompetenceDto.fromEntity(competence);
     }
