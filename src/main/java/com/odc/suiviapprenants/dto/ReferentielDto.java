@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Lob;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -25,6 +27,8 @@ public class ReferentielDto {
     @Lob
     private byte[] programme;
 
+    private List<GroupeCompetenceDto> groupeCompetences;
+
     public  static ReferentielDto fromEntity(Referentiel referentiel){
 
         if (referentiel == null){
@@ -38,6 +42,12 @@ public class ReferentielDto {
                 .critereAdmission(referentiel.getCritereAdmission())
                 .critereEvaluation(referentiel.getCritereEvaluation())
                 .programme(referentiel.getProgramme())
+                .groupeCompetences(
+                        referentiel.getGroupeCompetences() != null ?
+                                referentiel.getGroupeCompetences().stream()
+                                        .map(GroupeCompetenceDto::fromEntity)
+                                        .collect(Collectors.toList()) : null
+                )
                 .build();
     }
 
@@ -51,6 +61,7 @@ public class ReferentielDto {
         referentiel.setCritereEvaluation(referentielDto.getCritereEvaluation());
         referentiel.setDescription(referentielDto.getDescription());
         referentiel.setProgramme(referentielDto.getProgramme());
+        referentiel.setGroupeCompetences(referentielDto.getGroupeCompetences().stream().map(GroupeCompetenceDto::toEntity).collect(Collectors.toList()));
 
         return referentiel;
     }

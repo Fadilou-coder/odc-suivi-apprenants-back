@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.service.impl;
 import com.odc.suiviapprenants.dto.AdminDto;
+import com.odc.suiviapprenants.dto.GroupeCompetenceDto;
 import com.odc.suiviapprenants.dto.ReferentielDto;
 import com.odc.suiviapprenants.dto.RoleDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
@@ -7,6 +8,7 @@ import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Referentiel;
+import com.odc.suiviapprenants.repository.GroupeCompetenceRepository;
 import com.odc.suiviapprenants.repository.ReferentielRepository;
 import com.odc.suiviapprenants.service.ReferentielService;
 import com.odc.suiviapprenants.validator.ReferentielValidator;
@@ -14,7 +16,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.swing.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -26,8 +30,11 @@ public class ReferentielServiceImpl implements ReferentielService {
     @Autowired
     ReferentielRepository referentielRepository;
 
+    @Autowired
+    GroupeCompetenceRepository groupeCompetenceRepository;
+
     @Override
-    public ReferentielDto save(String libelle, String description, String critereEvaluation, String critereAdmission, MultipartFile programme) throws IOException {
+    public ReferentielDto save(String libelle, String description, String critereEvaluation, String critereAdmission, MultipartFile programme, String grpCompetences) throws IOException {
 
         ReferentielDto referentielDto = new ReferentielDto(
                 null,
@@ -35,8 +42,20 @@ public class ReferentielServiceImpl implements ReferentielService {
                 description,
                 critereAdmission,
                 critereEvaluation,
-                AdminServiceImpl.compressBytes(programme.getBytes())
+                AdminServiceImpl.compressBytes(programme.getBytes()),
+                null
         );
+
+        String[] groupeCompetences = grpCompetences.split(",");
+
+        List<GroupeCompetenceDto> = new ArrayList<GroupeCompetenceDto>();
+        for (String g : grpCompetences.split(",")) {
+            if (groupeCompetenceRepository.findByLibelleAndArchiveFalse(g).isPresent()){
+
+            }
+
+        }
+
         validation(referentielDto);
 
         return ReferentielDto.fromEntity(
@@ -63,7 +82,7 @@ public class ReferentielServiceImpl implements ReferentielService {
     }
 
     @Override
-    public ReferentielDto put(Long id, String libelle, String description, String critereEvaluation, String critereAdmission, MultipartFile programme) throws IOException {
+    public ReferentielDto put(Long id, String libelle, String description, String critereEvaluation, String critereAdmission, MultipartFile programme, String grpCompetences) throws IOException {
         Referentiel referentiel = referentielRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
                 new EntityNotFoundException(
                         "Aucun referentiel avec l'ID = " + id + " ne se trouve dans la BDD",

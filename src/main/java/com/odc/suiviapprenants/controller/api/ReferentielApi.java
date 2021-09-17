@@ -17,7 +17,8 @@ public interface ReferentielApi {
             @RequestParam String description,
             @RequestParam String critereEvaluation,
             @RequestParam String critereAdmission,
-            @RequestParam MultipartFile programme
+            @RequestParam MultipartFile programme,
+            @RequestParam String grpCompetences
     ) throws IOException;
 
     @GetMapping("/admin/referentiels")
@@ -33,7 +34,8 @@ public interface ReferentielApi {
             @RequestParam String description,
             @RequestParam String critereEvaluation,
             @RequestParam String critereAdmission,
-            @RequestParam MultipartFile programme
+            @RequestParam MultipartFile programme,
+            @RequestParam String grpCompetences
     ) throws IOException;
 
     @DeleteMapping("/admin/referentiels/{id}")

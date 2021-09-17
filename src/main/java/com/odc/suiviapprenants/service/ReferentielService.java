@@ -13,7 +13,8 @@ public interface ReferentielService {
             String description,
             String critereEvaluation,
             String critereAdmission,
-            MultipartFile programme
+            MultipartFile programme,
+            String grpCompetences
     ) throws IOException;
 
     List<ReferentielDto> findAll();
@@ -26,7 +27,8 @@ public interface ReferentielService {
             String description,
             String critereEvaluation,
             String critereAdmission,
-            MultipartFile programme
+            MultipartFile programme,
+            String grpCompetences
     ) throws IOException;
 
     void delete(Long id);
