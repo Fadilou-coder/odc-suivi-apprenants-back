@@ -1,38 +1,32 @@
 package com.odc.suiviapprenants.service.impl;
 
-import com.odc.suiviapprenants.model.Admin;
-import com.odc.suiviapprenants.model.Apprenant;
-import com.odc.suiviapprenants.model.User;
-import com.odc.suiviapprenants.repository.AdminRepository;
-import com.odc.suiviapprenants.repository.ApprenantRepository;
-import com.odc.suiviapprenants.repository.UserRepository;
+import com.odc.suiviapprenants.model.*;
+import com.odc.suiviapprenants.repository.*;
 import com.odc.suiviapprenants.service.ApplicationService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class ApplicationServiceImpl implements ApplicationService {
-
-    @Autowired
     UserRepository userRepository;
-
-    @Autowired
     AdminRepository adminRepository;
-
-    @Autowired
     ApprenantRepository apprenantRepository;
-
-    @Autowired
+    ReferentielRepository referentielRepository;
     private PasswordEncoder passwordEncoder;
+    private CompetenceRepository competenceRepository;
 
 
     @Override
-    public User findUserByUsername(String username) {
+    public AppUser findUserByUsername(String username) {
         return userRepository.findByUsername(username).get();
     }
 
@@ -51,4 +45,15 @@ public class ApplicationServiceImpl implements ApplicationService {
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
         return adminRepository.save(admin);
     }
+
+    @Override
+    public void saveAllAdmin(List<Admin> adminList) {
+        adminRepository.saveAll(adminList);
+    }
+
+    @Override
+    public void saveAllCompetence(List<Competence> competenceList) {competenceRepository.saveAll(competenceList);}
+
+    @Override
+    public void saveAllReferentiel(List<Referentiel> referentielList) {referentielRepository.saveAll(referentielList);}
 }

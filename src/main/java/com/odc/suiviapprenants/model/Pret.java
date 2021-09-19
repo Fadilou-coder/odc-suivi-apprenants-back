@@ -4,8 +4,6 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
@@ -14,11 +12,8 @@ public class Pret extends AbstractEntity {
 
     private Date datePret = new Date();
 
-    @NotBlank(message = "La référence est obligatoire")
-    @NotNull(message = "La référence ne peut pas être nul")
     private String reference;
 
-    @NotNull(message = "La convention est obligatoire")
     private byte[] convention;
 
     private String etat;

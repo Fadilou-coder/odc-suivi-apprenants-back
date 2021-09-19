@@ -7,12 +7,13 @@ import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Role;
-import com.odc.suiviapprenants.model.User;
+import com.odc.suiviapprenants.model.AppUser;
 import com.odc.suiviapprenants.repository.AdminRepository;
 import com.odc.suiviapprenants.repository.RoleRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
 import com.odc.suiviapprenants.service.AdminService;
 import com.odc.suiviapprenants.validator.UserValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,14 +32,10 @@ import java.util.zip.Deflater;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class AdminServiceImpl implements AdminService {
-
-    @Autowired
-    private AdminRepository adminRepository;
-    @Autowired
+    AdminRepository adminRepository;
     UserRepository userRepository;
-
-    @Autowired
     RoleRepository repository;
 
     @Override
@@ -73,7 +70,7 @@ public class AdminServiceImpl implements AdminService {
         adminDto.setPassword(encoder.encode("password"));
         adminDto.setRole(RoleDto.fromEntity(role1));
         validation(adminDto);
-
+        log.info(adminDto.toString());
         return AdminDto.fromEntity(
                 adminRepository.save(
                         AdminDto.toEntity(adminDto)
@@ -188,7 +185,7 @@ public class AdminServiceImpl implements AdminService {
 
 
     private boolean userAlreadyExists(String email, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null){
             user = userRepository.findByEmail(email);
         }else {
@@ -197,7 +194,7 @@ public class AdminServiceImpl implements AdminService {
         return user.isPresent();
     }
     private boolean userAlreadyExistsUsername(String username, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null) {
             user = userRepository.findByUsername(username);
         }else {
@@ -206,7 +203,7 @@ public class AdminServiceImpl implements AdminService {
         return user.isPresent();
     }
     private boolean userAlreadyExistsPhone(String phone, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null) {
             user = userRepository.findByNumeroTelephone(phone);
         }else {
@@ -216,7 +213,7 @@ public class AdminServiceImpl implements AdminService {
     }
 
     private boolean userAlreadyExistsCni(String cni, Long id) {
-        Optional<User> user;
+        Optional<AppUser> user;
         if (id == null) {
             user = userRepository.findByCni(cni);
         }else {

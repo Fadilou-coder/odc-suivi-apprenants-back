@@ -29,8 +29,18 @@ public class GroupeCompetence extends AbstractEntity {
         competence.getGroupeCompetences().add(this);
     }
 
+    public void removeCompetence(Competence competence) {
+        this.competences.remove(competence);
+        competence.getGroupeCompetences().remove(this);
+    }
+
     public void addTag(Tag tag) {
         this.tags.add(tag);
         tag.getGroupeCompetences().add(this);
+    }
+
+    public void removeTag(Tag tag){
+        this.tags.remove(tag);
+        tag.getGroupeCompetences().remove(this);
     }
 }

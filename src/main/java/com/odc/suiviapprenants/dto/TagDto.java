@@ -1,13 +1,15 @@
 package com.odc.suiviapprenants.dto;
 
 import com.odc.suiviapprenants.model.Tag;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TagDto {
     private Long id;
     private String libelle;
@@ -21,12 +23,11 @@ public class TagDto {
                 .build();
     }
 
-    public static Tag toEntity(TagDto tagDto) {
+    public static Tag toEntity(TagDto tagDto){
         if (tagDto == null) return null;
         Tag tag = new Tag();
         tag.setId(tagDto.getId());
         tag.setLibelle(tagDto.getLibelle());
-
         return tag;
     }
 }

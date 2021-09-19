@@ -8,35 +8,51 @@ import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Competence;
 import com.odc.suiviapprenants.model.GroupeCompetence;
+import com.odc.suiviapprenants.model.Tag;
 import com.odc.suiviapprenants.repository.CompetenceRepository;
 import com.odc.suiviapprenants.repository.GroupeCompetenceRepository;
 import com.odc.suiviapprenants.repository.TagRepository;
 import com.odc.suiviapprenants.service.GroupeCompetenceService;
+import com.odc.suiviapprenants.validator.CompetenceValidator;
 import com.odc.suiviapprenants.validator.GroupeCompetenceValidator;
+import com.odc.suiviapprenants.validator.TagValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.hibernate.validator.internal.util.CollectionHelper.newArrayList;
-
 @Service
 @Slf4j
+@AllArgsConstructor
 public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
-    @Autowired
-    GroupeCompetenceRepository repository;
-    @Autowired
+    GroupeCompetenceRepository groupeCompetenceRepository;
     CompetenceRepository competenceRepository;
-    @Autowired
     TagRepository tagRepository;
 
     @Override
     public List<GroupeCompetenceDto> findAll() {
-        return repository.findAllByArchiveFalse().stream()
+        return groupeCompetenceRepository.findAllByArchiveFalse().stream()
                 .map(GroupeCompetenceDto::fromEntity)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CompetenceDto> findCompetences(Long id) {
+        if(id == null) {
+            log.error("Groupe competence ID is null");
+            return null;
+        }
+        if(!groupeCompetenceRepository.findByIdAndArchiveFalse(id).isPresent()) {
+            throw new EntityNotFoundException(
+                    "Aucun groupe de compétence avec l'ID = " + id + " ne se trouve dans la BDD",
+                    ErrorCodes.GROUPE_COMPETENCE_NOT_FOUND
+                );
+        }
+        return competenceRepository.findAllByGroupeCompetencesId(id).stream()
+                .map(CompetenceDto::fromEntity)
                 .collect(Collectors.toList());
     }
 
@@ -54,26 +70,11 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
         }
 
         GroupeCompetence groupeCompetence = GroupeCompetenceDto.toEntity(groupeCompetenceDto);
-        groupeCompetenceDto.getCompetences().forEach(competenceDto -> {
-            if(competenceRepository.findByLibelleAndArchiveFalse(competenceDto.getLibelle()).isPresent()) {
-                groupeCompetence.addCompetence(competenceRepository.findByLibelleAndArchiveFalse(competenceDto.getLibelle()).get());
-                groupeCompetence.getCompetences().remove(CompetenceDto.toEntity(competenceDto));
-            }
-            else {
-                //put code for competence validator
-            }
-        });
-        groupeCompetenceDto.getTags().forEach(tagDto -> {
-            if(tagRepository.findByLibelleAndArchiveFalse(tagDto.getLibelle()).isPresent()) {
-                groupeCompetence.addTag(tagRepository.findByLibelleAndArchiveFalse(tagDto.getLibelle()).get());
-                groupeCompetence.getTags().remove(TagDto.toEntity(tagDto));
-            }
-            else {
-                //put code for empty libelle tag validator
-            }
-        });
+        addCompetences(groupeCompetenceDto, groupeCompetence);
+        addTags(groupeCompetenceDto, groupeCompetence);
+
         return GroupeCompetenceDto.fromEntity(
-                repository.save(groupeCompetence)
+                groupeCompetenceRepository.save(groupeCompetence)
         );
     }
 
@@ -83,7 +84,7 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
             log.error("Groupe competence ID is null");
             return null;
         }
-        return repository.findByIdAndArchiveFalse(id).map(GroupeCompetenceDto::fromEntity).orElseThrow(() ->
+        return groupeCompetenceRepository.findByIdAndArchiveFalse(id).map(GroupeCompetenceDto::fromEntity).orElseThrow(() ->
                 new EntityNotFoundException(
                         "Aucun groupe de compétence avec l'ID = " + id + " ne se trouve dans la BDD",
                         ErrorCodes.GROUPE_COMPETENCE_NOT_FOUND)
@@ -95,32 +96,80 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
         if(id == null) {
             log.error("Groupe competence ID is null");
         }
-        GroupeCompetence groupeCompetence = repository.findByIdAndArchiveFalse(id).orElseThrow(() ->
+        GroupeCompetence groupeCompetence = groupeCompetenceRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
                 new EntityNotFoundException(
                         "Aucun groupe de compétence avec l'ID = " + id + " ne se trouve dans la BDD",
                         ErrorCodes.GROUPE_COMPETENCE_NOT_FOUND));
-        groupeCompetence.setArchive(false);
+        groupeCompetence.setArchive(true);
+
+        List<Competence> competences = competenceRepository.findAllByGroupeCompetencesId(id);
+        if(!competences.isEmpty()) {
+            competences.forEach(groupeCompetence::removeCompetence);
+        }
+
+        List<Tag> tags = tagRepository.findAllByGroupeCompetencesId(id);
+        if(!tags.isEmpty()){
+            tags.forEach(groupeCompetence::removeTag);
+        }
+
+        groupeCompetenceRepository.flush();
     }
 
     @Override
-    public GroupeCompetenceDto edit(GroupeCompetenceDto groupeCompetenceDto) {
-        return null;
+    public GroupeCompetenceDto edit(Long id, GroupeCompetenceDto groupeCompetenceDto) {
+        if(id == null) {
+            log.error("Groupe competence ID is null");
+        }
+        GroupeCompetence groupeCompetence = groupeCompetenceRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
+                new EntityNotFoundException(
+                        "Aucun groupe de compétence avec l'ID = " + id + " ne se trouve dans la BDD",
+                        ErrorCodes.GROUPE_COMPETENCE_NOT_FOUND));
+        groupeCompetence.setLibelle(groupeCompetenceDto.getLibelle());
+        groupeCompetence.setDescription(groupeCompetenceDto.getDescription());
+
+
+        groupeCompetenceDto.getCompetences().forEach(competenceDto -> {
+            if(competenceRepository.findByLibelleAndArchiveFalse(competenceDto.getLibelle()).isPresent()) {
+            }
+        });
+
+        groupeCompetenceRepository.flush();
+        return GroupeCompetenceDto.fromEntity(groupeCompetence);
     }
 
     private boolean groupeCompetenceAlreadyExist(String libelle) {
-        return repository.findByLibelleAndArchiveFalse(libelle).isPresent();
+        return groupeCompetenceRepository.findByLibelleAndArchiveFalse(libelle).isPresent();
     }
 
-    /*private void handleTag(GroupeCompetenceDto groupeCompetenceDto, List<TagDto> tagList) {
-        groupeCompetenceDto.getTags().forEach(tag->{
-            if (tagRepository.findByLibelleAndArchiveFalse(tag.getLibelle()).isPresent()) {
-                tagList.add(TagDto.fromEntity(tagRepository.findByLibelleAndArchiveFalse(tag.getLibelle()).get()));
-            }else {
-                if (!TagValidator.validate(tag).isEmpty()){
-                    throw new InvalidEntityException("Le libelle du tag ne doit pas être vide", ErrorCodes.TAG_NOT_VALID, TagValidator.validate(tag));
+    private void addCompetences(GroupeCompetenceDto groupeCompetenceDto, GroupeCompetence groupeCompetence) {
+        if(!groupeCompetenceDto.getCompetences().isEmpty()) {
+            groupeCompetenceDto.getCompetences().forEach(competenceDto -> {
+                if (!CompetenceValidator.validate(competenceDto).isEmpty()){
+                    throw new InvalidEntityException("Le libelle de la compétence ne doit pas être vide", ErrorCodes.COMPETENCE_NOT_VALID, CompetenceValidator.validate(competenceDto));
                 }
-                tagList.add(TagDto.fromEntity(tagRepository.save(TagDto.toEntity(tag))));
-            }
-        });
-    }*/
+                else {
+                    if(competenceRepository.findByLibelleAndArchiveFalse(competenceDto.getLibelle()).isPresent()) {
+                        groupeCompetence.addCompetence(competenceRepository.findByLibelleAndArchiveFalse(competenceDto.getLibelle()).get());
+                        groupeCompetence.getCompetences().remove(CompetenceDto.toEntity(competenceDto));
+                    }
+                }
+            });
+        }
+    }
+
+    private void addTags(GroupeCompetenceDto groupeCompetenceDto, GroupeCompetence groupeCompetence) {
+        if(!groupeCompetenceDto.getTags().isEmpty()) {
+            groupeCompetenceDto.getTags().forEach(tagDto -> {
+                if (!TagValidator.validate(tagDto).isEmpty()){
+                    throw new InvalidEntityException("Le libelle du tag ne doit pas être vide", ErrorCodes.TAG_NOT_VALID, TagValidator.validate(tagDto));
+                }
+                else {
+                    if(tagRepository.findByLibelleAndArchiveFalse(tagDto.getLibelle()).isPresent()) {
+                        groupeCompetence.addTag(tagRepository.findByLibelleAndArchiveFalse(tagDto.getLibelle()).get());
+                        groupeCompetence.getTags().remove(TagDto.toEntity(tagDto));
+                    }
+                }
+            });
+        }
+    }
 }

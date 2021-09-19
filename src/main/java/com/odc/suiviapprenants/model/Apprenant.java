@@ -11,7 +11,7 @@ import java.util.Collection;
 @Entity
 @NoArgsConstructor
 @Data
-public class Apprenant extends User {
+public class Apprenant extends AppUser {
 
     private String matricule;
 
@@ -39,5 +39,6 @@ public class Apprenant extends User {
 
     @OneToMany(mappedBy = "apprenant")
     private Collection<CompetenceValide> competenceValides;
+
 
 }
