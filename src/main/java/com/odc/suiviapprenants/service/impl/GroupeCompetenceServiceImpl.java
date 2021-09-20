@@ -20,6 +20,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -58,16 +60,7 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
 
     @Override
     public GroupeCompetenceDto save(GroupeCompetenceDto groupeCompetenceDto) {
-        List<String> errors = GroupeCompetenceValidator.validate(groupeCompetenceDto);
-        if(groupeCompetenceAlreadyExist(groupeCompetenceDto.getLibelle())) {
-            throw new InvalidEntityException("Un autre groupe de compétence avec le même libelle existe deja", ErrorCodes.GROUPE_COMPETENCE_ALREADY_IN_USE,
-                    Collections.singletonList("Un autre groupe de compétence avec le même libelle existe deja dans la BDD"));
-        }
-
-        if (!errors.isEmpty()) {
-            log.error("Groupe de compétence is not valid {}", groupeCompetenceDto);
-            throw new InvalidEntityException("Le groupe de compétence n'est pas valide", ErrorCodes.GROUPE_COMPETENCE_NOT_VALID, errors);
-        }
+        validateGroupeCompetences(groupeCompetenceDto);
 
         GroupeCompetence groupeCompetence = GroupeCompetenceDto.toEntity(groupeCompetenceDto);
         addCompetences(groupeCompetenceDto, groupeCompetence);
@@ -126,12 +119,8 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
                         ErrorCodes.GROUPE_COMPETENCE_NOT_FOUND));
         groupeCompetence.setLibelle(groupeCompetenceDto.getLibelle());
         groupeCompetence.setDescription(groupeCompetenceDto.getDescription());
-
-
-        groupeCompetenceDto.getCompetences().forEach(competenceDto -> {
-            if(competenceRepository.findByLibelleAndArchiveFalse(competenceDto.getLibelle()).isPresent()) {
-            }
-        });
+        editCompetences(groupeCompetenceDto, groupeCompetence);
+        editTags(groupeCompetenceDto, groupeCompetence);
 
         groupeCompetenceRepository.flush();
         return GroupeCompetenceDto.fromEntity(groupeCompetence);
@@ -139,6 +128,19 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
 
     private boolean groupeCompetenceAlreadyExist(String libelle) {
         return groupeCompetenceRepository.findByLibelleAndArchiveFalse(libelle).isPresent();
+    }
+
+    private void validateGroupeCompetences(GroupeCompetenceDto groupeCompetenceDto) {
+        List<String> errors = GroupeCompetenceValidator.validate(groupeCompetenceDto);
+        if(groupeCompetenceAlreadyExist(groupeCompetenceDto.getLibelle())) {
+            throw new InvalidEntityException("Un autre groupe de compétence avec le même libelle existe deja", ErrorCodes.GROUPE_COMPETENCE_ALREADY_IN_USE,
+                    Collections.singletonList("Un autre groupe de compétence avec le même libelle existe deja dans la BDD"));
+        }
+
+        if (!errors.isEmpty()) {
+            log.error("Groupe de compétence is not valid {}", groupeCompetenceDto);
+            throw new InvalidEntityException("Le groupe de compétence n'est pas valide", ErrorCodes.GROUPE_COMPETENCE_NOT_VALID, errors);
+        }
     }
 
     private void addCompetences(GroupeCompetenceDto groupeCompetenceDto, GroupeCompetence groupeCompetence) {
@@ -171,5 +173,58 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
                 }
             });
         }
+    }
+
+    private void editCompetences(GroupeCompetenceDto groupeCompetenceDto, GroupeCompetence groupeCompetence) {
+        List<String> competenceDtoLibelles = new ArrayList<>();
+        List<String> competenceLibelles = new ArrayList<>();
+        List<Competence> toRemove = new ArrayList<>();
+        groupeCompetenceDto.getCompetences().forEach(competenceDto -> {
+            competenceDtoLibelles.add(competenceDto.getLibelle());
+        });
+        groupeCompetence.getCompetences().forEach(competence -> {
+            competenceLibelles.add(competence.getLibelle());
+        });
+
+        groupeCompetenceDto.getCompetences().forEach(competenceDto -> {
+            if (competenceRepository.findByLibelleAndArchiveFalse(competenceDto.getLibelle()).isPresent() && !competenceLibelles.contains(competenceDto.getLibelle())) {
+                groupeCompetence.addCompetence(competenceRepository.findByLibelleAndArchiveFalse(competenceDto.getLibelle()).get());
+            }
+        });
+        groupeCompetence.getCompetences().forEach(competence -> {
+            if (!competenceDtoLibelles.contains(competence.getLibelle())) {
+                toRemove.add(competence);
+            }
+        });
+        toRemove.forEach(competence -> {
+            groupeCompetence.removeCompetence(competence);
+        });
+    }
+
+    private void editTags(GroupeCompetenceDto groupeCompetenceDto, GroupeCompetence groupeCompetence) {
+        List<String> tagDtoLibelles = new ArrayList<>();
+        List<String> tagLibelles = new ArrayList<>();
+        List<Tag> toRemove = new ArrayList<>();
+
+        groupeCompetenceDto.getTags().forEach(tagDto -> {
+            tagDtoLibelles.add(tagDto.getLibelle());
+        });
+        groupeCompetence.getTags().forEach(tag -> {
+            tagLibelles.add(tag.getLibelle());
+        });
+
+        groupeCompetenceDto.getTags().forEach(tagDto -> {
+            if (tagRepository.findByLibelleAndArchiveFalse(tagDto.getLibelle()).isPresent() && !tagLibelles.contains(tagDto.getLibelle())) {
+                groupeCompetence.addTag(tagRepository.findByLibelleAndArchiveFalse(tagDto.getLibelle()).get());
+            }
+        });
+        groupeCompetence.getTags().forEach(tag -> {
+            if (!tagDtoLibelles.contains(tag.getLibelle())) {
+                toRemove.add(tag);
+            }
+        });
+        toRemove.forEach(tag -> {
+            groupeCompetence.removeTag(tag);
+        });
     }
 }

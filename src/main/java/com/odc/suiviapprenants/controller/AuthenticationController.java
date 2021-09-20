@@ -6,7 +6,7 @@ import com.odc.suiviapprenants.dto.auth.AuthenticationRequest;
 import com.odc.suiviapprenants.dto.auth.AuthenticationResponse;
 import com.odc.suiviapprenants.service.impl.UserDetailsServiceImpl;
 import com.odc.suiviapprenants.utils.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,15 +19,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 public class AuthenticationController implements AuthenticationApi {
-
-  @Autowired
   private AuthenticationManager authenticationManager;
-
-  @Autowired
   private UserDetailsServiceImpl userDetailsService;
-
-  @Autowired
   private JwtUtil jwtUtil;
 
   @Override

@@ -3,9 +3,7 @@ package com.odc.suiviapprenants.dto;
 import com.odc.suiviapprenants.model.Competence;
 import lombok.Builder;
 import lombok.Data;
-
 import java.util.List;
-
 import javax.persistence.Id;
 import java.util.stream.Collectors;
 
@@ -44,6 +42,7 @@ public class CompetenceDto {
         Competence competence = new Competence();
         competence.setId(competenceDto.getId());
         competence.setLibelle(competenceDto.getLibelle());
+
         return competence;
     }
 }

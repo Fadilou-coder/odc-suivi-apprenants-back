@@ -3,7 +3,7 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.ApprenantApi;
 import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.service.ApprenantService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,9 +11,8 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class ApprenantController implements ApprenantApi {
-
-    @Autowired
     ApprenantService apprenantService;
 
     @Override

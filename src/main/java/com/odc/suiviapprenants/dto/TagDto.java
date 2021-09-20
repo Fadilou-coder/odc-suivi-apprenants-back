@@ -14,7 +14,7 @@ public class TagDto {
     private Long id;
     private String libelle;
 
-    public static TagDto fromEntity(Tag tag) {
+    public static TagDto fromEntity(Tag tag){
         if (tag == null) return null;
 
         return TagDto.builder()

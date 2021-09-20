@@ -1,7 +1,6 @@
 package com.odc.suiviapprenants.dto;
 
 import com.odc.suiviapprenants.model.GroupeTag;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

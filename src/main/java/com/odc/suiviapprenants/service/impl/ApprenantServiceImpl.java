@@ -52,9 +52,7 @@ public class ApprenantServiceImpl implements ApprenantService {
         );
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         apprenantDto.setPassword(encoder.encode("password"));
-
-      //  validation(apprenantDto);
-
+        validation(apprenantDto);
         return ApprenantDto.fromEntity(
                 apprenantRepository.save(
                         ApprenantDto.toEntity(apprenantDto)
@@ -128,9 +126,6 @@ public class ApprenantServiceImpl implements ApprenantService {
 
     private void validation(ApprenantDto apprenantDto) {
         List<String> errors = UserValidator.Appvalidate(apprenantDto);
-
-        log.error(apprenantDto.toString());
-
         if(userAlreadyExists(apprenantDto.getEmail(), apprenantDto.getId())) {
             throw new InvalidEntityException("Un autre utilisateur avec le meme email existe deja", ErrorCodes.APPRENANT_ALREADY_IN_USE,
                     Collections.singletonList("Un autre utilisateur avec le meme email existe deja dans la BDD"));

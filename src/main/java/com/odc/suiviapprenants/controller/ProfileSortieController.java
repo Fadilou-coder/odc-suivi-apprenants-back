@@ -3,15 +3,12 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.ProfileSortieApi;
 import com.odc.suiviapprenants.dto.ProfilSortieDto;
 import com.odc.suiviapprenants.service.ProfileSortieService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 public class ProfileSortieController implements ProfileSortieApi {
-
-    @Autowired
     ProfileSortieService profileSortieService;
 
     @Override

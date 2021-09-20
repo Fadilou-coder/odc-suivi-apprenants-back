@@ -12,9 +12,7 @@ import java.util.Collection;
 @NoArgsConstructor
 @Data
 public class Apprenant extends AppUser {
-
     private String matricule;
-
     private String etat;
 
     private String role;
