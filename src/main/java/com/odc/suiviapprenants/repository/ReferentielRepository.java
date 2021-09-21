@@ -12,4 +12,5 @@ public interface ReferentielRepository extends JpaRepository<Referentiel, Long> 
     Optional<Referentiel> findByIdAndArchiveFalse(Long id);
 
     List<Referentiel> findAllByArchiveFalse();
+    List<Referentiel> findAllByGroupeCompetencesId(Long id);
 }

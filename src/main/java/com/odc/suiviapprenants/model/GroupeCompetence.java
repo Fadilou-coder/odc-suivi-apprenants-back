@@ -43,4 +43,9 @@ public class GroupeCompetence extends AbstractEntity {
         this.tags.remove(tag);
         tag.getGroupeCompetences().remove(this);
     }
+
+    public void removeReferentiel(Referentiel referentiel) {
+        this.referentiels.remove(referentiel);
+        referentiel.getGroupeCompetences().remove(this);
+    }
 }

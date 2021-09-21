@@ -8,9 +8,11 @@ import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Competence;
 import com.odc.suiviapprenants.model.GroupeCompetence;
+import com.odc.suiviapprenants.model.Referentiel;
 import com.odc.suiviapprenants.model.Tag;
 import com.odc.suiviapprenants.repository.CompetenceRepository;
 import com.odc.suiviapprenants.repository.GroupeCompetenceRepository;
+import com.odc.suiviapprenants.repository.ReferentielRepository;
 import com.odc.suiviapprenants.repository.TagRepository;
 import com.odc.suiviapprenants.service.GroupeCompetenceService;
 import com.odc.suiviapprenants.validator.CompetenceValidator;
@@ -21,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +34,7 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
     GroupeCompetenceRepository groupeCompetenceRepository;
     CompetenceRepository competenceRepository;
     TagRepository tagRepository;
+    ReferentielRepository referentielRepository;
 
     @Override
     public List<GroupeCompetenceDto> findAll() {
@@ -103,6 +105,11 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
         List<Tag> tags = tagRepository.findAllByGroupeCompetencesId(id);
         if(!tags.isEmpty()){
             tags.forEach(groupeCompetence::removeTag);
+        }
+
+        List<Referentiel> referentiels = referentielRepository.findAllByGroupeCompetencesId(id);
+        if(!referentiels.isEmpty()) {
+            referentiels.forEach(groupeCompetence::removeReferentiel);
         }
 
         groupeCompetenceRepository.flush();

@@ -146,7 +146,7 @@ public class ReferentielServiceImpl implements ReferentielService {
     }
 
     private void handleGrpCompetences(String grpCompetences, ReferentielDto referentielDto) {
-        List<GroupeCompetenceDto> groupeCompetences= new ArrayList<GroupeCompetenceDto>();
+        List<GroupeCompetenceDto> groupeCompetences= new ArrayList<>();
         for (String g : grpCompetences.split(",")) {
             if (groupeCompetenceRepository.findByLibelleAndArchiveFalse(g).isPresent()){
                 groupeCompetences.add(GroupeCompetenceDto.fromEntity(groupeCompetenceRepository.findByLibelleAndArchiveFalse(g).get()));
