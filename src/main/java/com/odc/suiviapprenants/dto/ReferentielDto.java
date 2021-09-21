@@ -1,17 +1,19 @@
 package com.odc.suiviapprenants.dto;
 
-import com.odc.suiviapprenants.model.NiveauEvaluation;
 import com.odc.suiviapprenants.model.Referentiel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.modelmapper.ModelMapper;
 
 import javax.persistence.Id;
 
+import javax.persistence.Lob;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Data
 @Builder
+@AllArgsConstructor
 public class ReferentielDto {
     @Id
     private Long id;
@@ -24,13 +26,17 @@ public class ReferentielDto {
 
     private String critereEvaluation;
 
-    protected byte[] programme;
+    @Lob
+    private byte[] programme;
 
-    public static ReferentielDto fromEntity(Referentiel referentiel)
-    {
-        if(referentiel == null){
+    private List<GroupeCompetenceDto> groupeCompetences;
+
+    public  static ReferentielDto fromEntity(Referentiel referentiel){
+
+        if (referentiel == null){
             return null;
         }
+
         return ReferentielDto.builder()
                 .id(referentiel.getId())
                 .libelle(referentiel.getLibelle())
@@ -38,21 +44,27 @@ public class ReferentielDto {
                 .critereAdmission(referentiel.getCritereAdmission())
                 .critereEvaluation(referentiel.getCritereEvaluation())
                 .programme(referentiel.getProgramme())
+                .groupeCompetences(
+                        referentiel.getGroupeCompetences() != null ?
+                                referentiel.getGroupeCompetences().stream()
+                                        .map(GroupeCompetenceDto::fromEntity)
+                                        .collect(Collectors.toList()) : null
+                )
                 .build();
     }
 
-    public static  Referentiel toEntity(ReferentielDto referentielDto)
-    {
-        if(referentielDto == null){
-            return null;
-        }
+    public static Referentiel toEntity(ReferentielDto referentielDto){
+        if (referentielDto == null) return null;
+
         Referentiel referentiel = new Referentiel();
-        referentiel.setId(referentielDto.getId());
         referentiel.setLibelle(referentielDto.getLibelle());
-        referentiel.setDescription(referentielDto.getDescription());
+        referentiel.setId(referentielDto.getId());
         referentiel.setCritereAdmission(referentielDto.getCritereAdmission());
-        referentiel.setCritereEvaluation(referentiel.getCritereEvaluation());
+        referentiel.setCritereEvaluation(referentielDto.getCritereEvaluation());
+        referentiel.setDescription(referentielDto.getDescription());
         referentiel.setProgramme(referentielDto.getProgramme());
+        referentiel.setGroupeCompetences(referentielDto.getGroupeCompetences().stream().map(GroupeCompetenceDto::toEntity).collect(Collectors.toList()));
+
         return referentiel;
     }
 }

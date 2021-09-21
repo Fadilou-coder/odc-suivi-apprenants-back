@@ -11,6 +11,7 @@ import com.odc.suiviapprenants.repository.CompetenceRepository;
 import com.odc.suiviapprenants.repository.NiveauEvaluationRepository;
 import com.odc.suiviapprenants.service.CompetenceService;
 import com.odc.suiviapprenants.validator.CompetenceValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +22,14 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class CompetenceServiceImpl implements CompetenceService {
-
-    @Autowired
-    private CompetenceRepository competenceRepository;
-    @Autowired
-    private NiveauEvaluationRepository niveauEvaluationRepository;
+    CompetenceRepository competenceRepository;
+    NiveauEvaluationRepository niveauEvaluationRepository;
 
     @Override
     public CompetenceDto save(CompetenceDto competenceDto) {
-        List<String> errors = CompetenceValidator.validateCompetence(competenceDto);
+        List<String> errors = CompetenceValidator.validate(competenceDto);
         if (isExistLibelleCompetence(competenceDto.getLibelle()))
         {
             throw new InvalidEntityException("Competence existe deja", ErrorCodes.COMPETENCE_ALREADY_IN_USE, errors);

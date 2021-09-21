@@ -7,6 +7,7 @@ import com.odc.suiviapprenants.model.ProfilSortie;
 import com.odc.suiviapprenants.repository.ProfilSortieRepository;
 import com.odc.suiviapprenants.service.ProfileSortieService;
 import com.odc.suiviapprenants.validator.ProfileSortieValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class ProfileSortieImp implements ProfileSortieService {
-
-    @Autowired
     ProfilSortieRepository profilSortieRepository;
+
     @Override
     public ProfilSortieDto save(ProfilSortieDto profilSortieDto) {
         List<String> errors = ProfileSortieValidator.validate(profilSortieDto);

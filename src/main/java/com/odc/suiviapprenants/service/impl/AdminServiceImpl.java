@@ -13,6 +13,7 @@ import com.odc.suiviapprenants.repository.RoleRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
 import com.odc.suiviapprenants.service.AdminService;
 import com.odc.suiviapprenants.validator.UserValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,14 +32,10 @@ import java.util.zip.Deflater;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class AdminServiceImpl implements AdminService {
-
-    @Autowired
-    private AdminRepository adminRepository;
-    @Autowired
+    AdminRepository adminRepository;
     UserRepository userRepository;
-
-    @Autowired
     RoleRepository repository;
 
     @Override
@@ -73,7 +70,6 @@ public class AdminServiceImpl implements AdminService {
         adminDto.setPassword(encoder.encode("password"));
         adminDto.setRole(RoleDto.fromEntity(role1));
         validation(adminDto);
-        log.info(adminDto.toString());
         return AdminDto.fromEntity(
                 adminRepository.save(
                         AdminDto.toEntity(adminDto)
@@ -129,9 +125,6 @@ public class AdminServiceImpl implements AdminService {
                         String cni,
                         MultipartFile avatar,
                         String dateNaissance) throws IOException {
-        if (id == null) {
-            log.error("User ID is null");
-        }
 
         Admin admin = adminRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
                 new EntityNotFoundException(
@@ -163,12 +156,10 @@ public class AdminServiceImpl implements AdminService {
             throw new InvalidEntityException("Un autre utilisateur avec le meme nom d'utilisateur existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
                     Collections.singletonList("Un autre utilisateur avec le meme nom d'utilisateur existe deja dans la BDD"));
         }
-
         if(userAlreadyExists(adminDto.getEmail(), adminDto.getId())) {
             throw new InvalidEntityException("Un autre utilisateur avec le meme email existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
                     Collections.singletonList("Un autre utilisateur avec le meme email existe deja dans la BDD"));
         }
-
 
         if(userAlreadyExistsPhone(adminDto.getNumeroTelephone(), adminDto.getId())) {
             throw new InvalidEntityException("Un autre utilisateur avec le meme numero de telephone existe deja", ErrorCodes.ADMIN_ALREADY_IN_USE,
@@ -241,6 +232,7 @@ public class AdminServiceImpl implements AdminService {
             ignore.printStackTrace();
         }
         System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
+
 
         return outputStream.toByteArray();
     }
