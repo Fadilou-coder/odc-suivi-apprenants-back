@@ -11,7 +11,7 @@ import java.util.List;
 @Api("referentiel")
 public interface ReferentielApi {
 
-    @PostMapping("/admin/referentiels")
+    @PostMapping("/referentiels")
     ReferentielDto save(
             @RequestParam String libelle,
             @RequestParam String description,
@@ -21,13 +21,13 @@ public interface ReferentielApi {
             @RequestParam String grpCompetences
     ) throws IOException;
 
-    @GetMapping("/admin/referentiels")
+    @GetMapping("/referentiels")
     List<ReferentielDto> findAll();
 
-    @GetMapping("/admin/referentiels/{id}")
+    @GetMapping("/referentiels/{id}")
     ReferentielDto findById(@PathVariable Long id);
 
-    @PutMapping("/admin/referentiels/{id}")
+    @PutMapping("/referentiels/{id}")
     ReferentielDto put(
             @PathVariable Long id,
             @RequestParam String libelle,
@@ -38,6 +38,6 @@ public interface ReferentielApi {
             @RequestParam String grpCompetences
     ) throws IOException;
 
-    @DeleteMapping("/admin/referentiels/{id}")
+    @DeleteMapping("/referentiels/{id}")
     void delete(@PathVariable Long id);
 }

@@ -22,6 +22,7 @@ public class ProfileSortieImp implements ProfileSortieService {
 
     @Autowired
     ProfilSortieRepository profilSortieRepository;
+
     @Override
     public ProfilSortieDto save(ProfilSortieDto profilSortieDto) {
         List<String> errors = ProfileSortieValidator.validate(profilSortieDto);
@@ -66,9 +67,7 @@ public class ProfileSortieImp implements ProfileSortieService {
 
     @Override
     public void delete(Long id) {
-        if (id == null) {
-            log.error("role ID is null");
-        }
+        if (id == null) return;
 
         ProfilSortie profilSortie = profilSortieRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(
@@ -80,9 +79,7 @@ public class ProfileSortieImp implements ProfileSortieService {
 
     @Override
     public ProfilSortieDto put(ProfilSortieDto profilSortieDto,Long id) {
-        if (id == null) {
-            log.error("role ID is null");
-        }
+        if (id == null) return null;
 
         ProfilSortie profilSortie = profilSortieRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(

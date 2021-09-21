@@ -10,6 +10,7 @@ public interface UserRepository extends PagingAndSortingRepository<AppUser, Long
     Optional<AppUser> findByNumeroTelephoneAndIdNot(String num, Long id);
     Optional<AppUser> findByUsernameAndIdNot(String username, Long id);
     Optional<AppUser> findByCniAndIdNot(String cni, Long id);
+    Optional<AppUser> findByUsernameAndArchiveFalse(String username);
 
     Optional<AppUser> findByEmail(String email);
     Optional<AppUser> findByNumeroTelephone(String num);

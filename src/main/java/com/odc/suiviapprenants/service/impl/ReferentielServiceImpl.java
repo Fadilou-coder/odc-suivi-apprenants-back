@@ -1,12 +1,9 @@
 package com.odc.suiviapprenants.service.impl;
-import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.GroupeCompetenceDto;
 import com.odc.suiviapprenants.dto.ReferentielDto;
-import com.odc.suiviapprenants.dto.RoleDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
-import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Referentiel;
 import com.odc.suiviapprenants.repository.GroupeCompetenceRepository;
 import com.odc.suiviapprenants.repository.ReferentielRepository;
@@ -15,8 +12,6 @@ import com.odc.suiviapprenants.validator.ReferentielValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -123,13 +118,14 @@ public class ReferentielServiceImpl implements ReferentielService {
     }
 
     private void handleGrpCompetences(String grpCompetences, ReferentielDto referentielDto) {
-        List<GroupeCompetenceDto> groupeCompetences= new ArrayList<GroupeCompetenceDto>();
+        List<GroupeCompetenceDto> groupeCompetences= new ArrayList<>();
         for (String g : grpCompetences.split(",")) {
             if (groupeCompetenceRepository.findByLibelleAndArchiveFalse(g).isPresent()){
                 groupeCompetences.add(GroupeCompetenceDto.fromEntity(groupeCompetenceRepository.findByLibelleAndArchiveFalse(g).get()));
             }
 
         }
+        referentielDto.setGroupeCompetences(groupeCompetences);
         validation(referentielDto);
     }
 }
