@@ -10,6 +10,7 @@ import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
 import com.odc.suiviapprenants.service.ApprenantService;
 import com.odc.suiviapprenants.validator.UserValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -26,12 +27,9 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class ApprenantServiceImpl implements ApprenantService {
-
-    @Autowired
     ApprenantRepository apprenantRepository;
-
-    @Autowired
     UserRepository userRepository;
 
     @Override
@@ -54,9 +52,7 @@ public class ApprenantServiceImpl implements ApprenantService {
         );
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         apprenantDto.setPassword(encoder.encode("password"));
-
-      //  validation(apprenantDto);
-
+        validation(apprenantDto);
         return ApprenantDto.fromEntity(
                 apprenantRepository.save(
                         ApprenantDto.toEntity(apprenantDto)
@@ -130,9 +126,6 @@ public class ApprenantServiceImpl implements ApprenantService {
 
     private void validation(ApprenantDto apprenantDto) {
         List<String> errors = UserValidator.Appvalidate(apprenantDto);
-
-        log.error(apprenantDto.toString());
-
         if(userAlreadyExists(apprenantDto.getEmail(), apprenantDto.getId())) {
             throw new InvalidEntityException("Un autre utilisateur avec le meme email existe deja", ErrorCodes.APPRENANT_ALREADY_IN_USE,
                     Collections.singletonList("Un autre utilisateur avec le meme email existe deja dans la BDD"));

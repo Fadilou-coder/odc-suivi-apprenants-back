@@ -14,6 +14,7 @@ import com.odc.suiviapprenants.repository.NiveauEvaluationRepository;
 import com.odc.suiviapprenants.repository.ReferentielRepository;
 import com.odc.suiviapprenants.service.NiveauEvaluationService;
 import com.odc.suiviapprenants.validator.NiveauEvaluationValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,12 +27,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class NiveauEvaluationServiceImpl  implements NiveauEvaluationService {
-    @Autowired
-    private ReferentielRepository referentielRepository;
-
-    @Autowired
-    private NiveauEvaluationRepository niveauEvaluationRepository;
+    ReferentielRepository referentielRepository;
+    NiveauEvaluationRepository niveauEvaluationRepository;
 
     @Override
     public NiveauEvaluationDto save(NiveauEvaluationDto niveauEvaluationDto) {

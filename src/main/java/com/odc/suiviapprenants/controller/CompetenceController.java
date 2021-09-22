@@ -3,15 +3,16 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.CompetenceApi;
 import com.odc.suiviapprenants.dto.CompetenceDto;
 import com.odc.suiviapprenants.service.CompetenceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class CompetenceController implements CompetenceApi {
-    @Autowired
     private CompetenceService competenceService;
+
     @Override
     public CompetenceDto save(CompetenceDto competenceDto) {
        return competenceService.save(competenceDto);

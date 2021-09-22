@@ -14,7 +14,8 @@ public class NiveauEvaluationValidator {
 
     public static List<String> validateNiveauEvalutaion(NiveauEvaluationDto niveauEvaluationDto)
     {
-        return getString(niveauEvaluationDto == null, niveauEvaluationDto.getLibelle(),
+        assert niveauEvaluationDto != null;
+        return getString(false, niveauEvaluationDto.getLibelle(),
                 niveauEvaluationDto.getGroupeAction(), niveauEvaluationDto.getCritereEvaluation(),
                 niveauEvaluationDto.getReferentiel() == null);
     }

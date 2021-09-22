@@ -3,15 +3,12 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.TagApi;
 import com.odc.suiviapprenants.dto.TagDto;
 import com.odc.suiviapprenants.service.TagService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 public class TagController implements TagApi {
-
-    @Autowired
     private TagService tagService;
 
     @Override

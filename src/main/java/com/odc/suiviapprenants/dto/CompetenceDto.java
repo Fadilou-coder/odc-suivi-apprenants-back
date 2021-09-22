@@ -1,12 +1,10 @@
 package com.odc.suiviapprenants.dto;
+
 import com.odc.suiviapprenants.model.Competence;
-import com.odc.suiviapprenants.model.NiveauEvaluation;
 import lombok.Builder;
 import lombok.Data;
-import org.modelmapper.ModelMapper;
-
+import java.util.List;
 import javax.persistence.Id;
-import java.util.*;
 import java.util.stream.Collectors;
 
 @Data
@@ -44,7 +42,7 @@ public class CompetenceDto {
         Competence competence = new Competence();
         competence.setId(competenceDto.getId());
         competence.setLibelle(competenceDto.getLibelle());
-        //   competence.setNiveauEvaluations(competenceDto.getNiveauEvaluations().stream().map(NiveauEvaluationDto::toEntity).collect(Collectors.toList()));
+
         return competence;
     }
 }

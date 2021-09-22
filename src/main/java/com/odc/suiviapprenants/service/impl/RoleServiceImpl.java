@@ -11,6 +11,7 @@ import com.odc.suiviapprenants.repository.AdminRepository;
 import com.odc.suiviapprenants.repository.RoleRepository;
 import com.odc.suiviapprenants.service.RoleService;
 import com.odc.suiviapprenants.validator.RoleValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,13 +21,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class RoleServiceImpl implements RoleService {
-
-    @Autowired
-    private RoleRepository rolerepository;
-
-    @Autowired
-    private AdminRepository adminRepository;
+    RoleRepository rolerepository;
+    AdminRepository adminRepository;
 
     @Override
     public RoleDto save(RoleDto roleDto) {
