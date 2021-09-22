@@ -216,6 +216,7 @@ public class AdminServiceImpl implements AdminService {
         return user.isPresent();
     }
     public static byte[] compressBytes(byte[] data) {
+
         Deflater deflater = new Deflater();
         deflater.setInput(data);
         deflater.finish();
@@ -228,11 +229,11 @@ public class AdminServiceImpl implements AdminService {
         }
         try {
             outputStream.close();
-        } catch (IOException ignore) {
-            ignore.printStackTrace();
+        } catch (IOException ignor) {
+            ignor.printStackTrace();
         }
         System.out.println("Compressed Image Byte Size - " + outputStream.toByteArray().length);
-
+        if (outputStream.toByteArray().length == 8) return null;
 
         return outputStream.toByteArray();
     }

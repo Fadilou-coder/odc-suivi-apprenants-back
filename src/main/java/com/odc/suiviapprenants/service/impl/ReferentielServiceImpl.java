@@ -10,9 +10,9 @@ import com.odc.suiviapprenants.repository.ReferentielRepository;
 import com.odc.suiviapprenants.service.ReferentielService;
 import com.odc.suiviapprenants.validator.ReferentielValidator;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,6 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 public class ReferentielServiceImpl implements ReferentielService {
     ReferentielRepository referentielRepository;
@@ -153,6 +154,7 @@ public class ReferentielServiceImpl implements ReferentielService {
             }
 
         }
+        referentielDto.setGroupeCompetences(groupeCompetences);
         validation(referentielDto);
     }
 }
