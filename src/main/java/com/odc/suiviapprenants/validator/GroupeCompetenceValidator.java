@@ -18,7 +18,7 @@ public class GroupeCompetenceValidator {
         if (!StringUtils.hasLength(groupeCompetenceDto.getLibelle())) {
             errors.add("Veuillez renseigner le libelle'");
         }
-        if (!StringUtils.hasLength(groupeCompetenceDto.getLibelle())) {
+        if (!StringUtils.hasLength(groupeCompetenceDto.getDescription())) {
             errors.add("Veuillez renseigner la description'");
         }
         return errors;

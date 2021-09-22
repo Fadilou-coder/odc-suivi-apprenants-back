@@ -12,11 +12,4 @@ public class AuthenticationResponse {
 
   private String accessToken;
   private List<String> role;
-
-//  public AuthenticationResponse(String accessToken, List<String> roles)
-//  {
-//    this.accessToken = accessToken;
-//    this.role = roles;
-//  }
-
 }

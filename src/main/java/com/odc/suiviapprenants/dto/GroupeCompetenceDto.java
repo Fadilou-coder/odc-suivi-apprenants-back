@@ -1,8 +1,6 @@
 package com.odc.suiviapprenants.dto;
 
-import com.odc.suiviapprenants.model.Competence;
 import com.odc.suiviapprenants.model.GroupeCompetence;
-import com.odc.suiviapprenants.model.Tag;
 import lombok.Builder;
 import lombok.Data;
 

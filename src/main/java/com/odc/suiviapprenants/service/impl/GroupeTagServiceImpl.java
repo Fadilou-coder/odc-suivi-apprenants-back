@@ -11,6 +11,7 @@ import com.odc.suiviapprenants.repository.TagRepository;
 import com.odc.suiviapprenants.service.GroupeTagService;
 import com.odc.suiviapprenants.validator.GroupeTagValidator;
 import com.odc.suiviapprenants.validator.TagValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class GroupeTagServiceImpl implements GroupeTagService {
-
-    @Autowired
-    private TagRepository tagRepository;
-
-    @Autowired
-    private  GroupeTagRepository groupeTagRepository;
+    TagRepository tagRepository;
+    GroupeTagRepository groupeTagRepository;
 
     @Override
     public GroupeTagDto save(GroupeTagDto groupeTagDto) {
@@ -57,12 +55,13 @@ public class GroupeTagServiceImpl implements GroupeTagService {
         if (id == null) {
             log.error("Groupe de Tag ID is null");
         }
-        List<TagDto> tagList = new ArrayList<>();
-
         GroupeTag groupeTag = groupeTagRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
                 new EntityNotFoundException(
                         "Aucun Groupe de Tag avec l'ID = " + id + " ne se trouve dans la BDD",
                         ErrorCodes.GROUPE_TAG_NOT_FOUND));
+
+        List<TagDto> tagList = new ArrayList<>();
+
         handleTag(groupeTagDto, tagList);
         groupeTag.setLibelle(groupeTagDto.getLibelle());
         groupeTag.setTags(groupeTagDto.getTags().stream().map(TagDto::toEntity).collect(Collectors.toList()));
@@ -73,8 +72,8 @@ public class GroupeTagServiceImpl implements GroupeTagService {
 
     private void handleTag(GroupeTagDto groupeTagDto, List<TagDto> tagList) {
         groupeTagDto.getTags().forEach(tag->{
-            if (tagRepository.findByLibelle(tag.getLibelle()).isPresent()) {
-                tagList.add(TagDto.fromEntity(tagRepository.findByLibelle(tag.getLibelle()).get()));
+            if (tagRepository.findByLibelleAndArchiveFalse(tag.getLibelle()).isPresent()) {
+                tagList.add(TagDto.fromEntity(tagRepository.findByLibelleAndArchiveFalse(tag.getLibelle()).get()));
             }else {
                 if (!TagValidator.validate(tag).isEmpty()){
                     throw new InvalidEntityException("Le libelle du tag ne doit pas être vide", ErrorCodes.TAG_NOT_VALID, TagValidator.validate(tag));
@@ -86,7 +85,7 @@ public class GroupeTagServiceImpl implements GroupeTagService {
     }
 
     private boolean groupeTagAlreadyExists(String libelle) {
-        Optional<GroupeTag> groupeTag = groupeTagRepository.findByLibelle(libelle);
+        Optional<GroupeTag> groupeTag = groupeTagRepository.findByLibelleAndArchiveFalse(libelle);
         return groupeTag.isPresent();
     }
 

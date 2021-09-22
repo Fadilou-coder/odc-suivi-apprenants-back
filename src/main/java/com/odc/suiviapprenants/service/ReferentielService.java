@@ -20,6 +20,10 @@ public interface ReferentielService {
 
     List<ReferentielDto> findAll();
 
+    List<GroupeCompetenceDto> findGroupeCompetences(Long id);
+
+    GroupeCompetenceDto findOneGroupeCompetence(Long id_referentiel, Long id_groupeCompetence);
+
     ReferentielDto findById(Long id);
 
     ReferentielDto put(

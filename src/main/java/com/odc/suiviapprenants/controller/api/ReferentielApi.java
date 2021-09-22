@@ -25,6 +25,12 @@ public interface ReferentielApi {
     @GetMapping("/referentiels")
     List<ReferentielDto> findAll();
 
+    @GetMapping("/admin/referentiels/{id}/groupe_competences")
+    List<GroupeCompetenceDto> findGroupeCompetences(@PathVariable Long id);
+
+    @GetMapping("/admin/referentiels/{id_referentiel}/groupe_competences/{id_groupeCompetence}")
+    GroupeCompetenceDto findOneGroupeCompetence(@PathVariable Long id_referentiel, @PathVariable Long id_groupeCompetence);
+
     @GetMapping("/referentiels/{id}")
     ReferentielDto findById(@PathVariable Long id);
 

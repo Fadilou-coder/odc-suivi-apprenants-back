@@ -23,13 +23,29 @@ public class GroupeCompetence extends AbstractEntity {
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Tag> tags;
+
     public void addCompetence(Competence competence){
         this.competences.add(competence);
         competence.getGroupeCompetences().add(this);
     }
 
+    public void removeCompetence(Competence competence) {
+        this.competences.remove(competence);
+        competence.getGroupeCompetences().remove(this);
+    }
+
     public void addTag(Tag tag) {
         this.tags.add(tag);
         tag.getGroupeCompetences().add(this);
+    }
+
+    public void removeTag(Tag tag){
+        this.tags.remove(tag);
+        tag.getGroupeCompetences().remove(this);
+    }
+
+    public void removeReferentiel(Referentiel referentiel) {
+        this.referentiels.remove(referentiel);
+        referentiel.getGroupeCompetences().remove(this);
     }
 }

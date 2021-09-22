@@ -9,8 +9,8 @@ import com.odc.suiviapprenants.repository.GroupeCompetenceRepository;
 import com.odc.suiviapprenants.repository.ReferentielRepository;
 import com.odc.suiviapprenants.service.ReferentielService;
 import com.odc.suiviapprenants.validator.ReferentielValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -22,12 +22,9 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class ReferentielServiceImpl implements ReferentielService {
-
-    @Autowired
     ReferentielRepository referentielRepository;
-
-    @Autowired
     GroupeCompetenceRepository groupeCompetenceRepository;
 
     @Override
@@ -57,6 +54,36 @@ public class ReferentielServiceImpl implements ReferentielService {
         return referentielRepository.findAllByArchiveFalse().stream()
                 .map(ReferentielDto::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GroupeCompetenceDto> findGroupeCompetences(Long id) {
+        if(!referentielRepository.findByIdAndArchiveFalse(id).isPresent()) {
+            throw new EntityNotFoundException(
+                    "Aucun Référentiel avec l'ID = " + id + " ne se trouve dans la BDD",
+                    ErrorCodes.REFERENTIEL_NOT_FOUND);
+        }
+        return groupeCompetenceRepository.findAllByReferentielsIdAndArchiveFalse(id).stream().map(GroupeCompetenceDto::fromEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public GroupeCompetenceDto findOneGroupeCompetence(Long id_referentiel, Long id_groupeCompetence) {
+        if(!referentielRepository.findByIdAndArchiveFalse(id_referentiel).isPresent()) {
+            throw new EntityNotFoundException(
+                    "Aucun Référentiel avec l'ID = " + id_referentiel + " ne se trouve dans la BDD",
+                    ErrorCodes.REFERENTIEL_NOT_FOUND);
+        }
+        if(!groupeCompetenceRepository.findByIdAndArchiveFalse(id_groupeCompetence).isPresent()) {
+            throw new EntityNotFoundException(
+                    "Aucun groupe de compétence avec l'ID = " + id_groupeCompetence + " ne se trouve dans la BDD",
+                    ErrorCodes.GROUPE_COMPETENCE_NOT_FOUND
+            );
+        }
+        return groupeCompetenceRepository.findByIdAndReferentielsId(id_groupeCompetence, id_referentiel).map(GroupeCompetenceDto::fromEntity).orElseThrow(() ->
+                new EntityNotFoundException(
+                        "Ce groupe de compétence n'est pas dans ce référentiel",
+                        ErrorCodes.REFERENTIEL_NOT_FOUND)
+        );
     }
 
     @Override

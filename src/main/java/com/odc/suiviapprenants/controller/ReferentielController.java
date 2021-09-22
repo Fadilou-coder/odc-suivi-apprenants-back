@@ -4,7 +4,7 @@ import com.odc.suiviapprenants.controller.api.ReferentielApi;
 import com.odc.suiviapprenants.dto.GroupeCompetenceDto;
 import com.odc.suiviapprenants.dto.ReferentielDto;
 import com.odc.suiviapprenants.service.ReferentielService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -12,9 +12,8 @@ import java.io.IOException;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class ReferentielController implements ReferentielApi {
-
-    @Autowired
     private ReferentielService referentielService;
 
     @Override
@@ -25,6 +24,16 @@ public class ReferentielController implements ReferentielApi {
     @Override
     public List<ReferentielDto> findAll() {
         return referentielService.findAll();
+    }
+
+    @Override
+    public List<GroupeCompetenceDto> findGroupeCompetences(Long id) {
+        return referentielService.findGroupeCompetences(id);
+    }
+
+    @Override
+    public GroupeCompetenceDto findOneGroupeCompetence(Long id_referentiel, Long id_groupeCompetence) {
+        return referentielService.findOneGroupeCompetence(id_referentiel, id_groupeCompetence);
     }
 
     @Override

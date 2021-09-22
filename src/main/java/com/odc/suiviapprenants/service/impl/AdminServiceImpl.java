@@ -13,6 +13,7 @@ import com.odc.suiviapprenants.repository.RoleRepository;
 import com.odc.suiviapprenants.repository.UserRepository;
 import com.odc.suiviapprenants.service.AdminService;
 import com.odc.suiviapprenants.validator.UserValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,14 +32,10 @@ import java.util.zip.Deflater;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class AdminServiceImpl implements AdminService {
-
-    @Autowired
-    private AdminRepository adminRepository;
-    @Autowired
+    AdminRepository adminRepository;
     UserRepository userRepository;
-
-    @Autowired
     RoleRepository repository;
 
     @Override

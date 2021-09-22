@@ -1,22 +1,27 @@
 package com.odc.suiviapprenants.controller;
 
 import com.odc.suiviapprenants.controller.api.GroupeCompetenceApi;
+import com.odc.suiviapprenants.dto.CompetenceDto;
 import com.odc.suiviapprenants.dto.GroupeCompetenceDto;
 import com.odc.suiviapprenants.service.GroupeCompetenceService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class GroupeCompetenceController implements GroupeCompetenceApi {
-
-    @Autowired
     GroupeCompetenceService groupeCompetenceService;
 
     @Override
     public List<GroupeCompetenceDto> findAll() {
         return groupeCompetenceService.findAll();
+    }
+
+    @Override
+    public List<CompetenceDto> findCompetences(Long id) {
+        return groupeCompetenceService.findCompetences(id);
     }
 
     @Override
@@ -30,8 +35,8 @@ public class GroupeCompetenceController implements GroupeCompetenceApi {
     }
 
     @Override
-    public GroupeCompetenceDto put(GroupeCompetenceDto groupeCompetenceDto) {
-        return groupeCompetenceService.edit(groupeCompetenceDto);
+    public GroupeCompetenceDto put(Long id, GroupeCompetenceDto groupeCompetenceDto) {
+        return groupeCompetenceService.edit(id, groupeCompetenceDto);
     }
 
     @Override

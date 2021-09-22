@@ -23,7 +23,6 @@ public class GroupeTagDto {
 
     public static GroupeTagDto fromEntity(GroupeTag groupeTag){
         if (groupeTag == null) return null;
-
         return GroupeTagDto.builder()
                 .id(groupeTag.getId())
                 .libelle(groupeTag.getLibelle())
