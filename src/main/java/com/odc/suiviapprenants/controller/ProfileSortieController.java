@@ -3,11 +3,13 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.ProfileSortieApi;
 import com.odc.suiviapprenants.dto.ProfilSortieDto;
 import com.odc.suiviapprenants.service.ProfileSortieService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class ProfileSortieController implements ProfileSortieApi {
     ProfileSortieService profileSortieService;
 

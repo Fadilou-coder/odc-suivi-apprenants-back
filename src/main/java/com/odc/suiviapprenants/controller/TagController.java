@@ -3,11 +3,13 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.TagApi;
 import com.odc.suiviapprenants.dto.TagDto;
 import com.odc.suiviapprenants.service.TagService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class TagController implements TagApi {
     private TagService tagService;
 
