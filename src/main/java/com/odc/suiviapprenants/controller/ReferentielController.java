@@ -1,6 +1,7 @@
 package com.odc.suiviapprenants.controller;
 
 import com.odc.suiviapprenants.controller.api.ReferentielApi;
+import com.odc.suiviapprenants.dto.GroupeCompetenceDto;
 import com.odc.suiviapprenants.dto.ReferentielDto;
 import com.odc.suiviapprenants.service.ReferentielService;
 import org.springframework.beans.factory.annotation.Autowired;

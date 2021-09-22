@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.controller.api;
 
+import com.odc.suiviapprenants.dto.GroupeCompetenceDto;
 import com.odc.suiviapprenants.dto.ReferentielDto;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;

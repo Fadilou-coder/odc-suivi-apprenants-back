@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.service;
 
+import com.odc.suiviapprenants.dto.GroupeCompetenceDto;
 import com.odc.suiviapprenants.dto.ReferentielDto;
 import org.springframework.web.multipart.MultipartFile;
 

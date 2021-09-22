@@ -9,6 +9,7 @@ import com.odc.suiviapprenants.repository.GroupeCompetenceRepository;
 import com.odc.suiviapprenants.repository.ReferentielRepository;
 import com.odc.suiviapprenants.service.ReferentielService;
 import com.odc.suiviapprenants.validator.ReferentielValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class ReferentielServiceImpl implements ReferentielService {
 
     @Autowired
