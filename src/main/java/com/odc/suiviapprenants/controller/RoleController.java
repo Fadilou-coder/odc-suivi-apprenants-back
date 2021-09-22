@@ -5,11 +5,13 @@ import com.odc.suiviapprenants.controller.api.RoleApi;
 import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.RoleDto;
 import com.odc.suiviapprenants.service.RoleService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class RoleController implements RoleApi {
     RoleService roleService;
 
