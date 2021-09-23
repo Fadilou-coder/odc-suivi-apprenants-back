@@ -13,10 +13,13 @@ import com.odc.suiviapprenants.service.RoleService;
 import com.odc.suiviapprenants.validator.RoleValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,10 +45,15 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<RoleDto> findAll() {
-        return rolerepository.findAllByArchiveFalse().stream()
-                .map(RoleDto::fromEntity)
-                .collect(Collectors.toList());
+    public Page<Role> findAll(Optional<Integer> page, Optional<String> sortBy) {
+        return  rolerepository.findAllByArchiveFalse(
+                PageRequest.of(
+                        page.orElse(0),
+                        15,
+                        Sort.Direction.ASC, sortBy.orElse("id")
+                )
+        )
+                ;
     }
 
     @Override
@@ -86,10 +94,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public List<AdminDto> findAdminsByRole(Long id) {
-        if (id == null) {
-            log.error("role ID is null");
-        }
-
+        if (id == null) return null;
 
         rolerepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(
