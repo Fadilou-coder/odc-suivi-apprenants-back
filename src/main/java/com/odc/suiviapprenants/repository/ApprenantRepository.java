@@ -14,4 +14,6 @@ public interface ApprenantRepository extends JpaRepository<Apprenant, Long> {
     List<Apprenant> findAllByArchiveFalse();
 
     Optional<Apprenant> findByIdAndArchiveFalse(Long id);
+
+    Optional<Apprenant> findByEmail(String email);
 }
