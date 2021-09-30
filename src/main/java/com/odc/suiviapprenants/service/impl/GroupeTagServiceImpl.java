@@ -13,7 +13,12 @@ import com.odc.suiviapprenants.validator.GroupeTagValidator;
 import com.odc.suiviapprenants.validator.TagValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -91,10 +96,13 @@ public class GroupeTagServiceImpl implements GroupeTagService {
     }
 
     @Override
-    public List<GroupeTagDto> findAll() {
-        return groupeTagRepository.findAllByArchiveFalse().stream()
-                .map(GroupeTagDto::fromEntity)
-                .collect(Collectors.toList());
+    public Page<GroupeTag> findAll(Optional<Integer> page,
+                                   Optional<String> sortBy) {
+        return groupeTagRepository.findAllByArchiveFalse(PageRequest.of(
+                page.orElse(0),
+                3,
+                Sort.Direction.ASC, sortBy.orElse("id")
+        ));
     }
 
     @Override
