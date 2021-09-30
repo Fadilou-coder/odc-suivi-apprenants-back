@@ -11,12 +11,13 @@ import java.util.*;
 @AllArgsConstructor
 @Slf4j
 public class CompetenceValidator {
-    public static List<String> validateCompetence(CompetenceDto competenceDto)
+    public static List<String> validate(CompetenceDto competenceDto)
     {
         return getString(competenceDto == null, competenceDto.getLibelle());
     }
 
     public static List<String> validateAffectedNiveaux(CompetenceDto competenceDto){return null;}
+
     public static List<String> getString(boolean isCompetence, String libelle)
     {
         List<String> errors = new ArrayList<>();

@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.odc.suiviapprenants.model.Groupe;
 import com.odc.suiviapprenants.model.Promo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
@@ -31,6 +33,21 @@ public class PromoDto {
     private ReferentielDto referentiel;
     private Collection<GroupeDto> groupes;
     private Collection<AdminDto> admins;
+    private List<String> apprenantsEmail;
+
+    public PromoDto(String langue, String referenceAgate, String title, String description, String lieu, LocalDate dateDebut, LocalDate dateFinProvisoir, LocalDate dateFinReeelle, String etat, byte[] avatarPromo, ReferentielDto referentiel) {
+        this.langue = langue;
+        this.referenceAgate = referenceAgate;
+        this.title = title;
+        this.description = description;
+        this.lieu = lieu;
+        this.dateDebut = dateDebut;
+        this.dateFinProvisoir = dateFinProvisoir;
+        this.dateFinReeelle = dateFinReeelle;
+        this.etat = etat;
+        this.avatarPromo = avatarPromo;
+        this.referentiel = referentiel;
+    }
 
     public static PromoDto fromEntity(Promo promo){
         if (promo == null) return null;

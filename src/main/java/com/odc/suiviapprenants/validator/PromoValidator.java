@@ -24,8 +24,7 @@ public class PromoValidator {
                 promoDto.getDateDebut(),
                 promoDto.getDateFinProvisoir(),
                 promoDto.getDateFinReeelle(),
-                promoDto.getReferentiel() == null,
-                promoDto.getGroupes() == null);
+                promoDto.getReferentiel() == null);
     }
 
     public static List<String> getString(
@@ -34,7 +33,7 @@ public class PromoValidator {
             String description, String lieu,
             String etat, LocalDate dateDebut,
             LocalDate dateFinProvisoir, LocalDate dateFinReelle,
-            boolean isReferentiel, boolean isGroupePrincipale
+            boolean isReferentiel
     )
     {
         List<String> errors = new ArrayList<>();
@@ -55,10 +54,6 @@ public class PromoValidator {
         if (isReferentiel)
         {
             errors.add("Veuillez renseigner le referentiel");
-        }
-        if (isGroupePrincipale)
-        {
-            errors.add("Veuillez renseigner le groupe");
         }
         if (!StringUtils.hasLength(langue))
         {

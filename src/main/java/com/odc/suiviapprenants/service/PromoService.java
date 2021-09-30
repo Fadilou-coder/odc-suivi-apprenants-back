@@ -17,7 +17,7 @@ public interface PromoService {
             String etat,
             MultipartFile avatarPromo,
             String referentiel,
-            String groupe
+            List<String> apprenantsEmail
     ) throws Exception;
 
     List<PromoDto> findAll();
@@ -25,4 +25,5 @@ public interface PromoService {
     PromoDto findById(Long id);
 
     PromoDto put(PromoDto promoDto,Long id);
+
 }

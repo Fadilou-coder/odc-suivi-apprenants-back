@@ -23,7 +23,7 @@ public interface PromoApi {
             @RequestParam("etat") String etat,
             @RequestParam("avatarPromo")MultipartFile avatarPromo,
             @RequestParam("referentiel") String referentiel,
-            @RequestParam("groupe") String groupe
+            @RequestParam("apprenantsEmail") List<String> apprenantsEmail
     ) throws Exception;
 
     @GetMapping("/promo")

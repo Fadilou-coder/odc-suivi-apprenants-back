@@ -6,13 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class TagDto {
-
     private Long id;
     private String libelle;
 
@@ -24,6 +22,7 @@ public class TagDto {
                 .libelle(tag.getLibelle())
                 .build();
     }
+
     public static Tag toEntity(TagDto tagDto){
         if (tagDto == null) return null;
         Tag tag = new Tag();

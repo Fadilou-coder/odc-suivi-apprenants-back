@@ -3,6 +3,7 @@ package com.odc.suiviapprenants.service.impl;
 import com.odc.suiviapprenants.model.*;
 import com.odc.suiviapprenants.repository.*;
 import com.odc.suiviapprenants.service.ApplicationService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,24 +15,13 @@ import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class ApplicationServiceImpl implements ApplicationService {
-
-    @Autowired
     UserRepository userRepository;
-
-    @Autowired
     AdminRepository adminRepository;
-
-    @Autowired
     ApprenantRepository apprenantRepository;
-
-    @Autowired
     ReferentielRepository referentielRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private CompetenceRepository competenceRepository;
 
 

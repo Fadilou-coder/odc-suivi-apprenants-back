@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -17,10 +18,16 @@ public class Groupe extends AbstractEntity {
     private String nomGroupe;
     private String type;
     private  String statut;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     private Collection<Apprenant> apprenants;
     @ManyToMany
     private Collection<Admin> admins;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Promo promo;
+
+    public void addApprenant(Apprenant apprenant) {
+        this.apprenants.add(apprenant);
+        apprenant.getGroupes().add(this);
+    }
+
 }
