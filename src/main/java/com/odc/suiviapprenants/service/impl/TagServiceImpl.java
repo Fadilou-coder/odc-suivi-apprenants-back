@@ -11,6 +11,7 @@ import com.odc.suiviapprenants.repository.GroupeTagRepository;
 import com.odc.suiviapprenants.repository.TagRepository;
 import com.odc.suiviapprenants.service.TagService;
 import com.odc.suiviapprenants.validator.TagValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,13 +23,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class TagServiceImpl implements TagService {
-
-    @Autowired
-    private TagRepository tagRepository;
-
-    @Autowired
-    private GroupeTagRepository groupeTagRepository;
+    TagRepository tagRepository;
+    GroupeTagRepository groupeTagRepository;
 
     @Override
     public List<TagDto> findAll() {

@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface GroupeTagRepository extends JpaRepository<GroupeTag, Long> {
     Page<GroupeTag> findAllByArchiveFalse(Pageable pageable);
     Optional<GroupeTag> findByLibelle(String libelle);
+    Optional<GroupeTag> findByLibelleAndArchiveFalse(String libelle);
     Optional<GroupeTag> findByIdAndArchiveFalse(Long id);
 
     List<GroupeTag> findAllByTagsId(Long id);

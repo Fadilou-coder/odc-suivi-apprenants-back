@@ -49,14 +49,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         "/swagger-ui.html",
         "/webjars/**",
         "/v3/api-docs/**",
-        "/swagger-ui/**").permitAll()
+        "/swagger-ui/**", "/**"
+            ).permitAll()
         .and().sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     ;
-    http
-            .authorizeRequests()
-            .antMatchers("/**", "/**/roles/create").access("hasAnyAuthority('ADMIN', 'CM')")
-            .anyRequest().fullyAuthenticated();
+//    http
+  //          .authorizeRequests()
+    //        .antMatchers("/**", "/**/roles/create").access("hasAnyAuthority('ADMIN', 'CM')")
+      //      .anyRequest().fullyAuthenticated();
 
     http.addFilterBefore(applicationRequestFilter, UsernamePasswordAuthenticationFilter.class);
   }

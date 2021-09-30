@@ -7,6 +7,7 @@ import com.odc.suiviapprenants.model.ProfilSortie;
 import com.odc.suiviapprenants.repository.ProfilSortieRepository;
 import com.odc.suiviapprenants.service.ProfileSortieService;
 import com.odc.suiviapprenants.validator.ProfileSortieValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,10 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class ProfileSortieImp implements ProfileSortieService {
-
-    @Autowired
     ProfilSortieRepository profilSortieRepository;
+
     @Override
     public ProfilSortieDto save(ProfilSortieDto profilSortieDto) {
         List<String> errors = ProfileSortieValidator.validate(profilSortieDto);
@@ -66,9 +67,7 @@ public class ProfileSortieImp implements ProfileSortieService {
 
     @Override
     public void delete(Long id) {
-        if (id == null) {
-            log.error("role ID is null");
-        }
+        if (id == null) return;
 
         ProfilSortie profilSortie = profilSortieRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(
@@ -80,9 +79,7 @@ public class ProfileSortieImp implements ProfileSortieService {
 
     @Override
     public ProfilSortieDto put(ProfilSortieDto profilSortieDto,Long id) {
-        if (id == null) {
-            log.error("role ID is null");
-        }
+        if (id == null) return null;
 
         ProfilSortie profilSortie = profilSortieRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException(

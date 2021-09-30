@@ -21,7 +21,7 @@ public class AbstractEntity implements Serializable {
 
   @CreatedDate
   @Column(name = "creationDate", nullable = false, updatable = false)
-  private Instant creationDate = Instant.now();
+  private Instant creationDate;
 
   @LastModifiedDate
   @Column(name = "lastModifiedDate")

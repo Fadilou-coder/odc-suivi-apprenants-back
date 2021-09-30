@@ -3,11 +3,8 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.GroupeTagApi;
 import com.odc.suiviapprenants.dto.GroupeTagDto;
 import com.odc.suiviapprenants.service.GroupeTagService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.RequestParam;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -16,9 +13,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
+@AllArgsConstructor
 public class GroupeTagController implements GroupeTagApi {
 
-    @Autowired
     private GroupeTagService groupeTagService;
 
     @Override
