@@ -1,4 +1,5 @@
 package com.odc.suiviapprenants.service.impl;
+import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.dto.GroupeDto;
 import com.odc.suiviapprenants.dto.PromoDto;
 import com.odc.suiviapprenants.dto.ReferentielDto;
@@ -7,6 +8,7 @@ import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Apprenant;
 import com.odc.suiviapprenants.model.Groupe;
+import com.odc.suiviapprenants.model.Promo;
 import com.odc.suiviapprenants.model.Referentiel;
 import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.GroupeRepository;
@@ -20,8 +22,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import javax.xml.validation.Validator;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,7 +68,7 @@ public class PromoServiceImpl implements PromoService {
                 null
         );
         Groupe groupe1 = new Groupe();
-        groupe1.setNomGroupe("Groupe_principale");
+        groupe1.setNomGroupe("Groupe_principale " + promoDto.getTitle());
         groupe1.setType("principale");
         groupe1.setStatut("ouvert");
         Referentiel referentiel1 = referentielRepository.findByLibelle(referentiel).get();
@@ -77,6 +77,10 @@ public class PromoServiceImpl implements PromoService {
         List<Apprenant> apprenants = new ArrayList<>();
         apprenantsEmail.forEach(email -> {
             if (apprenantRepository.findByEmail(email).isPresent()){
+                if (apprenantRepository.findByEmail(email).get().getGroupes().isEmpty())
+                {
+                    throw new InvalidEntityException("Cet apprenant est deja dans un promo : " + email, ErrorCodes.APPRENANT_ALREADY_IN_USE);
+                }
                 apprenants.add(apprenantRepository.findByEmail(email).get());
             }
             else {
@@ -120,6 +124,35 @@ public class PromoServiceImpl implements PromoService {
 
     @Override
     public PromoDto put(PromoDto promoDto, Long id) {
-        return null;
+        if (promoRepository.findById(id).isPresent())
+        {
+
+            promoDto.getGroupes().forEach(groupe -> {
+                Promo promo = promoRepository.findById(id).get();
+                if (groupeRepository.findByIdAndPromo(groupe.getId(), promo).isPresent())
+                {
+                    Groupe groupe2 = groupeRepository.findById(groupe.getId()).get();
+                    groupe2.setStatut("cloturer");
+                    groupe2.removeAllApprenant(groupe2.getApprenants());
+                    groupeRepository.flush();
+                }
+                else {
+                    Groupe groupe1 = new Groupe();
+                    groupe1.setNomGroupe(groupe.getNomGroupe());
+                    groupe1.setType(groupe.getType());
+                    groupe1.setStatut(groupe.getStatut());
+                    groupe1.setPromo(promo);
+                    groupeRepository.save(groupe1);
+                }
+            });
+        }
+        else {
+            List<String> errors = PromoValidator.validatePromo(promoDto);
+            throw new InvalidEntityException("L'id promo n'est pas valide", ErrorCodes.PROMO_NOT_VALID, errors);
+        }
+        return promoDto;
     }
+
+
+
 }

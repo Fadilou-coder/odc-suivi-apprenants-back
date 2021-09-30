@@ -1,6 +1,6 @@
 package com.odc.suiviapprenants.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.odc.suiviapprenants.model.Groupe;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.Promo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

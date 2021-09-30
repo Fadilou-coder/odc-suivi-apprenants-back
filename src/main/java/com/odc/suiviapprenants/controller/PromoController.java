@@ -56,6 +56,6 @@ public class PromoController implements PromoApi {
 
     @Override
     public PromoDto put(PromoDto promoDto, Long id) {
-        return null;
+        return promoService.put(promoDto, id);
     }
 }

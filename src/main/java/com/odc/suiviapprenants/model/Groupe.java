@@ -30,4 +30,12 @@ public class Groupe extends AbstractEntity {
         apprenant.getGroupes().add(this);
     }
 
+    public void removeAllApprenant(Collection<Apprenant> apprenantList)
+    {
+        this.apprenants.removeAll(apprenantList);
+        apprenants.forEach(apprenant -> {
+            apprenant.getGroupes().remove(apprenant);
+        });
+    }
+
 }
