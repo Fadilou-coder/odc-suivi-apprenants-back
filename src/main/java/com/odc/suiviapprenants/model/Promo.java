@@ -26,8 +26,9 @@ public class Promo extends AbstractEntity {
     private byte[] avatarPromo;
     @ManyToOne
     private Referentiel referentiel;
-    @OneToMany(mappedBy = "promo")
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "promo")
     private Collection<Groupe> groupes;
+
     @ManyToMany
     private Collection<Admin> admins;
 

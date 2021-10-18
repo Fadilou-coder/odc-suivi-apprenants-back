@@ -1,11 +1,7 @@
 package com.odc.suiviapprenants.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.Promo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -31,23 +27,9 @@ public class PromoDto {
     private String etat;
     private byte[] avatarPromo;
     private ReferentielDto referentiel;
-    private Collection<GroupeDto> groupes;
+    private List<GroupeDto> groupes;
     private Collection<AdminDto> admins;
     private List<String> apprenantsEmail;
-
-    public PromoDto(String langue, String referenceAgate, String title, String description, String lieu, LocalDate dateDebut, LocalDate dateFinProvisoir, LocalDate dateFinReeelle, String etat, byte[] avatarPromo, ReferentielDto referentiel) {
-        this.langue = langue;
-        this.referenceAgate = referenceAgate;
-        this.title = title;
-        this.description = description;
-        this.lieu = lieu;
-        this.dateDebut = dateDebut;
-        this.dateFinProvisoir = dateFinProvisoir;
-        this.dateFinReeelle = dateFinReeelle;
-        this.etat = etat;
-        this.avatarPromo = avatarPromo;
-        this.referentiel = referentiel;
-    }
 
     public static PromoDto fromEntity(Promo promo){
         if (promo == null) return null;
@@ -64,21 +46,9 @@ public class PromoDto {
                 .etat(promo.getEtat())
                  .avatarPromo(promo.getAvatarPromo())
                 .referentiel(ReferentielDto.fromEntity(promo.getReferentiel()))
-                .groupes(
-                        promo.getGroupes() !=null?
-                        promo.getGroupes()
-                        .stream()
-                        .map(GroupeDto::fromEntity)
-                        .collect(Collectors.toList()): null
-                        )
-                .admins(
-                        promo.getAdmins() !=null?
-                        promo.getAdmins()
-                                .stream().map(AdminDto::fromEntity)
-                                .collect(Collectors.toList()) : null
-                        ).build();
+                .build();
     }
-    public static Promo toEntity(PromoDto promoDto){
+    public static Promo toEntity(PromoDto promoDto) {
         if (promoDto == null) return null;
         Promo promo = new Promo();
         promo.setLangue(promoDto.getLangue());
@@ -92,7 +62,13 @@ public class PromoDto {
         promo.setEtat(promoDto.getEtat());
         promo.setAvatarPromo(promoDto.getAvatarPromo());
         promo.setReferentiel(ReferentielDto.toEntity(promoDto.getReferentiel()));
-        promo.setGroupes(promo.getGroupes());
+        promo.setGroupes(
+                promoDto.getGroupes() !=null ?
+                        promoDto.getGroupes()
+                                .stream()
+                                .map(GroupeDto::toEntity)
+                                .collect(Collectors.toList()) : null
+        ); //cette methode s'attend a recevoir une collection de groupes
 
         return promo;
 

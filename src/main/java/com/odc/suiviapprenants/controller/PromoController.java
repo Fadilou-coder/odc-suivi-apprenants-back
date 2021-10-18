@@ -2,8 +2,11 @@ package com.odc.suiviapprenants.controller;
 
 import com.odc.suiviapprenants.controller.api.PromoApi;
 import com.odc.suiviapprenants.dto.PromoDto;
+import com.odc.suiviapprenants.model.Groupe;
 import com.odc.suiviapprenants.service.PromoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
@@ -16,7 +19,6 @@ public class PromoController implements PromoApi {
     @Override
     public PromoDto save(
             String langue,
-            String referenceAgate,
             String title,
             String description,
             String lieu,
@@ -29,17 +31,16 @@ public class PromoController implements PromoApi {
             List<String > apprenantsEmail
     ) throws Exception {
         return promoService.save(
-                 langue,
-                referenceAgate,
-                 title,
-                 description,
-                 lieu,
-                 dateDebut,
-                 dateFinProvisoir,
-                 dateFinReelle,
-                 etat,
-                 avatarPromo,
-                 referentiel,
+                langue,
+                title,
+                description,
+                lieu,
+                dateDebut,
+                dateFinProvisoir,
+                dateFinReelle,
+                etat,
+                avatarPromo,
+                referentiel,
                 apprenantsEmail
         );
     }

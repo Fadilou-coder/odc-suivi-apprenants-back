@@ -1,13 +1,15 @@
 package com.odc.suiviapprenants.service;
 import com.odc.suiviapprenants.dto.PromoDto;
+import com.odc.suiviapprenants.model.Groupe;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface PromoService {
     PromoDto save(
             String langue,
-            String referenceAgate,
             String title,
             String description,
             String lieu,
@@ -25,5 +27,4 @@ public interface PromoService {
     PromoDto findById(Long id);
 
     PromoDto put(PromoDto promoDto,Long id);
-
 }

@@ -1,10 +1,10 @@
 package com.odc.suiviapprenants.controller.api;
 import com.odc.suiviapprenants.dto.PromoDto;
+import com.odc.suiviapprenants.model.Groupe;
 import io.swagger.annotations.Api;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.util.List;
 
 @Api("promo")
@@ -13,7 +13,6 @@ public interface PromoApi {
     @PostMapping("/promo/create")
     PromoDto save(
             @RequestParam("langue") String langue,
-            @RequestParam("referenceAgate") String referenceAgate,
             @RequestParam("title") String title,
             @RequestParam("description") String description,
             @RequestParam("lieu") String lieu,
@@ -25,7 +24,6 @@ public interface PromoApi {
             @RequestParam("referentiel") String referentiel,
             @RequestParam("apprenantsEmail") List<String> apprenantsEmail
     ) throws Exception;
-
     @GetMapping("/promo")
     List<PromoDto> findAll();
 
