@@ -24,6 +24,7 @@ public class Promo extends AbstractEntity {
     private String etat;
     private String referenceAgate;
     private byte[] avatarPromo;
+    private boolean enCours = true;
     @ManyToOne
     private Referentiel referentiel;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "promo")
@@ -31,5 +32,4 @@ public class Promo extends AbstractEntity {
 
     @ManyToMany
     private Collection<Admin> admins;
-
 }

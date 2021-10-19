@@ -13,4 +13,5 @@ public interface ApplicationService {
     public void saveAllAdmin(List<Admin> adminList);
     public void saveAllCompetence(List<Competence> competenceList);
     public void saveAllReferentiel(List<Referentiel> referentielList);
+    public Promo getPromoUserConnected();
 }

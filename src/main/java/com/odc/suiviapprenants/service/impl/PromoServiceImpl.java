@@ -6,6 +6,7 @@ import com.odc.suiviapprenants.dto.ReferentielDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
+import com.odc.suiviapprenants.exception.InvalidOperationException;
 import com.odc.suiviapprenants.model.*;
 import com.odc.suiviapprenants.repository.*;
 import com.odc.suiviapprenants.service.PromoService;
@@ -165,8 +166,13 @@ public class PromoServiceImpl implements PromoService {
                 promoDto.getAdmins().forEach(adminDto -> {
                     if (adminRepository.findById(adminDto.getId()).isPresent())
                     {
-                        promo.getAdmins().add(adminRepository.findById(adminDto.getId()).get());
-                        promoRepository.flush();
+                        if (!promoRepository.findByEnCoursTrueAndArchiveFalseAndAdmins(adminRepository.findById(adminDto.getId()).get()).isPresent()){
+                            promo.getAdmins().add(adminRepository.findById(adminDto.getId()).get());
+                            promoRepository.flush();
+                        }
+                        else {
+                            throw new InvalidOperationException(adminRepository.findById(adminDto.getId()).get().getUsername() + " Est deja dans un promo en cours");
+                        }
                     }
                 });
             }
