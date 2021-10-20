@@ -1,5 +1,5 @@
 package com.odc.suiviapprenants.service.impl;
-import com.odc.suiviapprenants.dto.AdminDto;
+
 import com.odc.suiviapprenants.dto.GroupeDto;
 import com.odc.suiviapprenants.dto.PromoDto;
 import com.odc.suiviapprenants.dto.ReferentielDto;
@@ -11,12 +11,11 @@ import com.odc.suiviapprenants.model.*;
 import com.odc.suiviapprenants.repository.*;
 import com.odc.suiviapprenants.service.PromoService;
 import com.odc.suiviapprenants.validator.PromoValidator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -27,22 +26,18 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class PromoServiceImpl implements PromoService {
 
-    @Autowired
     PromoRepository promoRepository;
-    @Autowired
     ReferentielRepository referentielRepository;
-    @Autowired
     ApprenantRepository apprenantRepository;
-    @Autowired
     AdminRepository adminRepository;
-    @Autowired
     GroupeRepository groupeRepository;
 
     public PromoDto insertInPromoDto (String langue, String title,
                                       String description, String lieu, String dateDebut,
-                                      String dateFinProvisoir, String dateFinReelle, String etat,
+                                      String dateFinProvisoir, String etat,
                                       MultipartFile avatarPromo) throws IOException {
         PromoDto promoDto = new PromoDto();
         promoDto.setLangue(langue);
@@ -50,8 +45,7 @@ public class PromoServiceImpl implements PromoService {
         promoDto.setDescription(description);
         promoDto.setLieu(lieu);
         promoDto.setDateDebut(LocalDate.parse(dateDebut));
-        promoDto.setDateFinProvisoir(LocalDate.parse(dateFinProvisoir));
-        promoDto.setDateFinReeelle(LocalDate.parse(dateFinReelle));
+        promoDto.setDateFinProvisoire(LocalDate.parse(dateFinProvisoir));
         promoDto.setEtat(etat);
         promoDto.setAvatarPromo(AdminServiceImpl.compressBytes(avatarPromo.getBytes()));
 
@@ -62,8 +56,7 @@ public class PromoServiceImpl implements PromoService {
     public PromoDto save(
             String langue, String title,
             String description, String lieu,
-            String dateDebut, String dateFinProvisoir,
-            String dateFinReelle, String etat,
+            String dateDebut, String dateFinProvisoire, String etat,
             MultipartFile avatarPromo,
             String referentiel,
             List<String> apprenantsEmail
@@ -71,8 +64,7 @@ public class PromoServiceImpl implements PromoService {
         PromoDto promoDto = insertInPromoDto(
                 langue, title,
                 description, lieu,
-                dateDebut, dateFinProvisoir,
-                dateFinReelle, etat,  avatarPromo
+                dateDebut, dateFinProvisoire, etat,  avatarPromo
         );
         Groupe groupe1 = new Groupe();
         groupe1.setNomGroupe("Groupe_principale " + promoDto.getTitle());
@@ -82,13 +74,13 @@ public class PromoServiceImpl implements PromoService {
         promoDto.setReferentiel(ReferentielDto.fromEntity(referentiel1));
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         List<Apprenant> apprenants = new ArrayList<>();
-        List<GroupeDto> groupeDtoList = new ArrayList<>();
+         List<GroupeDto> groupeDtoList = new ArrayList<>();
 
         if (apprenantsEmail !=null){
             for (String email : apprenantsEmail) {
                 if (apprenantRepository.findByEmail(email).isPresent()) {
                     if (apprenantRepository.findByEmail(email).get().getGroupes().isEmpty()) {
-                        throw new InvalidEntityException("Cet apprenant est deja dans un promo : " + email, ErrorCodes.APPRENANT_ALREADY_IN_USE);
+                        throw new InvalidEntityException("Cet apprenant est deja dans une promo : " + email, ErrorCodes.APPRENANT_ALREADY_IN_USE);
                     }
                     apprenants.add(apprenantRepository.findByEmail(email).get());
                 } else {
@@ -103,18 +95,18 @@ public class PromoServiceImpl implements PromoService {
         }
         else {groupe1.setApprenants(null);}
 
-        log.info(promoDto.toString());
-       return getPromoDto(promoDto, groupe1, groupeDtoList);
+        return getPromoDto(promoDto, groupe1,groupeDtoList);
     }
 
-    private PromoDto getPromoDto(PromoDto promoDto, Groupe groupe1, List<GroupeDto> groupeDtoList) {
+    private PromoDto getPromoDto(PromoDto promoDto, Groupe groupe1,List<GroupeDto> groupeDtoList) {
         groupe1.setPromo(PromoDto.toEntity(promoDto));
-        groupeDtoList.add(GroupeDto.fromEntity(groupe1));
+          groupeDtoList.add(GroupeDto.fromEntity(groupe1));
         List<String> errors = PromoValidator.validatePromo(promoDto);
         if (!errors.isEmpty()) {
             throw new InvalidEntityException("promo n'est pas valide", ErrorCodes.PROMO_NOT_VALID, errors);
         }
         groupeRepository.save(groupe1);
+       // return PromoDto.fromEntity(groupe1.getPromo());
         return promoDto;
     }
 
@@ -134,13 +126,13 @@ public class PromoServiceImpl implements PromoService {
 
         return promoRepository.findById(id)
                 .map(PromoDto::fromEntity)
-                .orElseThrow(() -> new EntityNotFoundException("Aucun promo  avec l'ID = " + id + " n' ete trouve dans la BDD", ErrorCodes.PROMO_NOT_FOUND)
+                .orElseThrow(() -> new EntityNotFoundException("Aucune promo  avec l'ID = " + id + " n'a ete trouve dans la BDD", ErrorCodes.PROMO_NOT_FOUND)
                 );
     }
 
     @Override
     public PromoDto put(PromoDto promoDto, Long id) {
-        if (promoRepository.findById(id).isPresent())
+        if (promoRepository.findByIdAndArchiveFalse(id).isPresent())
         {
             Promo promo = promoRepository.findById(id).get();
             if (promoDto.getGroupes() !=null){
@@ -171,7 +163,7 @@ public class PromoServiceImpl implements PromoService {
                             promoRepository.flush();
                         }
                         else {
-                            throw new InvalidOperationException(adminRepository.findById(adminDto.getId()).get().getUsername() + " Est deja dans un promo en cours");
+                            throw new InvalidOperationException(adminRepository.findById(adminDto.getId()).get().getUsername() + " est deja dans une promo en cours");
                         }
                     }
                 });
@@ -179,9 +171,8 @@ public class PromoServiceImpl implements PromoService {
 
         }
         else {
-            List<String> errors = PromoValidator.validatePromo(promoDto);
-            throw new InvalidEntityException("L'id promo n'est pas valide", ErrorCodes.PROMO_NOT_VALID, errors);
+            throw new InvalidEntityException("L'id promo n'est pas valide", ErrorCodes.PROMO_NOT_VALID);
         }
-        return promoDto;
+        return PromoDto.fromEntity(promoRepository.findByIdAndArchiveFalse(id).get());
     }
 }

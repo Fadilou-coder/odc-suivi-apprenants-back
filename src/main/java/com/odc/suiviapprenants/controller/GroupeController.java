@@ -3,16 +3,15 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.GroupeApi;
 import com.odc.suiviapprenants.dto.GroupeDto;
 import com.odc.suiviapprenants.service.GroupeService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.IOException;
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class GroupeController implements GroupeApi {
 
-    @Autowired
     private GroupeService groupeService;
 
     @Override

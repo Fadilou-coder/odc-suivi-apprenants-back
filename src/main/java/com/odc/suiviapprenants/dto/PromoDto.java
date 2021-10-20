@@ -14,14 +14,13 @@ import java.util.stream.Collectors;
 public class PromoDto {
     private Long id;
     private String langue;
-    private String referenceAgate;
     private String title;
     private String description;
     private String lieu;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateDebut;
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate dateFinProvisoir;
+    private LocalDate dateFinProvisoire;
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateFinReeelle;
     private String etat;
@@ -39,10 +38,9 @@ public class PromoDto {
                 .title(promo.getTitle())
                 .description(promo.getDescription())
                 .lieu(promo.getLieu())
-               .referenceAgate(promo.getReferenceAgate())
                 .dateDebut(promo.getDateDebut())
-                .dateFinProvisoir(promo.getDateFinProvisoir())
-                .dateFinReeelle(promo.getDateFinReeelle())
+                .dateFinProvisoire(promo.getDateFinProvisoire())
+                .dateFinReeelle(promo.getDateFinReelle())
                 .etat(promo.getEtat())
                  .avatarPromo(promo.getAvatarPromo())
                 .referentiel(ReferentielDto.fromEntity(promo.getReferentiel()))
@@ -52,13 +50,12 @@ public class PromoDto {
         if (promoDto == null) return null;
         Promo promo = new Promo();
         promo.setLangue(promoDto.getLangue());
-        promo.setReferenceAgate(promoDto.getReferenceAgate());
         promo.setTitle(promoDto.getTitle());
         promo.setDescription(promoDto.getDescription());
         promo.setLieu(promoDto.getLieu());
         promo.setDateDebut(promoDto.getDateDebut());
-        promo.setDateFinProvisoir(promoDto.getDateFinProvisoir());
-        promo.setDateFinReeelle(promoDto.getDateFinReeelle());
+        promo.setDateFinProvisoire(promoDto.getDateFinProvisoire());
+        promo.setDateFinReelle(promoDto.getDateFinReeelle());
         promo.setEtat(promoDto.getEtat());
         promo.setAvatarPromo(promoDto.getAvatarPromo());
         promo.setReferentiel(ReferentielDto.toEntity(promoDto.getReferentiel()));
@@ -68,7 +65,7 @@ public class PromoDto {
                                 .stream()
                                 .map(GroupeDto::toEntity)
                                 .collect(Collectors.toList()) : null
-        ); //cette methode s'attend a recevoir une collection de groupes
+        );
 
         return promo;
 

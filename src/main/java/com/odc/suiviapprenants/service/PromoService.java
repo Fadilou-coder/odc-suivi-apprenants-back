@@ -1,10 +1,6 @@
 package com.odc.suiviapprenants.service;
 import com.odc.suiviapprenants.dto.PromoDto;
-import com.odc.suiviapprenants.model.Groupe;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
 import java.util.List;
 
 public interface PromoService {
@@ -14,8 +10,7 @@ public interface PromoService {
             String description,
             String lieu,
             String dateDebut,
-            String dateFinProvisoir,
-            String dateFinReelle,
+            String dateFinProvisoire,
             String etat,
             MultipartFile avatarPromo,
             String referentiel,

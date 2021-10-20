@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,10 +20,9 @@ public class Promo extends AbstractEntity {
     private String description;
     private String lieu;
     private LocalDate dateDebut;
-    private LocalDate dateFinProvisoir;
-    private LocalDate dateFinReeelle;
+    private LocalDate dateFinProvisoire;
+    private LocalDate dateFinReelle;
     private String etat;
-    private String referenceAgate;
     private byte[] avatarPromo;
     private boolean enCours = true;
     @ManyToOne
@@ -31,5 +31,6 @@ public class Promo extends AbstractEntity {
     private Collection<Groupe> groupes;
 
     @ManyToMany
+    @JsonIgnore
     private Collection<Admin> admins;
 }

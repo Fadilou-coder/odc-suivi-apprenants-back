@@ -5,15 +5,12 @@ import com.odc.suiviapprenants.repository.*;
 import com.odc.suiviapprenants.service.ApplicationService;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -28,7 +25,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     ApprenantRepository apprenantRepository;
     ReferentielRepository referentielRepository;
     private PasswordEncoder passwordEncoder;
-    private CompetenceRepository competenceRepository;
 
 
     @Override
@@ -53,21 +49,10 @@ public class ApplicationServiceImpl implements ApplicationService {
     }
 
     @Override
-    public void saveAllAdmin(List<Admin> adminList) {
-        adminRepository.saveAll(adminList);
-    }
-
-    @Override
-    public void saveAllCompetence(List<Competence> competenceList) {competenceRepository.saveAll(competenceList);}
-
-    @Override
-    public void saveAllReferentiel(List<Referentiel> referentielList) {referentielRepository.saveAll(referentielList);}
-
-    @Override
     public Promo getPromoUserConnected() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Admin admin = adminRepository.findByUsernameAndArchiveFalse(auth.getPrincipal().toString()).get();
-        log.error("admin");
-        return  promoRepository.findByEnCoursTrueAndArchiveFalseAndAdmins(admin).get();
+        Promo promo = promoRepository.findByEnCoursTrueAndArchiveFalseAndAdmins(admin).get();
+        return  promo;
     }
 }

@@ -2,7 +2,6 @@ package com.odc.suiviapprenants.service.impl;
 
 import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.dto.GroupeDto;
-import com.odc.suiviapprenants.dto.PromoDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
@@ -14,14 +13,12 @@ import com.odc.suiviapprenants.repository.GroupeRepository;
 import com.odc.suiviapprenants.repository.PromoRepository;
 import com.odc.suiviapprenants.service.GroupeService;
 import com.odc.suiviapprenants.validator.GroupeValidator;
-import com.odc.suiviapprenants.validator.PromoValidator;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,26 +28,25 @@ import java.util.stream.Collectors;
 @Slf4j
 @AllArgsConstructor
 public class GroupeServiceImpl implements GroupeService {
-     GroupeRepository groupeRepository;
-     PromoRepository promoRepository;
-     ApprenantRepository apprenantRepository;
+    GroupeRepository groupeRepository;
+    PromoRepository promoRepository;
+    ApprenantRepository apprenantRepository;
 
     @Override
     public GroupeDto save(GroupeDto groupeDto) throws IOException {
         Groupe groupe = new Groupe();
+        Optional<Promo> promo = promoRepository.findById(groupeDto.getPromo().getId());
+        if (promo.isPresent())
+        {
+            groupe.setNomGroupe(groupeDto.getNomGroupe());
+            groupe.setPromo(promo.get());
             groupe.setStatut("ouvert");
             groupe.setType("");
-            Optional<Promo> promo = promoRepository.findById(groupeDto.getPromo().getId());
-            if (promo.isPresent())
-            {
-                groupe.setNomGroupe(groupeDto.getNomGroupe());
-                groupe.setPromo(promo.get());
-            }
-            else {
-                throw new InvalidEntityException("promo n'est pas valide", ErrorCodes.PROMO_NOT_VALID);
-            }
-        log.info(groupeDto.toString());
-             groupeRepository.save(groupe);
+        }
+        else {
+            throw new InvalidEntityException("promo n'est pas valide", ErrorCodes.PROMO_NOT_VALID);
+        }
+        groupeRepository.save(groupe);
         return GroupeDto.fromEntity(groupe);
     }
 
@@ -77,16 +73,16 @@ public class GroupeServiceImpl implements GroupeService {
 
     @Override
     public GroupeDto put(Long id, GroupeDto groupeDto) {
-        if (groupeRepository.findById(id).isPresent()){
+        if (groupeRepository.findByIdAndArchiveFalse(id).isPresent()){
             Groupe groupe = groupeRepository.findById(id).get();
-
+            groupe.removeAllApprenant(groupe.getApprenants());
             if (StringUtils.hasLength(groupeDto.getNomGroupe())){groupe.setNomGroupe(groupeDto.getNomGroupe());}
             if (StringUtils.hasLength(groupeDto.getStatut())){groupe.setStatut(groupeDto.getStatut());}
             if (StringUtils.hasLength(groupeDto.getType())){groupe.setType(groupe.getType());}
             if (groupeDto.getApprenants() != null)
             {
                 groupeDto.getApprenants().forEach(apprenantDto -> {
-                    Apprenant apprenant = apprenantRepository.findById(apprenantDto.getId()).get();
+                    Apprenant apprenant = apprenantRepository.findByIdAndArchiveFalse(apprenantDto.getId()).get();
                     groupe.getApprenants().add(apprenant);
                     groupeRepository.flush();
                 });
@@ -94,9 +90,9 @@ public class GroupeServiceImpl implements GroupeService {
 
         }else {
             List<String> errors = GroupeValidator.ValidatorGroupe(groupeDto);
-            throw new InvalidEntityException("L'id groupe n'est pas valide", ErrorCodes.PROMO_NOT_VALID, errors);
+            throw new InvalidEntityException("L'id groupe n'est pas valide", ErrorCodes.GROUPE_NOT_VALID, errors);
         }
-        return null;
+        return GroupeDto.fromEntity(groupeRepository.findById(id).get());
     }
 
     @Override
@@ -109,6 +105,7 @@ public class GroupeServiceImpl implements GroupeService {
                         "Aucun Groupe avec l'ID = " + id + " ne se trouve dans la BDD",
                         ErrorCodes.GROUPE_NOT_FOUND));
         groupe.setArchive(true);
+        groupe.setPromo(null);
         groupe.removeAllApprenant(groupe.getApprenants());
         groupeRepository.flush();
     }

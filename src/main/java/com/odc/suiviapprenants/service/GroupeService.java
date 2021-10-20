@@ -1,8 +1,6 @@
 package com.odc.suiviapprenants.service;
 
 import com.odc.suiviapprenants.dto.GroupeDto;
-import com.odc.suiviapprenants.dto.GroupeTagDto;
-
 import java.io.IOException;
 import java.util.List;
 

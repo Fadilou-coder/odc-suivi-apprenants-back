@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Groupe extends AbstractEntity {
     @ManyToMany
     private Collection<Admin> admins;
     @ManyToOne(fetch=FetchType.LAZY ,cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private Promo promo;
 
     public void addApprenant(Apprenant apprenant) {
