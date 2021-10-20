@@ -1,0 +1,32 @@
+package com.odc.suiviapprenants.controller.api;
+import com.odc.suiviapprenants.dto.PromoDto;
+import io.swagger.annotations.Api;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.util.List;
+
+@Api("promo")
+public interface PromoApi {
+
+    @PostMapping(value = "/promos/create")
+    PromoDto save(
+            @RequestParam("langue") String langue,
+            @RequestParam("title") String title,
+            @RequestParam("description") String description,
+            @RequestParam("lieu") String lieu,
+            @RequestParam("dateDebut") String dateDebut,
+            @RequestParam("dateFinProvisoire") String dateFinProvisoire,
+            @RequestParam("etat") String etat,
+            @RequestParam("avatarPromo")MultipartFile avatarPromo,
+            @RequestParam("referentiel") String referentiel,
+            @RequestParam("apprenantsEmail") List<String> apprenantsEmail
+    ) throws Exception;
+    @GetMapping("/promos")
+    List<PromoDto> findAll();
+
+    @GetMapping("/promos/{id}")
+    PromoDto findById(@PathVariable Long id);
+
+    @PutMapping("/promos/{id}")
+    PromoDto put(@RequestBody PromoDto promoDto, @PathVariable Long id);
+}

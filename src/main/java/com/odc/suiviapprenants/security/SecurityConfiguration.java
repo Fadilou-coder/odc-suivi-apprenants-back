@@ -32,32 +32,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
     auth.userDetailsService(applicationUserDetailsService)
-    .passwordEncoder(passwordEncoder())
+            .passwordEncoder(passwordEncoder())
     ;
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.addFilterBefore(corsFilter(), SessionManagementFilter.class)
-        .csrf().disable()
-        .authorizeRequests().antMatchers("/**/login","/roles/create",
-        "/v2/api-docs",
-        "/swagger-resources",
-        "/swagger-resources/**",
-        "/configuration/ui",
-        "/configuration/security",
-        "/swagger-ui.html",
-        "/webjars/**",
-        "/v3/api-docs/**",
-        "/swagger-ui/**", "/**"
+            .csrf().disable()
+            .authorizeRequests().antMatchers("/**/login","/roles/create",
+                    "/v2/api-docs",
+                    "/swagger-resources",
+                    "/swagger-resources/**",
+                    "/configuration/ui",
+                    "/configuration/security",
+                    "/swagger-ui.html",
+                    "/webjars/**",
+                    "/v3/api-docs/**",
+                    "/swagger-ui/**", "/**"
             ).permitAll()
-        .and().sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and().sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     ;
-//    http
-  //          .authorizeRequests()
-    //        .antMatchers("/**", "/**/roles/create").access("hasAnyAuthority('ADMIN', 'CM')")
-      //      .anyRequest().fullyAuthenticated();
+    http
+              .authorizeRequests()
+            .antMatchers("/**", "/**/roles/create").access("hasAnyAuthority('ADMIN', 'CM','LEAD_FORMATEUR')")
+          .anyRequest().fullyAuthenticated();
 
     http.addFilterBefore(applicationRequestFilter, UsernamePasswordAuthenticationFilter.class);
   }
