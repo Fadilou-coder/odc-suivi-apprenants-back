@@ -1,4 +1,4 @@
-package com.odc.suiviapprenants.fixture;
+package com.odc.suiviapprenants.dataFixture;
 import com.odc.suiviapprenants.model.Competence;
 import com.odc.suiviapprenants.repository.CompetenceRepository;
 import lombok.AllArgsConstructor;

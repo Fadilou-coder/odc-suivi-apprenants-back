@@ -11,6 +11,7 @@ public interface GroupeCompetenceRepository extends JpaRepository<GroupeCompeten
     Optional<GroupeCompetence> findByIdAndArchiveFalse(Long id);
     Optional<GroupeCompetence> findByLibelleAndArchiveFalse(String libelle);
     Optional<GroupeCompetence> findByIdAndReferentielsId(Long id, Long id_referentiel);
+    Optional<GroupeCompetence> findByLibelleAndIdNotAndArchiveFalse(String libelle, Long id);
 
     List<GroupeCompetence> findAllByArchiveFalse();
     List<GroupeCompetence> findAllByReferentielsIdAndArchiveFalse(Long id);
