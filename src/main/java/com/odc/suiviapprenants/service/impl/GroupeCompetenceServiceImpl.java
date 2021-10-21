@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -129,17 +130,26 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
         editCompetences(groupeCompetenceDto, groupeCompetence);
         editTags(groupeCompetenceDto, groupeCompetence);
 
+        validateGroupeCompetences(GroupeCompetenceDto.fromEntity(groupeCompetence));
+
         groupeCompetenceRepository.flush();
         return GroupeCompetenceDto.fromEntity(groupeCompetence);
     }
 
-    private boolean groupeCompetenceAlreadyExist(String libelle) {
-        return groupeCompetenceRepository.findByLibelleAndArchiveFalse(libelle).isPresent();
+    private boolean groupeCompetenceAlreadyExist(String libelle, Long id) {
+        Optional<GroupeCompetence> groupeCompetence;
+        if(id == null) {
+            groupeCompetence = groupeCompetenceRepository.findByLibelleAndArchiveFalse(libelle);
+        }
+        else {
+            groupeCompetence = groupeCompetenceRepository.findByLibelleAndIdNotAndArchiveFalse(libelle, id);
+        }
+        return groupeCompetence.isPresent();
     }
 
     private void validateGroupeCompetences(GroupeCompetenceDto groupeCompetenceDto) {
         List<String> errors = GroupeCompetenceValidator.validate(groupeCompetenceDto);
-        if(groupeCompetenceAlreadyExist(groupeCompetenceDto.getLibelle())) {
+        if(groupeCompetenceAlreadyExist(groupeCompetenceDto.getLibelle(), groupeCompetenceDto.getId())) {
             throw new InvalidEntityException("Un autre groupe de compétence avec le même libelle existe deja", ErrorCodes.GROUPE_COMPETENCE_ALREADY_IN_USE,
                     Collections.singletonList("Un autre groupe de compétence avec le même libelle existe deja dans la BDD"));
         }
