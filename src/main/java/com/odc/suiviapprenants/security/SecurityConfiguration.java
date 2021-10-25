@@ -54,14 +54,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .and().sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
     ;
-//    http
-//            .authorizeRequests()
-//            .antMatchers("/**", "/**/roles/create").access("hasAnyAuthority('ADMIN', 'CM')");
-            //enlever le commentaire pour s'authentifier a avec tout les routes ***
-           // .anyRequest().fullyAuthenticated();
-  //          .authorizeRequests()
-    //        .antMatchers("/**", "/**/roles/create").access("hasAnyAuthority('ADMIN', 'CM')")
-      //      .anyRequest().fullyAuthenticated();
+    http
+            .authorizeRequests()
+            .antMatchers("/**", "/**/roles/create").access("hasAnyAuthority('ADMIN', 'CM')")
+            .anyRequest().fullyAuthenticated();
 
     http.addFilterBefore(applicationRequestFilter, UsernamePasswordAuthenticationFilter.class);
   }
