@@ -29,6 +29,8 @@ public class Referentiel extends AbstractEntity{
 
     @OneToMany(mappedBy = "referentiel")
     private Collection<NiveauEvaluation> niveauEvaluations;
+    @ManyToMany
+    Collection<Formateur> formateurs;
     public Referentiel(String libelle, String description, String critereAdmission, String critereEvaluation) {
         this.libelle = libelle;
         this.description = description;

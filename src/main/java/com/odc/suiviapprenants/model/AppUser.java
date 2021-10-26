@@ -1,4 +1,5 @@
 package com.odc.suiviapprenants.model;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -44,6 +45,15 @@ public class AppUser extends AbstractEntity {
         this.email = email;
         this.cni = cni;
         this.adresse = adresse;
+        this.numeroTelephone = numeroTelephone;
+    }
+
+    public AppUser(String username, String password, String prenom, String nom, String email, String numeroTelephone) {
+        this.username = username;
+        this.password = password;
+        this.prenom = prenom;
+        this.nom = nom;
+        this.email = email;
         this.numeroTelephone = numeroTelephone;
     }
 }

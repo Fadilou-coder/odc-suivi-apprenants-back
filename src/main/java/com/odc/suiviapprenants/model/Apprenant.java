@@ -19,7 +19,11 @@ public class Apprenant extends AppUser {
 
     private String motif;
 
-    public Apprenant(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone, String etat, String matricule, String role) {
+    public Apprenant(
+            String username, String password,
+                     String prenom, String nom, String email,
+                     String cni, String adresse, String numeroTelephone,
+                     String etat, String matricule, String role) {
         super(username, password, prenom, nom, email, cni, adresse, numeroTelephone);
         this.etat = etat;
         this.matricule = matricule;
