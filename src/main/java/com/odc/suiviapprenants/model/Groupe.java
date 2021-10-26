@@ -1,13 +1,11 @@
 package com.odc.suiviapprenants.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
@@ -22,7 +20,8 @@ public class Groupe extends AbstractEntity {
     private Collection<Apprenant> apprenants;
     @ManyToMany
     private Collection<Admin> admins;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.LAZY ,cascade = CascadeType.PERSIST)
+    @JsonIgnore
     private Promo promo;
 
     public void addApprenant(Apprenant apprenant) {
@@ -37,5 +36,6 @@ public class Groupe extends AbstractEntity {
             apprenant.getGroupes().remove(apprenant);
         });
     }
+
 
 }

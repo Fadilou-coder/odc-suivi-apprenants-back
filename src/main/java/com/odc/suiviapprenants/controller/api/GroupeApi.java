@@ -3,22 +3,23 @@ import com.odc.suiviapprenants.dto.GroupeDto;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Api("groupe")
 public interface GroupeApi {
-    @PostMapping("/groupe/create")
-    GroupeDto save(@RequestBody GroupeDto groupeDto);
+    @PostMapping("/groupes/create")
+    GroupeDto save(@RequestBody GroupeDto groupeDto) throws IOException;
 
-    @GetMapping("/groupe")
+    @GetMapping("/groupes")
     List<GroupeDto> findAll();
 
-    @GetMapping("/groupe/{id}")
+    @GetMapping("/groupes/{id}")
     GroupeDto findById(@PathVariable Long id);
 
-    @DeleteMapping("/groupe/{id}")
+    @DeleteMapping("/groupes/{id}")
     void delete(@PathVariable Long id);
 
-    @PutMapping("/groupe/{id}")
-    GroupeDto put(@RequestBody GroupeDto groupeDto ,@PathVariable Long id);
+    @PutMapping("/groupes/{id}")
+    GroupeDto put(@RequestBody GroupeDto groupeDto, @PathVariable Long id);
 }

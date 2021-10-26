@@ -22,8 +22,7 @@ public class PromoValidator {
                 promoDto.getLieu(),
                 promoDto.getEtat(),
                 promoDto.getDateDebut(),
-                promoDto.getDateFinProvisoir(),
-                promoDto.getDateFinReeelle(),
+                promoDto.getDateFinProvisoire(),
                 promoDto.getReferentiel() == null);
     }
 
@@ -32,7 +31,7 @@ public class PromoValidator {
             String langue , String title ,
             String description, String lieu,
             String etat, LocalDate dateDebut,
-            LocalDate dateFinProvisoir, LocalDate dateFinReelle,
+            LocalDate dateFinProvisoire,
             boolean isReferentiel
     )
     {
@@ -46,8 +45,8 @@ public class PromoValidator {
             errors.add("Veuillez renseigner le lieu");
             errors.add("Veuillez renseigner l'etat");
             errors.add("Veuillez renseigner la date de debut");
-            errors.add("Veuillez renseigner la date de fin provisoir");
-            errors.add("Veuillez renseigner la date de fin reelle");
+            errors.add("Veuillez renseigner la date de fin provisoire");
+
             return errors;
         }
 
@@ -80,13 +79,9 @@ public class PromoValidator {
         {
             errors.add("Veuillez renseigner la date de debut");
         }
-        if (dateFinProvisoir == null)
+        if (dateFinProvisoire == null)
         {
-            errors.add("Veuillez renseigner la date de fin provisoir");
-        }
-        if (dateFinReelle == null)
-        {
-            errors.add("Veuillez renseigner la date de fin reelle");
+            errors.add("Veuillez renseigner la date de fin provisoire");
         }
         return errors;
     }

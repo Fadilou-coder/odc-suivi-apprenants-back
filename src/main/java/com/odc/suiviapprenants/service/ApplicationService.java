@@ -10,7 +10,5 @@ public interface ApplicationService {
     public Admin findUserByUsernameAdmin(String username);
     public Apprenant findAppByUsername(String username);
     public Admin addAdmin(Admin admin);
-    public void saveAllAdmin(List<Admin> adminList);
-    public void saveAllCompetence(List<Competence> competenceList);
-    public void saveAllReferentiel(List<Referentiel> referentielList);
+    public Promo getPromoUserConnected();
 }
