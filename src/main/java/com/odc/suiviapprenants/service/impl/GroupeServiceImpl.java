@@ -72,6 +72,15 @@ public class GroupeServiceImpl implements GroupeService {
     }
 
     @Override
+    public List<ApprenantDto> findByApprenantById(Long id) {
+        if (id == null) {
+            log.error("Groupe ID is null");
+            return null;
+        }
+        return apprenantRepository.findApprenantsByGroupes(id).stream().map(ApprenantDto::fromEntity).collect(Collectors.toList());
+    }
+
+    @Override
     public GroupeDto put(Long id, GroupeDto groupeDto) {
         if (groupeRepository.findByIdAndArchiveFalse(id).isPresent()){
             Groupe groupe = groupeRepository.findById(id).get();

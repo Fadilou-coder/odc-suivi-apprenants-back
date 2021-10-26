@@ -1,4 +1,5 @@
 package com.odc.suiviapprenants.controller.api;
+import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.dto.GroupeDto;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,9 @@ public interface GroupeApi {
 
     @GetMapping("/groupes/{id}")
     GroupeDto findById(@PathVariable Long id);
+
+    @GetMapping("/groupe/{id}/apprenants")
+    List<ApprenantDto> findByApprenantById(@PathVariable Long id);
 
     @DeleteMapping("/groupes/{id}")
     void delete(@PathVariable Long id);

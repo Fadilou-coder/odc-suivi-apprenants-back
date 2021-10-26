@@ -1,6 +1,7 @@
 package com.odc.suiviapprenants.controller;
 
 import com.odc.suiviapprenants.controller.api.GroupeApi;
+import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.dto.GroupeDto;
 import com.odc.suiviapprenants.service.GroupeService;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,11 @@ public class GroupeController implements GroupeApi {
     @Override
     public GroupeDto findById(Long id) {
         return groupeService.findById(id);
+    }
+
+    @Override
+    public List<ApprenantDto> findByApprenantById(Long id) {
+        return groupeService.findByApprenantById(id);
     }
 
     @Override

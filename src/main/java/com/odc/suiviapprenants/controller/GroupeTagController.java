@@ -3,19 +3,15 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.GroupeTagApi;
 import com.odc.suiviapprenants.dto.GroupeTagDto;
 import com.odc.suiviapprenants.service.GroupeTagService;
-import org.springframework.web.bind.annotation.RequestParam;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
 public class GroupeTagController implements GroupeTagApi {
-
     private GroupeTagService groupeTagService;
 
     @Override
@@ -24,9 +20,8 @@ public class GroupeTagController implements GroupeTagApi {
     }
 
     @Override
-    public List<GroupeTagDto> findAll(@RequestParam Optional<Integer> page,
-                                      @RequestParam Optional<String> sortBy) {
-        return groupeTagService.findAll(page, sortBy).stream().map(GroupeTagDto::fromEntity).collect(Collectors.toList());
+    public List<GroupeTagDto> findAll() {
+        return groupeTagService.findAll();
     }
 
     @Override
