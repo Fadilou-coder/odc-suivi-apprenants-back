@@ -25,12 +25,29 @@ public class Promo extends AbstractEntity {
     private String etat;
     private byte[] avatarPromo;
     private boolean enCours = true;
+
     @ManyToOne
     private Referentiel referentiel;
+
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "promo")
     private Collection<Groupe> groupes;
 
     @ManyToMany
     @JsonIgnore
     private Collection<Admin> admins;
+
+    @ManyToMany
+    @JsonIgnore
+    Collection<Formateur> formateurs;
+
+    public Promo(String langue, String title, String description, String lieu, String etat, Referentiel referentiel) {
+        this.langue = langue;
+        this.title = title;
+        this.description = description;
+        this.lieu = lieu;
+        this.etat = etat;
+        this.referentiel = referentiel;
+    }
+
+
 }
