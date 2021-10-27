@@ -20,7 +20,12 @@ public class ReferentielFixture implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         referentielRepository.saveAll(Arrays.asList(
-                new Referentiel("ref1","description1","crictereDev1","crictereAdmin1"),
+                new Referentiel(
+                        "Développement Web et mobile",
+                        "De l’analyse du besoin à la mise en ligne, en passant par l’interface et la base\n" + "de données, le·la développeur·se web conçoit et programme des applications\n" + "web.",
+                        "Un portfolio comprenant la réalisation d'au moins 9 projets tout au long de la formation",
+                        "Une soutenance devant un jury de professionnels"
+                ),
                 new Referentiel("ref2","description2","crictereDev2","crictereAdmin2"),
                 new Referentiel("ref3","description3","crictereDev3","crictereAdmin3"),
                 new Referentiel("ref4","description4","crictereDev4","crictereAdmin4")
