@@ -24,7 +24,7 @@ public class PretFixture implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         pretRepository.saveAll(Arrays.asList(
-                new Pret("Reference", "En cours", apprenantRepository.findByEmail("apprenant@gmail.com").get(), materielRepository.findByLibelleAndAndDescriptionAndArchiveFalse("Machine", "Dell Core i5").get())
+                new Pret("Reference", "En cours", apprenantRepository.findByEmail("apprenant@gmail.com0").get(), materielRepository.findByLibelleAndAndDescriptionAndArchiveFalse("Machine", "Dell Core i5").get())
         ));
     }
 }

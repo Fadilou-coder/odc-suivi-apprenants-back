@@ -27,8 +27,7 @@ public class ReferentielFixture implements CommandLineRunner {
                         "Une soutenance devant un jury de professionnels"
                 ),
                 new Referentiel("ref2","description2","crictereDev2","crictereAdmin2"),
-                new Referentiel("ref3","description3","crictereDev3","crictereAdmin3"),
-                new Referentiel("ref4","description4","crictereDev4","crictereAdmin4")
+                new Referentiel("ref3","description3","crictereDev3","crictereAdmin3")
         ));
     }
 }
