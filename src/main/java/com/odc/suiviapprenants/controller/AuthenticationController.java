@@ -4,6 +4,9 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.AuthenticationApi;
 import com.odc.suiviapprenants.dto.auth.AuthenticationRequest;
 import com.odc.suiviapprenants.dto.auth.AuthenticationResponse;
+import com.odc.suiviapprenants.model.Admin;
+import com.odc.suiviapprenants.model.Promo;
+import com.odc.suiviapprenants.service.ApplicationService;
 import com.odc.suiviapprenants.service.impl.UserDetailsServiceImpl;
 import com.odc.suiviapprenants.utils.JwtUtil;
 import lombok.AllArgsConstructor;
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 public class AuthenticationController implements AuthenticationApi {
   private AuthenticationManager authenticationManager;
   private UserDetailsServiceImpl userDetailsService;
+  private ApplicationService applicationService;
   private JwtUtil jwtUtil;
 
   @Override
@@ -43,6 +47,11 @@ public class AuthenticationController implements AuthenticationApi {
     return ResponseEntity.ok(
             new AuthenticationResponse(jwt,roles)
     );
+  }
+
+  @Override
+  public Promo getPromoUserConnected() {
+    return applicationService.getPromoUserConnected();
   }
 
 }

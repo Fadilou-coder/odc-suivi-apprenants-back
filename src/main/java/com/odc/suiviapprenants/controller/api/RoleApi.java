@@ -2,10 +2,13 @@ package com.odc.suiviapprenants.controller.api;
 
 import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.RoleDto;
+import com.odc.suiviapprenants.model.Role;
 import io.swagger.annotations.Api;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Api("role")
@@ -15,7 +18,7 @@ public interface RoleApi {
     RoleDto save(@RequestBody RoleDto roleDto);
 
     @GetMapping("/roles")
-    List<RoleDto> findAll();
+    List<RoleDto> findAll(@RequestParam Optional<Integer> page, @RequestParam Optional<String> sortBy);
 
     @GetMapping("/roles/{id}")
     RoleDto findById(@PathVariable Long id);
