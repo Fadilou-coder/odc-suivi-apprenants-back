@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.repository;
 
+import com.odc.suiviapprenants.model.AppUser;
 import com.odc.suiviapprenants.model.Apprenant;
 import com.odc.suiviapprenants.model.Groupe;
 import org.springframework.data.jpa.repository.JpaRepository;

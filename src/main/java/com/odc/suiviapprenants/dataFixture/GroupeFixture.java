@@ -15,6 +15,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,15 +34,18 @@ class GroupeFixture implements CommandLineRunner {
         List<Formateur> formateurs = formateurRepository.findAll();
         List<Apprenant> apprenants = apprenantRepository.findAll();
         List<Promo> promoList = promoRepository.findAll();
-
-        for(int i = 0; i < promoList.toArray().length; i++){
-            if(i == 0 || i == 1 ) {
-                groupeRepository.save(new Groupe("groupe_" + i,"plusieurs","ouvert", promoList.get(i), formateurs, apprenants));
-            }
-            else {
-                groupeRepository.save(new Groupe("groupe_" + i,"binome","ouvert", promoList.get(i), formateurs, Arrays.asList(apprenants.get(0), apprenants.get(1))));
-            }
-        };
-
+        List<Apprenant> apprenantList1 = new ArrayList<>();
+        List<Apprenant> apprenantList2 = new ArrayList<>();
+        for(int i = 0; i < 25; i++){
+            apprenantList1.add(apprenants.get(i));
+        }
+        for(int i = 25; i < 50; i++){
+            apprenantList2.add(apprenants.get(i));
+        }
+        groupeRepository.saveAll(Arrays.asList(
+                new Groupe("groupe 1", "plusieurs", "ouvert", promoList.get(0), formateurs, apprenantList1),
+                new Groupe("groupe 2", "plusieurs", "ouvert", promoList.get(0), formateurs, apprenantList2),
+                new Groupe("GROUPE PRINCIPALE", "plusieurs", "ouvert", promoList.get(0), formateurs, apprenants)
+        ));
     }
 }
