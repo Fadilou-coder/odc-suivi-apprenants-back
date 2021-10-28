@@ -19,6 +19,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -72,6 +74,15 @@ public class GroupeServiceImpl implements GroupeService {
     }
 
     @Override
+    public List<ApprenantDto> findByApprenantById(Long id) {
+        if (id == null) {
+            log.error("Groupe ID is null");
+            return null;
+        }
+        return apprenantRepository.findByGroupes(groupeRepository.findById(id).get()).stream().map(ApprenantDto::fromEntity).collect(Collectors.toList());
+    }
+
+    @Override
     public GroupeDto put(Long id, GroupeDto groupeDto) {
         if (groupeRepository.findByIdAndArchiveFalse(id).isPresent()){
             Groupe groupe = groupeRepository.findById(id).get();
@@ -108,5 +119,13 @@ public class GroupeServiceImpl implements GroupeService {
         groupe.setPromo(null);
         groupe.removeAllApprenant(groupe.getApprenants());
         groupeRepository.flush();
+    }
+
+    @Override
+    public List<ApprenantDto> findApprenantNonAffecterByGroupe(Long id) {
+        Groupe groupe = groupeRepository.findById(id).get();
+        Groupe grpPrincipale = groupeRepository.findByNomGroupeAndPromo("Principale", groupe.getPromo()).get();
+
+        return null;
     }
 }
