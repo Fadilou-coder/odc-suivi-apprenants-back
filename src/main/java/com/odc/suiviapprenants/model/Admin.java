@@ -12,12 +12,16 @@ import java.util.Collection;
 @Data
 @AllArgsConstructor
 public class Admin extends AppUser {
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Role role;
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "admins")
     private Collection<Groupe> groupes;
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "admins")
     private Collection<Promo> promos;
+
     public Admin(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone, Role role) {
         super(username, password, prenom, nom, email, cni, adresse, numeroTelephone);
         this.role = role;

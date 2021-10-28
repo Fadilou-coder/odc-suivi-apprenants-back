@@ -5,14 +5,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 
 @Entity
-@Data
 @NoArgsConstructor
+@Data
 @AllArgsConstructor
-public class ProfilSortie extends AbstractEntity{
+public class Document extends AbstractEntity{
+    String libelle;
+    byte[] justificatif;
 
-
-    private String libelle;
-
+    @ManyToOne
+    Formateur formateur;
 }

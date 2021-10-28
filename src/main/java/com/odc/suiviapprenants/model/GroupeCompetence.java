@@ -1,6 +1,8 @@
 package com.odc.suiviapprenants.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -9,19 +11,21 @@ import java.util.Collection;
 
 @Entity
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class GroupeCompetence extends AbstractEntity {
 
     private String libelle;
 
     private String description;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.MERGE)
     private Collection<Competence> competences;
 
     @ManyToMany(mappedBy = "groupeCompetences")
     private Collection<Referentiel> referentiels;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.MERGE)
     private Collection<Tag> tags;
 
     public void addCompetence(Competence competence){
