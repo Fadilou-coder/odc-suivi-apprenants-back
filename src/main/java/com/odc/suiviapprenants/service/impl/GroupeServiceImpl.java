@@ -77,7 +77,7 @@ public class GroupeServiceImpl implements GroupeService {
             log.error("Groupe ID is null");
             return null;
         }
-        return apprenantRepository.findApprenantsByGroupes(id).stream().map(ApprenantDto::fromEntity).collect(Collectors.toList());
+        return apprenantRepository.findByGroupes(groupeRepository.findById(id).get()).stream().map(ApprenantDto::fromEntity).collect(Collectors.toList());
     }
 
     @Override

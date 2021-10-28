@@ -26,7 +26,7 @@ public class ApprenantFixture implements CommandLineRunner {
         String encodedPassword = passwordEncoder.encode(password);
 
         apprenantRepository.saveAll(Arrays.asList(
-                new Apprenant("Ommar faye", encodedPassword, "Omar", "Faye", "apprenant1@gmail.com", "1 234 1678 90150", "adresse1", "771000007", "EN COURS", "DEVWEB2020-12920011", "APPRENANT"),
+                new Apprenant("Omar faye", encodedPassword, "Omar", "Faye", "apprenant1@gmail.com", "1 234 1678 90150", "adresse1", "771000007", "EN COURS", "DEVWEB2020-12920011", "APPRENANT"),
                 new Apprenant("Fadilou sy", encodedPassword, "Fadilou", "SY", "apprenant3@gmail.com", "1 354 3678 90150", "adresse3", "773000007", "EN COURS", "DEVWEB2020-12920211", "APPRENANT"),
                 new Apprenant("Amina ba", encodedPassword, "Amina", "ba", "apprenant4@gmail.com", "1 253 4678 90150", "adresse4", "774000007", "EN COURS", "DEVWEB2020-12922111", "APPRENANT"),
                 new Apprenant("abdou sidibe", encodedPassword, "Abdou", "Sidibe", "apprenant5@gmail.com", "1 334 5678 90150", "adresse5", "775000007", "EN COURS", "DEVWEB2020-12921221", "APPRENANT"),

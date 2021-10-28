@@ -37,5 +37,12 @@ public class Groupe extends AbstractEntity {
         });
     }
 
+    public Groupe(String nomGroupe, String type, String statut, Promo promo) {
+        this.nomGroupe = nomGroupe;
+        this.type = type;
+        this.statut = statut;
+        this.promo = promo;
+    }
+
 
 }
