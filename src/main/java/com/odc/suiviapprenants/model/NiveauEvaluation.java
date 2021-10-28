@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -24,4 +25,7 @@ public class NiveauEvaluation extends AbstractEntity {
 
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     private Referentiel referentiel;
+
+    @OneToMany(mappedBy = "niveau")
+    private Collection<BriefCompetence> briefCompetences;
 }

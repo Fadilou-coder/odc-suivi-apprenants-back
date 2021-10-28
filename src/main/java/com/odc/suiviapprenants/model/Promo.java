@@ -29,7 +29,7 @@ public class Promo extends AbstractEntity {
     @ManyToOne
     private Referentiel referentiel;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "promo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "promo")
     private Collection<Groupe> groupes;
 
     @ManyToMany
@@ -40,6 +40,10 @@ public class Promo extends AbstractEntity {
     @JsonIgnore
     Collection<Formateur> formateurs;
 
+    @OneToMany(mappedBy = "promo")
+    @JsonIgnore
+    private Collection<Brief> briefs;
+
     public Promo(String langue, String title, String description, String lieu, String etat, Referentiel referentiel) {
         this.langue = langue;
         this.title = title;
@@ -48,6 +52,4 @@ public class Promo extends AbstractEntity {
         this.etat = etat;
         this.referentiel = referentiel;
     }
-
-
 }
