@@ -30,7 +30,6 @@ public class AdminFixture implements CommandLineRunner {
         adminRepository.saveAll(Arrays.asList(
                 new Admin("admin", encodedPassword, "admin", "admin", "admin@gmail.com", "1 234 5678 90123", "adresse", "770000000", roleRepository.findByLibelle("ADMIN")),
                 new Admin("leadFormateur", encodedPassword, "leadFormateur", "leadFormateur", "leadFormateur@gmail.com", "1 234 5678 90124", "adresse", "770000001", roleRepository.findByLibelle("LEAD_FORMATEUR")),
-                new Admin("formateur", encodedPassword, "formateur", "formateur", "formateur@gmail.com", "1 234 5678 90126", "adresse", "770000002", roleRepository.findByLibelle("FORMATEUR")),
                 new Admin("cm", encodedPassword, "cm", "cm", "cm@gmail.com", "1 234 5678 90125", "adresse", "770000003", roleRepository.findByLibelle("CM"))
         ));
     }

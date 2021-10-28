@@ -13,14 +13,21 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Groupe extends AbstractEntity {
+
     private String nomGroupe;
     private String type;
     private  String statut;
-    @ManyToMany(cascade = CascadeType.ALL)
+
+    @ManyToMany(cascade = CascadeType.MERGE) //ALL was present before
     private Collection<Apprenant> apprenants;
+
     @ManyToMany
     private Collection<Admin> admins;
-    @ManyToOne(fetch=FetchType.LAZY ,cascade = CascadeType.PERSIST)
+
+    @ManyToMany
+    Collection<Formateur> formateurs;
+
+    @ManyToOne(fetch=FetchType.LAZY ,cascade = CascadeType.MERGE)
     @JsonIgnore
     private Promo promo;
 
@@ -37,12 +44,12 @@ public class Groupe extends AbstractEntity {
         });
     }
 
-    public Groupe(String nomGroupe, String type, String statut, Promo promo) {
+    public Groupe(String nomGroupe, String type, String statut, Promo promo, Collection<Formateur> formateurs, Collection<Apprenant> apprenants) {
         this.nomGroupe = nomGroupe;
         this.type = type;
         this.statut = statut;
         this.promo = promo;
+        this.formateurs = formateurs;
+        this.apprenants = apprenants;
     }
-
-
 }
