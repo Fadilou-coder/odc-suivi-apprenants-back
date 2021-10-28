@@ -29,6 +29,7 @@ public interface ApprenantApi {
     @GetMapping("/apprenants/{id}")
     ApprenantDto findById(@PathVariable Long id);
 
+
     @DeleteMapping("/apprenants/{id}")
     void delete(@PathVariable Long id);
 

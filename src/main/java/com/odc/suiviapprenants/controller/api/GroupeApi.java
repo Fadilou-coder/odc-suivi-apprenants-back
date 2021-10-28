@@ -18,6 +18,9 @@ public interface GroupeApi {
     @GetMapping("/groupes/{id}")
     GroupeDto findById(@PathVariable Long id);
 
+    @GetMapping("/groupe/{id}/apprenants")
+    List<ApprenantDto> findByApprenantById(@PathVariable Long id);
+
     @DeleteMapping("/groupes/{id}")
     void delete(@PathVariable Long id);
 

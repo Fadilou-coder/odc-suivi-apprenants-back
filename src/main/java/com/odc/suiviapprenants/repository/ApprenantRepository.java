@@ -20,5 +20,5 @@ public interface ApprenantRepository extends JpaRepository<Apprenant, Long> {
 
     Optional<Apprenant> findByEmail(String email);
 
-    List<Apprenant> findAllByGroupesAndGroupesNot(Groupe groupes, Groupe groupes2);
+    List<Apprenant> findByGroupes(Groupe groupe);
 }

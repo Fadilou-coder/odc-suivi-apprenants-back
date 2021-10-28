@@ -31,6 +31,11 @@ public class GroupeController implements GroupeApi {
     }
 
     @Override
+    public List<ApprenantDto> findByApprenantById(Long id) {
+        return groupeService.findByApprenantById(id);
+    }
+
+    @Override
     public void delete(Long id) {
          groupeService.delete(id);
     }

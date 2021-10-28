@@ -12,6 +12,8 @@ public interface GroupeService {
 
     GroupeDto findById(Long id);
 
+    List<ApprenantDto> findByApprenantById(Long id);
+
     GroupeDto put(Long id, GroupeDto groupeDto);
 
     void delete(Long id);
