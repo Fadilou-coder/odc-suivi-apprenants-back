@@ -1,4 +1,5 @@
 package com.odc.suiviapprenants.controller.api;
+import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.dto.GroupeDto;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -22,4 +23,7 @@ public interface GroupeApi {
 
     @PutMapping("/groupes/{id}")
     GroupeDto put(@RequestBody GroupeDto groupeDto, @PathVariable Long id);
+
+    @GetMapping("/groupes/{id}/nonAppprenants")
+    List<ApprenantDto> findApprenantNonAffecterByGroupe (@PathVariable Long id);
 }
