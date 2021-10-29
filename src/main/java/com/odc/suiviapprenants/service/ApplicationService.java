@@ -2,13 +2,11 @@ package com.odc.suiviapprenants.service;
 
 
 import com.odc.suiviapprenants.model.*;
-
-import java.util.List;
+import com.odc.suiviapprenants.dto.PromoDto;
 
 public interface ApplicationService {
-    public AppUser findUserByUsername(String username);
-    public Admin findUserByUsernameAdmin(String username);
-    public Apprenant findAppByUsername(String username);
-    public Admin addAdmin(Admin admin);
-    public Promo getPromoUserConnected();
+    Admin findUserByUsernameAdmin(String username);
+    Apprenant findAppByUsername(String username);
+    Formateur findFormateurByUsername(String username);
+    PromoDto promoEncours();
 }
