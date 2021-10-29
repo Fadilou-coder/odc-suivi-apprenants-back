@@ -26,4 +26,7 @@ public interface GroupeApi {
 
     @PutMapping("/groupes/{id}")
     GroupeDto put(@RequestBody GroupeDto groupeDto, @PathVariable Long id);
+
+    @GetMapping("/groupes/{id}/apprenantsNonAffecter")
+    List<ApprenantDto> findApprenantNonAffecterByGroupe (@PathVariable Long id);
 }

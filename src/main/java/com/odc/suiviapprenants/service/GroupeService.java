@@ -17,4 +17,6 @@ public interface GroupeService {
     GroupeDto put(Long id, GroupeDto groupeDto);
 
     void delete(Long id);
+
+    List<ApprenantDto> findApprenantNonAffecterByGroupe(Long id);
 }

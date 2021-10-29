@@ -44,4 +44,9 @@ public class GroupeController implements GroupeApi {
     public GroupeDto put(GroupeDto groupeDto, Long id) {
         return groupeService.put(id, groupeDto);
     }
+
+    @Override
+    public List<ApprenantDto> findApprenantNonAffecterByGroupe(Long id) {
+        return groupeService.findApprenantNonAffecterByGroupe(id);
+    }
 }
