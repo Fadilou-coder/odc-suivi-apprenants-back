@@ -19,8 +19,5 @@ public class FormateurController implements FormateurApi {
         return null;
     }
 
-    @Override
-    public PromoDto promoEncours() {
-        return formateurService.promoEncours();
-    }
+
 }

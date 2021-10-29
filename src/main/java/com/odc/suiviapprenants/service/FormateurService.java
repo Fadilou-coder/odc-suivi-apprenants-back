@@ -4,5 +4,4 @@ import com.odc.suiviapprenants.dto.PromoDto;
 
 public interface FormateurService {
 
-    PromoDto promoEncours();
 }

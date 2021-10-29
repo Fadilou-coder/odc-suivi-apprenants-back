@@ -25,7 +25,4 @@ public interface FormateurApi {
             @RequestParam("dateNaissance") String dateNaissance
 
     );
-
-    @GetMapping("/formateurs/promoEncours")
-    PromoDto promoEncours();
 }

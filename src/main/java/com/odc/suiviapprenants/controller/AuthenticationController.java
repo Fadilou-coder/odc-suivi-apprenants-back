@@ -2,9 +2,10 @@ package com.odc.suiviapprenants.controller;
 
 
 import com.odc.suiviapprenants.controller.api.AuthenticationApi;
+import com.odc.suiviapprenants.dto.PromoDto;
 import com.odc.suiviapprenants.dto.auth.AuthenticationRequest;
 import com.odc.suiviapprenants.dto.auth.AuthenticationResponse;
-import com.odc.suiviapprenants.model.AppUser;
+import com.odc.suiviapprenants.dto.PromoDto;
 import com.odc.suiviapprenants.repository.UserRepository;
 import com.odc.suiviapprenants.service.ApplicationService;
 import com.odc.suiviapprenants.service.impl.UserDetailsServiceImpl;
@@ -49,6 +50,11 @@ public class AuthenticationController implements AuthenticationApi {
     return ResponseEntity.ok(
             new AuthenticationResponse(jwt,roles, id)
     );
+  }
+
+  @Override
+  public PromoDto promoEncours() {
+    return applicationService.promoEncours();
   }
 
 }
