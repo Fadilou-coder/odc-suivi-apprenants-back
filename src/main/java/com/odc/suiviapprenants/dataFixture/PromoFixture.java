@@ -1,4 +1,4 @@
-package com.odc.suiviapprenants.fixture;
+package com.odc.suiviapprenants.dataFixture;
 
 import com.odc.suiviapprenants.model.Promo;
 import com.odc.suiviapprenants.model.Referentiel;

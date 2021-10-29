@@ -1,9 +1,11 @@
-package com.odc.suiviapprenants.fixture;
+package com.odc.suiviapprenants.dataFixture;
 
 
+import com.odc.suiviapprenants.model.Apprenant;
 import com.odc.suiviapprenants.model.Formateur;
 import com.odc.suiviapprenants.model.Groupe;
 import com.odc.suiviapprenants.model.Promo;
+import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.FormateurRepository;
 import com.odc.suiviapprenants.repository.GroupeRepository;
 import com.odc.suiviapprenants.repository.PromoRepository;
@@ -22,10 +24,12 @@ class GroupeFixture implements CommandLineRunner {
     GroupeRepository groupeRepository;
     FormateurRepository formateurRepository;
     PromoRepository promoRepository;
+    ApprenantRepository apprenantRepository;
     @Override
     public void run(String... args) throws Exception {
         List<Formateur> formateurList = formateurRepository.findAll();
         List<Promo> promoList = promoRepository.findAll();
+        List<Apprenant> apprenantList = apprenantRepository.findAll();
        for(int i=0; i <promoList.toArray().length; i++){
            groupeRepository.save(new Groupe("groupe_"+i,"binome","ouvert",promoList.get(i),formateurList));
         };

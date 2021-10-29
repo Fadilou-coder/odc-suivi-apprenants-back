@@ -1,12 +1,12 @@
 package com.odc.suiviapprenants.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
@@ -16,11 +16,12 @@ import java.util.Collection;
 public class Formateur extends AppUser{
 
     private String role;
-    @OneToMany
+    @OneToMany(mappedBy = "formateur")
     private Collection<Document> documents;
     @ManyToMany
     Collection<Referentiel> referentiels;
     @ManyToMany
+    @JsonIgnore
     Collection<Groupe> groupes;
     @ManyToMany
     Collection<Promo> promos;

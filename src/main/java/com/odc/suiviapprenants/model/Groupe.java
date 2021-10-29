@@ -47,4 +47,5 @@ public class Groupe extends AbstractEntity {
         this.promo = promo;
         this.formateurs = formateurs;
     }
+
 }

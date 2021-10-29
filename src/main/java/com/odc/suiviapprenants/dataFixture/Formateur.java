@@ -1,4 +1,4 @@
-package com.odc.suiviapprenants.fixture;
+package com.odc.suiviapprenants.dataFixture;
 
 import com.odc.suiviapprenants.model.Formateur;
 import com.odc.suiviapprenants.repository.FormateurRepository;
