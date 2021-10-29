@@ -23,6 +23,9 @@ public class Tag extends AbstractEntity {
     @ManyToMany(mappedBy = "tags")
     private Collection<GroupeTag> groupeTags;
 
+    @ManyToMany(mappedBy = "tags")
+    private Collection<Brief> briefs;
+
     public Tag(String libelle){
         this.libelle = libelle;
     }

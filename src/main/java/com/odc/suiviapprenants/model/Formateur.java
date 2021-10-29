@@ -16,6 +16,7 @@ import java.util.Collection;
 public class Formateur extends AppUser{
 
     private String role;
+
     @OneToMany(mappedBy="formateur")
     private Collection<Document> documents;
 
@@ -27,6 +28,12 @@ public class Formateur extends AppUser{
 
     @ManyToMany(mappedBy = "formateurs")
     Collection<Promo> promos;
+
+    @OneToMany(mappedBy = "formateur")
+    private Collection<Brief> briefs;
+
+    @OneToMany(mappedBy = "formateur")
+    private Collection<Reponse> reponses;
 
     public Formateur(String username, String password, String prenom, String nom, String email, String numeroTelephone, String role)
     {

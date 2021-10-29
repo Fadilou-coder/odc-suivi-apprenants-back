@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne;
 @Data
 @AllArgsConstructor
 public class Document extends AbstractEntity{
-    String libelle;
-    byte[] justificatif;
+    private String libelle;
+    private byte[] justificatif;
 
     @ManyToOne
     Formateur formateur;

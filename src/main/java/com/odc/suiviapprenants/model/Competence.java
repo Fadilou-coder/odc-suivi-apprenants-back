@@ -26,4 +26,6 @@ public class Competence extends AbstractEntity {
         this.libelle = libelle;
     }
 
+    @OneToMany(mappedBy = "competence")
+    private Collection<BriefCompetence> briefCompetences;
 }
