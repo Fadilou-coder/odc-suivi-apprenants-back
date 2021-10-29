@@ -40,13 +40,15 @@ public class Promo extends AbstractEntity {
     @JsonIgnore
     Collection<Formateur> formateurs;
 
-    public Promo(String langue, String title, String description, String lieu, String etat, Referentiel referentiel) {
+    public Promo(String langue, String title, String description, String lieu, String etat, Referentiel referentiel, Boolean enCours, Collection<Formateur> formateurs) {
         this.langue = langue;
         this.title = title;
         this.description = description;
         this.lieu = lieu;
         this.etat = etat;
         this.referentiel = referentiel;
+        this.enCours = enCours;
+        this.formateurs = formateurs;
     }
 
 

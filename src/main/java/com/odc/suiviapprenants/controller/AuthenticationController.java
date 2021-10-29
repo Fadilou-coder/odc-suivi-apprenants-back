@@ -4,8 +4,8 @@ package com.odc.suiviapprenants.controller;
 import com.odc.suiviapprenants.controller.api.AuthenticationApi;
 import com.odc.suiviapprenants.dto.auth.AuthenticationRequest;
 import com.odc.suiviapprenants.dto.auth.AuthenticationResponse;
-import com.odc.suiviapprenants.model.Admin;
-import com.odc.suiviapprenants.model.Promo;
+import com.odc.suiviapprenants.model.AppUser;
+import com.odc.suiviapprenants.repository.UserRepository;
 import com.odc.suiviapprenants.service.ApplicationService;
 import com.odc.suiviapprenants.service.impl.UserDetailsServiceImpl;
 import com.odc.suiviapprenants.utils.JwtUtil;
@@ -28,6 +28,7 @@ public class AuthenticationController implements AuthenticationApi {
   private UserDetailsServiceImpl userDetailsService;
   private ApplicationService applicationService;
   private JwtUtil jwtUtil;
+  UserRepository userRepository;
 
   @Override
   public ResponseEntity<AuthenticationResponse> authenticate(AuthenticationRequest request) {
@@ -43,15 +44,11 @@ public class AuthenticationController implements AuthenticationApi {
     List<String> roles = userDetails.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.toList());
+    Long id = userRepository.findByUsernameAndArchiveFalse(userDetails.getUsername()).get().getId();
 
     return ResponseEntity.ok(
-            new AuthenticationResponse(jwt,roles)
+            new AuthenticationResponse(jwt,roles, id)
     );
-  }
-
-  @Override
-  public Promo getPromoUserConnected() {
-    return applicationService.getPromoUserConnected();
   }
 
 }
