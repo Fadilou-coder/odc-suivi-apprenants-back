@@ -9,4 +9,6 @@ public interface FormateurRepository extends JpaRepository<Formateur,Long> {
 
     Optional<Formateur> findByUsernameAndArchiveFalse(String username);
 
-    Optional<Formateur> findByIdAndArchiveFalse(Long id);}
+    Optional<Formateur> findByIdAndArchiveFalse(Long id);
+    Optional<Formateur> findByUsername(String username);
+}

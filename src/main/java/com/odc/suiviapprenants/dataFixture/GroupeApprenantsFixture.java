@@ -16,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(9)
+@Order(15)
 public class GroupeApprenantsFixture implements CommandLineRunner {
     GroupeRepository groupeRepository;
     ApprenantRepository apprenantRepository;

@@ -20,12 +20,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.odc.suiviapprenants.repository.AdminRepository;
+import com.odc.suiviapprenants.repository.PromoRepository;
+
 @Service
 @Slf4j
 @AllArgsConstructor
 public class FormateurImpl implements FormateurService {
     FormateurRepository formateurRepository;
     DocumentRepository documentRepository;
+    PromoRepository promoRepository;
+    AdminRepository adminRepository;
     @Override
     public FormateurDto save(FormateurDto formateurDto) {
         List<String> errors = FormateurValidator.validate(formateurDto);

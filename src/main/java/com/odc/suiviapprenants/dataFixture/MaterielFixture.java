@@ -1,7 +1,7 @@
 package com.odc.suiviapprenants.dataFixture;
 
-import com.odc.suiviapprenants.model.Referentiel;
-import com.odc.suiviapprenants.repository.ReferentielRepository;
+import com.odc.suiviapprenants.model.Materiel;
+import com.odc.suiviapprenants.repository.MaterielRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -13,14 +13,14 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(5)
-public class ReferentielFixture implements CommandLineRunner {
-    private ReferentielRepository referentielRepository;
+@Order(11)
+public class MaterielFixture implements CommandLineRunner {
+    private MaterielRepository materielRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        for(int i=0;i < 15;i++ ){
-            referentielRepository.save(new Referentiel("ref"+i,"description"+i,"crictereDev"+i,"crictereAdmin"+i));
-        }
+        materielRepository.saveAll(Arrays.asList(
+                new Materiel("Machine", "Dell Core i5")
+        ));
     }
 }

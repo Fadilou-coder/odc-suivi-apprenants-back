@@ -41,7 +41,8 @@ public class Apprenant extends AppUser {
 
     @OneToMany(mappedBy = "apprenant")
     private Collection<CompetenceValide> competenceValides;
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "apprenants")
     private Collection<Groupe> groupes;
 
 

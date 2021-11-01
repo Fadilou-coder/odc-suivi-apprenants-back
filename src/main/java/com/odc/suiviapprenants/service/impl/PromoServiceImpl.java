@@ -69,7 +69,7 @@ public class PromoServiceImpl implements PromoService {
                 dateDebut, dateFinProvisoire, etat,  avatarPromo
         );
         Groupe groupe1 = new Groupe();
-        groupe1.setNomGroupe("Groupe_principale " + promoDto.getTitle());
+        groupe1.setNomGroupe("GROUPE PRINCIPALE");
         groupe1.setType("principale");
         groupe1.setStatut("ouvert");
         Referentiel referentiel1 = referentielRepository.findByLibelle(referentiel).get();

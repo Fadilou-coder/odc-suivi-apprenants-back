@@ -16,7 +16,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(6)
+@Order(13)
 class FormateurFixture implements CommandLineRunner {
 
     FormateurRepository formateurRepository;
@@ -27,11 +27,11 @@ class FormateurFixture implements CommandLineRunner {
         String encodedPassword = passwordEncoder.encode(password);
 
         formateurRepository.saveAll(Arrays.asList(
-              new Formateur("formatuer1",encodedPassword,"formateur1","nom1","email1@email.com","771234455","Formtaur"),
-              new Formateur("formatuer2",encodedPassword,"formateur2","nom2","email2@email.com","77234455","Formtaur"),
-              new Formateur("formatuer3",encodedPassword,"formateur3","nom2","email3@email.com","77334455","Formtaur"),
-              new Formateur("formatuer4",encodedPassword,"formateur4","nom2","email4@email.com","77434455","Formtaur"),
-              new Formateur("formatuer5",encodedPassword,"formateur5","nom2","email5@email.com","77534455","Formtaur")
+                new Formateur("formateur1",encodedPassword,"formateur1","nom1","email1@email.com","771234455","FORMATEUR"),
+                new Formateur("formateur2",encodedPassword,"formateur2","nom2","email2@email.com","77234455","FORMATEUR"),
+                new Formateur("formateur3",encodedPassword,"formateur3","nom2","email3@email.com","77334455","FORMATEUR"),
+                new Formateur("formateur4",encodedPassword,"formateur4","nom2","email4@email.com","77434455","FORMATEUR"),
+                new Formateur("formateur5",encodedPassword,"formateur5","nom2","email5@email.com","77534455","FORMATEUR")
         ));
     }
 }

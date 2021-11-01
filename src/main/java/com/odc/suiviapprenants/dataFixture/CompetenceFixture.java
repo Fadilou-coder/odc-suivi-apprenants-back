@@ -22,8 +22,8 @@ public class CompetenceFixture implements CommandLineRunner {
                 new Competence("BD POSTGRESS"),
                 new Competence("BD MYSQL"),
                 new Competence("JAVA"),
-                new Competence("PHP"),
-                new Competence("SCRUM")
+                new Competence("Développer les composants d’accès aux données"),
+                new Competence("Créer une base de données")
         ));
     }
 }

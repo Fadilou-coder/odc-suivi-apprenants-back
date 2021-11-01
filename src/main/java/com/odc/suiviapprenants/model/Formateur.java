@@ -1,6 +1,4 @@
 package com.odc.suiviapprenants.model;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,13 +13,16 @@ import java.util.Collection;
 public class Formateur extends AppUser{
 
     private String role;
-    @OneToMany(mappedBy = "formateur")
+    @OneToMany(mappedBy="formateur")
     private Collection<Document> documents;
+
     @ManyToMany
     Collection<Referentiel> referentiels;
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "formateurs")
     Collection<Groupe> groupes;
-    @ManyToMany
+
+    @ManyToMany(mappedBy = "formateurs")
     Collection<Promo> promos;
 
     public Formateur(String username, String password, String prenom, String nom, String email, String numeroTelephone, String role)

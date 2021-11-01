@@ -6,7 +6,6 @@ import com.odc.suiviapprenants.service.FormateurService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
 import java.util.List;
 
@@ -14,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class FormateurController implements FormateurApi {
     FormateurService formateurService;
+
     @Override
     public FormateurDto save(FormateurDto formateurDto) {
         return formateurService.save(formateurDto);
@@ -29,13 +29,13 @@ public class FormateurController implements FormateurApi {
                             List<String> libelle,
                             List<MultipartFile> justificatif) throws IOException {
         return formateurService.put(
-                 id,username,
-                 email,prenom,
-                 nom,telephone,
-                 adresse,
-                 cni, avatar,
-                 dateNaissance, libelle,
-                 justificatif
+                id, username,
+                email, prenom,
+                nom, telephone,
+                adresse,
+                cni, avatar,
+                dateNaissance, libelle,
+                justificatif
         );
     }
 }
