@@ -14,7 +14,8 @@ public interface PromoService {
             String etat,
             MultipartFile avatarPromo,
             String referentiel,
-            List<String> apprenantsEmail
+            List<String> apprenantsEmail,
+            List<String> formateurs
     ) throws Exception;
 
     List<PromoDto> findAll();

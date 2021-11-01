@@ -22,7 +22,7 @@ import java.util.List;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(15)
+@Order(14)
 class GroupeFixture implements CommandLineRunner {
     GroupeRepository groupeRepository;
     FormateurRepository formateurRepository;

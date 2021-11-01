@@ -19,7 +19,8 @@ public interface PromoApi {
             @RequestParam("etat") String etat,
             @RequestParam("avatarPromo")MultipartFile avatarPromo,
             @RequestParam("referentiel") String referentiel,
-            @RequestParam("apprenantsEmail") List<String> apprenantsEmail
+            @RequestParam("apprenantsEmail") List<String> apprenantsEmail,
+            @RequestParam("formateurs") List<String> formateurs
     ) throws Exception;
     @GetMapping("/promos")
     List<PromoDto> findAll();

@@ -17,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(14)
+@Order(9)
 public class PromoFixture implements CommandLineRunner {
     PromoRepository promoRepository;
     ReferentielRepository referentielRepository;
