@@ -3,9 +3,9 @@ package com.odc.suiviapprenants.service.impl;
 
 import com.odc.suiviapprenants.model.Admin;
 import com.odc.suiviapprenants.model.Apprenant;
+import com.odc.suiviapprenants.model.Formateur;
 import com.odc.suiviapprenants.service.ApplicationService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        //Formateur formateur = service.finduserbyusernameformateur(username);
         Admin admin = service.findUserByUsernameAdmin(username);
         Apprenant apprenant = service.findAppByUsername(username);
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
@@ -33,7 +34,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         }else if (apprenant != null){
             authorities.add(new SimpleGrantedAuthority(apprenant.getRole()));
             return new User(apprenant.getUsername(), apprenant.getPassword(), authorities);
-        }else
+        }
+//        else if (formateur !=null){
+//            authorities.add(new SimpleGrantedAuthority(formateur.getRole()));
+//            return  new User(formateur.getUsername(),formateur.getPassword(),authorities);
+//        }
+        else
             throw new UsernameNotFoundException(username);
     }
 

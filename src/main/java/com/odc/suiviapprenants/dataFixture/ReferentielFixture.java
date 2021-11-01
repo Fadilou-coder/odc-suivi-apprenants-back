@@ -19,11 +19,8 @@ public class ReferentielFixture implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        referentielRepository.saveAll(Arrays.asList(
-                new Referentiel("ref1","description1","crictereDev1","crictereAdmin1"),
-                new Referentiel("ref2","description2","crictereDev2","crictereAdmin2"),
-                new Referentiel("ref3","description3","crictereDev3","crictereAdmin3"),
-                new Referentiel("ref4","description4","crictereDev4","crictereAdmin4")
-        ));
+        for(int i=0;i < 10;i++ ){
+            referentielRepository.save(new Referentiel("ref"+i,"description"+i,"crictereDev"+i,"crictereAdmin"+i));
+        }
     }
 }

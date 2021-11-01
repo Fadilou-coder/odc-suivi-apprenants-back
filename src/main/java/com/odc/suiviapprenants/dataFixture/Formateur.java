@@ -25,7 +25,6 @@ class FormateurFixture implements CommandLineRunner {
         String password = "password";
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(password);
-        Formateur formateur = new Formateur();
 
         formateurRepository.saveAll(Arrays.asList(
               new Formateur("formatuer1",encodedPassword,"formateur1","nom1","email1@email.com","771234455","Formtaur"),

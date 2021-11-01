@@ -34,6 +34,7 @@ public class Promo extends AbstractEntity {
     @JsonIgnore
     private Collection<Admin> admins;
     @ManyToMany
+    @JsonIgnore
     Collection<Formateur> formateurs;
 
     public Promo(String langue, String title, String description, String lieu, String etat, Referentiel referentiel) {

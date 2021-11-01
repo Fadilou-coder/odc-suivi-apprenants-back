@@ -21,7 +21,7 @@ public class Groupe extends AbstractEntity {
     private Collection<Apprenant> apprenants;
     @ManyToMany
     private Collection<Admin> admins;
-    @ManyToOne(fetch=FetchType.LAZY ,cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JsonIgnore
     private Promo promo;
     @ManyToMany
