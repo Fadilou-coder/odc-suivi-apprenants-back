@@ -17,7 +17,7 @@ public class RoleFixture implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        String[] roles = {"ADMIN", "LEAD_FORMATEUR", "FORMATEUR", "CM"};
+        String[] roles = {"ADMIN", "LEAD_FORMATEUR", "CM"};
         for (String i : roles) {
             roleRepository.save(new Role(i));
         }
