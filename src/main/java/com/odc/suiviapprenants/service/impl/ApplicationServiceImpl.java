@@ -60,7 +60,7 @@ public class ApplicationServiceImpl implements ApplicationService {
     public Promo getPromoUserConnected() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Formateur formateur = formateurRepository.findByUsernameAndArchiveFalse(auth.getPrincipal().toString()).get();
-        if (promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateur).isEmpty()) {
+        if (promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateur).isPresent()) {
             throw new InvalidEntityException(formateur.getUsername() + "n'est dans aucun promo", ErrorCodes.APPRENANT_NOT_VALID);
         }
         return promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateur).get();
