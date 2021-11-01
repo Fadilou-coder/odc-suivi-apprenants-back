@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -13,8 +14,8 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 public class Document extends AbstractEntity{
     String libelle;
+    @Lob
     byte[] justificatif;
-
     @ManyToOne
     Formateur formateur;
 }

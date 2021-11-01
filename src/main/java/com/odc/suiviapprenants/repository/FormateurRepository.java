@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface FormateurRepository extends JpaRepository<Formateur,Long> {
 
-    Optional<Formateur> findByUsername(String username);
     Optional<Formateur> findByUsernameAndArchiveFalse(String username);
+
+    Optional<Formateur> findByIdAndArchiveFalse(Long id);
+    Optional<Formateur> findByUsername(String username);
 }
