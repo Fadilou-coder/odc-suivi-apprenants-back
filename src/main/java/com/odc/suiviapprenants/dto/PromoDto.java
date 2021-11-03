@@ -29,6 +29,7 @@ public class PromoDto {
     private List<GroupeDto> groupes;
     private Collection<AdminDto> admins;
     private List<String> apprenantsEmail;
+    private List<FormateurDto> formateurs;
 
     public static PromoDto fromEntity(Promo promo){
         if (promo == null) return null;
@@ -42,7 +43,11 @@ public class PromoDto {
                 .dateFinProvisoire(promo.getDateFinProvisoire())
                 .dateFinReeelle(promo.getDateFinReelle())
                 .etat(promo.getEtat())
-                 .avatarPromo(promo.getAvatarPromo())
+                .avatarPromo(promo.getAvatarPromo())
+               .formateurs(
+                       promo.getFormateurs()== null ? null:
+                       promo.getFormateurs().stream().map(FormateurDto::fromEntity).collect(Collectors.toList())
+               )
                 .referentiel(ReferentielDto.fromEntity(promo.getReferentiel()))
                 .build();
     }

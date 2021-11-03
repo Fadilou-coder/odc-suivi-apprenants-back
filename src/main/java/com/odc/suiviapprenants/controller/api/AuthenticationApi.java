@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.controller.api;
 
+import com.odc.suiviapprenants.dto.PromoDto;
 import com.odc.suiviapprenants.dto.auth.AuthenticationRequest;
 import com.odc.suiviapprenants.dto.auth.AuthenticationResponse;
 import com.odc.suiviapprenants.model.AppUser;
@@ -12,5 +13,8 @@ public interface AuthenticationApi {
 
   @PostMapping("/login")
   ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest request);
+
+  @GetMapping("/promoEncours")
+  PromoDto promoEncours();
 
 }

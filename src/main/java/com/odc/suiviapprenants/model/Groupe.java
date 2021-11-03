@@ -23,11 +23,10 @@ public class Groupe extends AbstractEntity {
 
     @ManyToMany
     private Collection<Admin> admins;
-
     @ManyToMany
     Collection<Formateur> formateurs;
 
-    @ManyToOne(fetch=FetchType.LAZY ,cascade = CascadeType.MERGE)
+    @ManyToOne
     @JsonIgnore
     private Promo promo;
 
@@ -56,4 +55,5 @@ public class Groupe extends AbstractEntity {
         this.formateurs = formateurs;
         this.apprenants = apprenants;
     }
+
 }

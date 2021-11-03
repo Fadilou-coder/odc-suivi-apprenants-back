@@ -25,7 +25,8 @@ public class PromoController implements PromoApi {
             String etat,
             MultipartFile avatarPromo,
             String referentiel,
-            List<String > apprenantsEmail
+            List<String > apprenantsEmail,
+            List<String> formateurs
     ) throws Exception {
         return promoService.save(
                 langue,
@@ -37,7 +38,8 @@ public class PromoController implements PromoApi {
                 etat,
                 avatarPromo,
                 referentiel,
-                apprenantsEmail
+                apprenantsEmail,
+                formateurs
         );
     }
 
