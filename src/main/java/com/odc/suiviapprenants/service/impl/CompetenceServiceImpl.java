@@ -118,7 +118,11 @@ public class CompetenceServiceImpl implements CompetenceService {
                         ErrorCodes.REFERENTIEL_NOT_FOUND));
         List<Competence> competenceList = new ArrayList<>();
         referentiel.getGroupeCompetences().forEach(groupeCompetence -> {
-            competenceList.addAll(competenceRepository.findAllByGroupeCompetencesId(groupeCompetence.getId()));
+            competenceRepository.findAllByGroupeCompetencesId(groupeCompetence.getId()).forEach(competence -> {
+                if (!competenceList.contains(competence)){
+                    competenceList.add(competence);
+                }
+            });
         });
 
         return competenceList
