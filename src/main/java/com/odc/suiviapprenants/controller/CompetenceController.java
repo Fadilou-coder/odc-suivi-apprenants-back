@@ -40,4 +40,9 @@ public class CompetenceController implements CompetenceApi {
     public CompetenceDto affectedNiveau(CompetenceDto competenceDto) {
         return competenceService.affectedNiveau(competenceDto);
     }
+
+    @Override
+    public List<CompetenceDto> competencesByRef(Long id) {
+        return competenceService.competencesByRef(id);
+    }
 }

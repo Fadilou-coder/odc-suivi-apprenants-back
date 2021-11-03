@@ -7,8 +7,10 @@ import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Competence;
 import com.odc.suiviapprenants.model.NiveauEvaluation;
+import com.odc.suiviapprenants.model.Referentiel;
 import com.odc.suiviapprenants.repository.CompetenceRepository;
 import com.odc.suiviapprenants.repository.NiveauEvaluationRepository;
+import com.odc.suiviapprenants.repository.ReferentielRepository;
 import com.odc.suiviapprenants.service.CompetenceService;
 import com.odc.suiviapprenants.validator.CompetenceValidator;
 import lombok.AllArgsConstructor;
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 public class CompetenceServiceImpl implements CompetenceService {
     CompetenceRepository competenceRepository;
     NiveauEvaluationRepository niveauEvaluationRepository;
+    ReferentielRepository referentielRepository;
 
     @Override
     public CompetenceDto save(CompetenceDto competenceDto) {
@@ -105,6 +108,23 @@ public class CompetenceServiceImpl implements CompetenceService {
         Competence competence = competenceRepository.findById(competenceDto.getId()).get();
         validate(competenceDto,competence);
         return CompetenceDto.fromEntity(competence);
+    }
+
+    @Override
+    public List<CompetenceDto> competencesByRef(Long id) {
+        Referentiel referentiel = referentielRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(
+                        "Aucun Referentiel avec l'ID = " + id + " n' ete trouve dans la BDD",
+                        ErrorCodes.REFERENTIEL_NOT_FOUND));
+        List<Competence> competenceList = new ArrayList<>();
+        referentiel.getGroupeCompetences().forEach(groupeCompetence -> {
+            competenceList.addAll(competenceRepository.findAllByGroupeCompetencesId(groupeCompetence.getId()));
+        });
+
+        return competenceList
+                .stream()
+                .map(CompetenceDto::fromEntity)
+                .collect(Collectors.toList());
     }
 
     static void ifIssetValue(NiveauEvaluationDto niveauEvaluationDto, NiveauEvaluation niveauEvaluation) {
