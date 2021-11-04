@@ -7,13 +7,14 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Builder
 @Data
 @AllArgsConstructor
 public class LivrablesDto {
 
-    long id;
+    Long id;
     private Collection<LivrablesRendusDto> livrableRendus;
 
 
@@ -27,7 +28,7 @@ public class LivrablesDto {
     public static Livrable toEntity(LivrablesDto livrablesDto){
         if (livrablesDto == null) return null;
         Livrable livrable = new Livrable();
-        livrable.setLivrableRendus(null);
+        livrable.setLivrableRendus(livrablesDto.getLivrableRendus().stream().map(LivrablesRendusDto::toEntity).collect(Collectors.toList()));
 
         return livrable;
     }

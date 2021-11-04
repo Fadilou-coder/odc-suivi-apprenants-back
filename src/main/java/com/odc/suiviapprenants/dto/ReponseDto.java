@@ -28,7 +28,7 @@ public class ReponseDto {
     }
 
 
-    public Reponse toEntity(ReponseDto dto)
+    public static Reponse toEntity(ReponseDto dto)
     {
         if(dto==null) return null;
 

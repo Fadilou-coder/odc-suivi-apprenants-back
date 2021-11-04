@@ -5,6 +5,7 @@ import com.odc.suiviapprenants.model.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -29,7 +30,10 @@ public class BriefDto {
     private Collection<RessourcesDto> ressources;
     private FormateurDto formateur;
     private PromoDto promo;
-    private Collection<LivrableAttendu> livrableAttendus;
+    private Collection<BriefGroupeDto> briefGroupes;
+    private Collection<BriefApprenantDto> briefApprenants;
+    private Collection<BriefCompetenceDto> briefCompetences;
+    private Collection<LivrablesAttendusDto> livrableAttendus;
 
     public static BriefDto fromEntity(Brief brief){
         if (brief == null) return null;
@@ -59,7 +63,12 @@ public class BriefDto {
                 )
                 .formateur(FormateurDto.fromEntity(brief.getFormateur()))
                 .promo(PromoDto.fromEntity((brief.getPromo())))
-                .livrableAttendus(brief.getLivrableAttendus())
+                .livrableAttendus(
+                        brief.getLivrableAttendus() != null ?
+                                brief.getLivrableAttendus().stream()
+                                        .map(LivrablesAttendusDto::fromEntity)
+                                        .collect(Collectors.toList()) : null
+                )
                 .build();
     }
 
@@ -80,7 +89,7 @@ public class BriefDto {
         brief.setRessources(briefDto.getRessources().stream().map(RessourcesDto::toEntity).collect(Collectors.toList()));
         brief.setFormateur(FormateurDto.toEntity(briefDto.getFormateur()));
         brief.setPromo(PromoDto.toEntity(briefDto.getPromo()));
-        brief.setLivrableAttendus(briefDto.getLivrableAttendus());
+        brief.setLivrableAttendus(briefDto.getLivrableAttendus().stream().map(LivrablesAttendusDto::toEntity).collect(Collectors.toList()));
 
         return brief;
     }
