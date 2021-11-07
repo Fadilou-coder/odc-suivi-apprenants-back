@@ -13,7 +13,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(8)
+@Order(13)
 public class ProfilSortieFixture implements CommandLineRunner {
     private ProfilSortieRepository profilSortieRepository;
 

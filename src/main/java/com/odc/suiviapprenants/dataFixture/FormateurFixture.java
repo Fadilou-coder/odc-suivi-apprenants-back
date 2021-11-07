@@ -16,7 +16,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(13)
+@Order(4)
 class FormateurFixture implements CommandLineRunner {
 
     FormateurRepository formateurRepository;

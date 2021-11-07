@@ -33,10 +33,11 @@ public class Referentiel extends AbstractEntity{
     @ManyToMany(mappedBy = "referentiels")
     Collection<Formateur> formateurs;
 
-    public Referentiel(String libelle, String description, String critereAdmission, String critereEvaluation) {
+    public Referentiel(String libelle, String description, String critereAdmission, String critereEvaluation,Collection<GroupeCompetence> groupeCompetences) {
         this.libelle = libelle;
         this.description = description;
         this.critereAdmission = critereAdmission;
         this.critereEvaluation = critereEvaluation;
+        this.groupeCompetences = groupeCompetences;
     }
 }

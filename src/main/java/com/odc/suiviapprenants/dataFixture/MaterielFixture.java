@@ -13,7 +13,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(11)
+@Order(15)
 public class MaterielFixture implements CommandLineRunner {
     private MaterielRepository materielRepository;
 
