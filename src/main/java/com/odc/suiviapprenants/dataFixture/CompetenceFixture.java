@@ -12,7 +12,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(4)
+@Order(5)
 public class CompetenceFixture implements CommandLineRunner {
     private CompetenceRepository competenceRepository;
 
