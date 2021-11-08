@@ -28,9 +28,9 @@ public class PromoFixture implements CommandLineRunner {
         List<Referentiel> referentiels = referentielRepository.findAll();
         for(int i=0;i < referentiels.toArray().length;i++ ){
             if (i == 0) {
-                promoRepository.save(new Promo("francais", "dev_" + i, "description", "dakar", "enCours", referentiels.get(i), true, formateurRepository.findAll()));
+                promoRepository.save(new Promo("francais", "DEV_" + i, "description", "dakar", "enCours", referentiels.get(i), true, formateurRepository.findAll()));
             }else {
-                promoRepository.save(new Promo("francais", "dev_" + i, "description", "dakar", "cloturer", referentiels.get(i), false, formateurRepository.findAll()));
+                promoRepository.save(new Promo("francais", "DEV_" + i, "description", "dakar", "cloturer", referentiels.get(i), false, formateurRepository.findAll()));
             }
         }
     }
