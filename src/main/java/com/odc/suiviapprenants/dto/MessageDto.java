@@ -41,8 +41,10 @@ public class MessageDto {
     public static Message toEntity(MessageDto messageDto){
         if (messageDto == null) return null;
         Message message = new Message();
+        message.setId(messageDto.getId());
         message.setLibelle(messageDto.getLibelle());
         message.setPieceJointe(messageDto.getPieceJointe());
+        if (messageDto.getReponses() != null)
         message.setReponses(messageDto.getReponses().stream().map(ReponseDto::toEntity).collect(Collectors.toList()));
 
         return message;

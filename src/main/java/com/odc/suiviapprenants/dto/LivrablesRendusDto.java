@@ -32,6 +32,7 @@ public class LivrablesRendusDto {
     public static LivrableRendu toEntity(LivrablesRendusDto livrablesRendusDto){
         if (livrablesRendusDto == null) return null;
         LivrableRendu livrableRendu = new LivrableRendu();
+        livrableRendu.setId(livrablesRendusDto.getId());
         livrableRendu.setStatut(livrablesRendusDto.getStatut());
         livrableRendu.setDelai(livrablesRendusDto.getDelai());
         livrableRendu.setDateRendu(livrablesRendusDto.getDateRendu());

@@ -2,10 +2,7 @@ package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -14,10 +11,10 @@ public class BriefGroupe{
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Groupe groupe;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Brief brief;
 
     private boolean valide;

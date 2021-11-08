@@ -28,6 +28,8 @@ public class LivrablesDto {
     public static Livrable toEntity(LivrablesDto livrablesDto){
         if (livrablesDto == null) return null;
         Livrable livrable = new Livrable();
+        livrable.setId(livrablesDto.getId());
+        if (livrablesDto.getLivrableRendus() != null)
         livrable.setLivrableRendus(livrablesDto.getLivrableRendus().stream().map(LivrablesRendusDto::toEntity).collect(Collectors.toList()));
 
         return livrable;

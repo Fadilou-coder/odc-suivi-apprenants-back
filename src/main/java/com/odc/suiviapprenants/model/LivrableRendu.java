@@ -2,6 +2,7 @@ package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -19,6 +20,6 @@ public class LivrableRendu extends AbstractEntity{
     @ManyToMany(mappedBy = "livrableRendus")
     private Collection<Livrable> livrables;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     private LivrablePartiel livrablePartiel;
 }

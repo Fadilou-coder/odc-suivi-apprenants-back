@@ -1,9 +1,7 @@
 package com.odc.suiviapprenants.dto;
 
-import com.odc.suiviapprenants.model.Brief;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.BriefCompetence;
-import com.odc.suiviapprenants.model.Competence;
-import com.odc.suiviapprenants.model.NiveauEvaluation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,6 +13,7 @@ import lombok.Data;
 public class BriefCompetenceDto {
 
     private Long id;
+    @JsonIgnore
     private BriefDto brief;
     private CompetenceDto competence;
     private NiveauEvaluationDto niveau;
@@ -34,6 +33,7 @@ public class BriefCompetenceDto {
     public static BriefCompetence toEntity(BriefCompetenceDto briefCompetenceDto){
         if (briefCompetenceDto == null) return null;
         BriefCompetence briefCompetence = new BriefCompetence();
+        briefCompetence.setId(briefCompetenceDto.getId());
         briefCompetence.setCompetence(CompetenceDto.toEntity(briefCompetenceDto.getCompetence()));
         briefCompetence.setBrief(BriefDto.toEntity(briefCompetenceDto.getBrief()));
         briefCompetence.setNiveau(NiveauEvaluationDto.toEntity(briefCompetenceDto.getNiveau()));

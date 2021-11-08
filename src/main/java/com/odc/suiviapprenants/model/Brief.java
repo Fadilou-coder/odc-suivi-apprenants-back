@@ -21,27 +21,27 @@ public class Brief extends AbstractEntity{
     @Lob
     protected byte[] image;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     private Collection<Tag> tags;
 
     @OneToMany(mappedBy = "brief")
     private Collection<Ressource> ressources;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Formateur formateur;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Promo promo;
 
-    @OneToMany(mappedBy = "brief")
+    @OneToMany(mappedBy = "brief", cascade = CascadeType.PERSIST)
     private Collection<BriefGroupe> briefGroupes;
 
-    @OneToMany(mappedBy = "brief")
+    @OneToMany(mappedBy = "brief", cascade = CascadeType.PERSIST)
     private Collection<BriefApprenant> briefApprenants;
 
-    @OneToMany(mappedBy = "brief")
+    @OneToMany(mappedBy = "brief", cascade = CascadeType.PERSIST )
     private Collection<BriefCompetence> briefCompetences;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<LivrableAttendu> livrableAttendus;
 }

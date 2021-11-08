@@ -15,10 +15,10 @@ public class BriefApprenant {
     @ManyToOne
     private Brief brief;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Apprenant apprenant;
 
-    @OneToMany(mappedBy = "briefApprenant")
+    @ManyToMany(mappedBy = "briefApprenants", cascade = CascadeType.MERGE)
     private Collection<LivrablePartiel> livrablePartiels;
 
     @OneToOne

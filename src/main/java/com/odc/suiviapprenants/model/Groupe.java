@@ -18,7 +18,7 @@ public class Groupe extends AbstractEntity {
     private String type;
     private  String statut;
 
-    @ManyToMany(cascade = CascadeType.MERGE) //ALL was present before
+    @ManyToMany(cascade = CascadeType.PERSIST) //ALL was present before
     private Collection<Apprenant> apprenants;
 
     @ManyToMany
@@ -26,8 +26,7 @@ public class Groupe extends AbstractEntity {
     @ManyToMany
     Collection<Formateur> formateurs;
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(fetch=FetchType.LAZY ,cascade = CascadeType.PERSIST)
     private Promo promo;
 
     @OneToMany(mappedBy = "groupe")

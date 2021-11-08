@@ -32,7 +32,9 @@ public class FilDeDiscutionDto {
     public static FilDiscussion toEntity(FilDeDiscutionDto filDeDiscutionDto){
         if (filDeDiscutionDto == null) return null;
         FilDiscussion filDiscussion = new FilDiscussion();
+        filDiscussion.setId(filDeDiscutionDto.getId());
         filDiscussion.setTitre(filDeDiscutionDto.getTitre());
+        if (filDeDiscutionDto.getMessages() != null)
         filDiscussion.setMessages(filDeDiscutionDto.getMessages().stream().map(MessageDto::toEntity).collect(Collectors.toList()));
         return filDiscussion;
     }

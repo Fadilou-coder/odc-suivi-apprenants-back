@@ -26,7 +26,7 @@ public class Formateur extends AppUser{
     @ManyToMany(mappedBy = "formateurs")
     Collection<Promo> promos;
 
-    @OneToMany(mappedBy = "formateur")
+    @OneToMany(mappedBy = "formateur", cascade = CascadeType.ALL)
     private Collection<Brief> briefs;
 
     @OneToMany(mappedBy = "formateur")

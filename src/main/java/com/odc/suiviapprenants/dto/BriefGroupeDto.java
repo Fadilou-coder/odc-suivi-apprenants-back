@@ -28,6 +28,7 @@ public class BriefGroupeDto {
     public static BriefGroupe toEntity(BriefGroupeDto briefGroupeDto){
         if (briefGroupeDto == null) return null;
         BriefGroupe briefGroupe = new BriefGroupe();
+        briefGroupe.setId(briefGroupeDto.getId());
         briefGroupe.setGroupe(GroupeDto.toEntity(briefGroupeDto.getGroupe()));
         briefGroupe.setBrief(BriefDto.toEntity(briefGroupeDto.getBrief()));
         briefGroupe.setValide(briefGroupeDto.isValide());

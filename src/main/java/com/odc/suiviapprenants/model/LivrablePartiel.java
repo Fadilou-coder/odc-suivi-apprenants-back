@@ -2,9 +2,7 @@ package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Collection;
 
@@ -19,6 +17,6 @@ public class LivrablePartiel extends AbstractEntity{
     @OneToMany(mappedBy = "livrablePartiel")
     private Collection<LivrableRendu> livrableRendus;
 
-    @ManyToOne
-    private BriefApprenant briefApprenant;
+    @ManyToMany(cascade = CascadeType.MERGE)
+    private Collection<BriefApprenant> briefApprenants;
 }

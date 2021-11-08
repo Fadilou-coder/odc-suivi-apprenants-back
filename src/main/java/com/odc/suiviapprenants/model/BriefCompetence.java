@@ -2,10 +2,7 @@ package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @Data
@@ -14,13 +11,13 @@ public class BriefCompetence {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne
+    @ManyToOne()
     private Brief brief;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Competence competence;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private NiveauEvaluation niveau;
 
     private boolean valide;

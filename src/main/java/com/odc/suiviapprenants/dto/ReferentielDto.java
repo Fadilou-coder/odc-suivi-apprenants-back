@@ -63,7 +63,8 @@ public class ReferentielDto {
         referentiel.setCritereEvaluation(referentielDto.getCritereEvaluation());
         referentiel.setDescription(referentielDto.getDescription());
         referentiel.setProgramme(referentielDto.getProgramme());
-        referentiel.setGroupeCompetences(referentielDto.getGroupeCompetences().stream().map(GroupeCompetenceDto::toEntity).collect(Collectors.toList()));
+        if (referentielDto.getGroupeCompetences() != null)
+            referentiel.setGroupeCompetences(referentielDto.getGroupeCompetences().stream().map(GroupeCompetenceDto::toEntity).collect(Collectors.toList()));
 
         return referentiel;
     }

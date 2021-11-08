@@ -22,6 +22,7 @@ public class NiveauEvaluationDto {
 
     private String critereEvaluation;
 
+    @JsonIgnore
     private ReferentielDto referentiel;
 
     @JsonIgnore

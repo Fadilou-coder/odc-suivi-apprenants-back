@@ -1,6 +1,7 @@
 package com.odc.suiviapprenants.service;
 
 import com.odc.suiviapprenants.dto.BriefDto;
+import com.odc.suiviapprenants.dto.LivrablesPartielsDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -16,14 +17,18 @@ public interface BriefService {
             String criterePerformances,
             String modaliteEvaluations,
             MultipartFile image,
-            String tags,
-            String groupes,
-            String apprenants,
-            String competences,
-            String niveaux
-    ) throws IOException;
+            List<String> tags,
+            List<String> groupes,
+            List<String> apprenants,
+            List<String> competences,
+            List<Long> niveaux
+    ) throws Exception;
 
     List<BriefDto> findAll();
 
     BriefDto findBriefById(Long id);
+
+    LivrablesPartielsDto addLivrablesPartiels(LivrablesPartielsDto livrablesPartielsDto, Long id);
+
+
 }

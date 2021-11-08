@@ -36,7 +36,9 @@ public class LivrablesAttendusDto {
     public static LivrableAttendu toEntity(LivrablesAttendusDto livrablesAttendusDto){
         if (livrablesAttendusDto == null) return null;
         LivrableAttendu livrableAttendu = new LivrableAttendu();
+        livrableAttendu.setId(livrablesAttendusDto.getId());
         livrableAttendu.setLibelle(livrablesAttendusDto.getLibelle());
+        if (livrablesAttendusDto.getLivrables() != null)
         livrableAttendu.setLivrables(livrablesAttendusDto.getLivrables().stream().map(LivrablesDto::toEntity).collect(Collectors.toList()));
         return livrableAttendu;
     }

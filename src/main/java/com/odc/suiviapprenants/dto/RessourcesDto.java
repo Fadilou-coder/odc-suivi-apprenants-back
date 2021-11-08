@@ -28,6 +28,7 @@ public class RessourcesDto {
     public static Ressource toEntity(RessourcesDto ressourcesDto){
         if (ressourcesDto == null) return null;
         Ressource ressource = new Ressource();
+        ressource.setId(ressourcesDto.getId());
         ressource.setTitre(ressourcesDto.getTitre());
         ressource.setUrl(ressourcesDto.getUrl());
         ressource.setPieceJointe(ressourcesDto.getPieceJointe());
