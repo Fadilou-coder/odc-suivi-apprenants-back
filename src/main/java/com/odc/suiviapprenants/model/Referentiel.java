@@ -24,7 +24,7 @@ public class Referentiel extends AbstractEntity{
     @Lob
     private byte[] programme;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     private Collection<GroupeCompetence> groupeCompetences;
 
     @OneToMany(mappedBy = "referentiel")

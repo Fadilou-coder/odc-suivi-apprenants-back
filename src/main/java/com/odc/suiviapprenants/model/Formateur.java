@@ -1,12 +1,9 @@
 package com.odc.suiviapprenants.model;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
@@ -16,6 +13,7 @@ import java.util.Collection;
 public class Formateur extends AppUser{
 
     private String role;
+
     @OneToMany(mappedBy="formateur")
     private Collection<Document> documents;
 
@@ -27,6 +25,12 @@ public class Formateur extends AppUser{
 
     @ManyToMany(mappedBy = "formateurs")
     Collection<Promo> promos;
+
+    @OneToMany(mappedBy = "formateur", cascade = CascadeType.ALL)
+    private Collection<Brief> briefs;
+
+    @OneToMany(mappedBy = "formateur")
+    private Collection<Reponse> reponses;
 
     public Formateur(String username, String password, String prenom, String nom, String email, String numeroTelephone, String role)
     {

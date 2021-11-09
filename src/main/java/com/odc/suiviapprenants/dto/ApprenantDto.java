@@ -66,6 +66,7 @@ public class ApprenantDto {
         if (apprenantDto == null) return null;
 
         Apprenant apprenant = new Apprenant();
+        apprenant.setId(apprenantDto.getId());
         apprenant.setUsername(apprenantDto.getUsername());
         apprenant.setPassword(apprenantDto.getPassword());
         apprenant.setPrenom(apprenantDto.getPrenom());

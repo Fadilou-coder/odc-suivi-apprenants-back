@@ -24,6 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        //Formateur formateur = service.finduserbyusernameformateur(username);
         Admin admin = service.findUserByUsernameAdmin(username);
         Apprenant apprenant = service.findAppByUsername(username);
         Formateur formateur = service.findFormateurByUsername(username);

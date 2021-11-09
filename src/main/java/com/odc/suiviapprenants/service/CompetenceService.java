@@ -16,4 +16,6 @@ public interface CompetenceService {
     CompetenceDto put(CompetenceDto competenceDto,Long id);
 
     CompetenceDto affectedNiveau(CompetenceDto competenceDto);
+
+    List<CompetenceDto> competencesByRef(Long id);
 }

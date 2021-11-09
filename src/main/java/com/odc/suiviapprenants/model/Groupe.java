@@ -18,18 +18,20 @@ public class Groupe extends AbstractEntity {
     private String type;
     private  String statut;
 
-    @ManyToMany(cascade = CascadeType.MERGE) //ALL was present before
+    @ManyToMany(cascade = CascadeType.PERSIST) //ALL was present before
     private Collection<Apprenant> apprenants;
 
     @ManyToMany
     private Collection<Admin> admins;
-
     @ManyToMany
     Collection<Formateur> formateurs;
 
-    @ManyToOne(fetch=FetchType.LAZY ,cascade = CascadeType.MERGE)
-    @JsonIgnore
+    @ManyToOne(fetch=FetchType.LAZY ,cascade = CascadeType.PERSIST)
     private Promo promo;
+
+    @OneToMany(mappedBy = "groupe")
+    @JsonIgnore
+    private Collection<BriefGroupe> briefGroupes;
 
     public void addApprenant(Apprenant apprenant) {
         this.apprenants.add(apprenant);
@@ -52,4 +54,5 @@ public class Groupe extends AbstractEntity {
         this.formateurs = formateurs;
         this.apprenants = apprenants;
     }
+
 }
