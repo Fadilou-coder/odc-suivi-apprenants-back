@@ -20,7 +20,7 @@ public class ProfilSortieFixture implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         profilSortieRepository.saveAll(Arrays.asList(
-                new ProfilSortie("Développeur back"),
+                new ProfilSortie("Développeur backend"),
                 new ProfilSortie("Développeur front"),
                 new ProfilSortie("Développeur fullstack"),
                 new ProfilSortie("Intégrateur web"),
