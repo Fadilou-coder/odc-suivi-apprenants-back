@@ -3,9 +3,7 @@ package com.odc.suiviapprenants.service.impl;
 import com.odc.suiviapprenants.dto.*;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
-import com.odc.suiviapprenants.model.BriefApprenant;
-import com.odc.suiviapprenants.model.Formateur;
-import com.odc.suiviapprenants.model.LivrablePartiel;
+import com.odc.suiviapprenants.model.*;
 import com.odc.suiviapprenants.repository.*;
 import com.odc.suiviapprenants.service.ApplicationService;
 import com.odc.suiviapprenants.service.BriefService;
@@ -127,7 +125,7 @@ public class BriefServiceImpl implements BriefService {
                 groupeRepository.findByNomGroupeAndPromo(groupe, PromoDto.toEntity(promo)).get()
                         .getApprenants().forEach(app -> {
                             apprenantList.add(
-                                    BriefApprenantDto.fromEntity(briefApprenantRepository.save(BriefApprenantDto.toEntity(new BriefApprenantDto(null, finalBriefDto1, ApprenantDto.fromEntity(app), null, null, false))))
+                                    BriefApprenantDto.fromEntity(briefApprenantRepository.save(BriefApprenantDto.toEntity(new BriefApprenantDto(null, finalBriefDto1, ApprenantDto.fromEntity(app), null, null, null,  false))))
                             );
                         });
             });
@@ -137,7 +135,7 @@ public class BriefServiceImpl implements BriefService {
             BriefDto finalBriefDto2 = briefDto;
             apprenants.forEach(app -> {
                 apprenantList.add(
-                    new BriefApprenantDto(null, finalBriefDto2, ApprenantDto.fromEntity(apprenantRepository.findByUsernameAndArchiveFalse(app)), null, null, false)
+                    new BriefApprenantDto(null, finalBriefDto2, ApprenantDto.fromEntity(apprenantRepository.findByUsernameAndArchiveFalse(app)), null, null, null, false)
                 );
             });
         }
@@ -183,9 +181,82 @@ public class BriefServiceImpl implements BriefService {
         else
             livrablesPartielsDto.setType("individuel");
         livrablesPartielsDto.getBriefApprenant().forEach( briefApprenantDto -> {
-            briefApprenantDtos.add(BriefApprenantDto.fromEntity(briefApprenantRepository.findByBriefIdAndApprenantId(id, briefApprenantDto.getApprenant().getId())));
+            briefApprenantDtos.add(BriefApprenantDto.fromEntity(briefApprenantRepository.findByBriefIdAndApprenantId(id, briefApprenantDto.getApprenant().getId()).get()));
         });
         livrablesPartielsDto.setBriefApprenant(briefApprenantDtos);
         return LivrablesPartielsDto.fromEntity(livrablePartielRepository.save(LivrablesPartielsDto.toEntity(livrablesPartielsDto)));
+    }
+
+    @Override
+    public Collection<LivrablesPartielsDto> ListLivrablesPartiels(Long id) {
+        if (briefRepository.findById(id).isPresent()) {
+            Brief brief = briefRepository.findById(id).get();
+            Collection<LivrablePartiel> livrablesPartielsList = new ArrayList<>();
+
+            brief.getBriefApprenants().forEach(briefApprenant -> {
+                briefApprenant.getLivrablePartiels().forEach(livrablePartiel -> {
+                    if (!livrablesPartielsList.contains(livrablePartiel))
+                        livrablesPartielsList.add(livrablePartiel);
+                });
+
+            });
+
+            return livrablesPartielsList.stream()
+                    .map(LivrablesPartielsDto::fromEntity)
+                    .collect(Collectors.toList());
+        }
+        else
+            return new ArrayList<>();
+    }
+
+    @Override
+    public Collection<LivrablesAttendusDto> addUrl(Collection<LivrablesAttendusDto> livrablesAttendusDtos, Long id, Long idApp) {
+        if (briefRepository.findById(id).isPresent()) {
+            if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()){
+                BriefApprenant briefApprenant = briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get();
+                livrablesAttendusDtos.forEach(livrablesAttendusDto -> {
+                    livrablesAttendusDto.getLivrables().forEach(livrablesDto -> {
+                        livrablesDto.setBriefApprenant(BriefApprenantDto.fromEntity(briefApprenant));
+                    });
+                });
+            }
+            return null;
+        }
+        return null;
+    }
+
+    @Override
+    public Collection<LivrablesPartielsDto> findLivrablesPartielsByAprrenant(Long id, Long idApp) {
+        if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent())
+            return briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get().getLivrablePartiels().stream()
+                    .map(LivrablesPartielsDto::fromEntity)
+                    .collect(Collectors.toList());
+        else
+            return new ArrayList<>();
+    }
+
+    @Override
+    public LivrablesPartielsDto rendreLivrablePartiel(Long id, Long idApp, Long idLp) {
+        if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
+            if (livrablePartielRepository.findById(idLp).isPresent()) {
+                LivrablePartiel livrablePartiel = livrablePartielRepository.findById(idLp).get();
+                LivrablesRendusDto livrablesRendusDto = new LivrablesRendusDto(null, "rendu", livrablePartiel.getDelai(), LocalDate.now(), "");
+                livrablePartiel.addLivrableRendu(LivrablesRendusDto.toEntity(livrablesRendusDto));
+                livrablePartielRepository.flush();
+                return LivrablesPartielsDto.fromEntity(livrablePartielRepository.findById(idLp).get());
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public BriefDto cloturerBrief(Long id) {
+        if (briefRepository.findById(id).isPresent()){
+            Brief brief = briefRepository.findById(id).get();
+            brief.setStatut("cloturer");
+            briefRepository.flush();
+            return BriefDto.fromEntity(brief);
+        }
+        return null;
     }
 }

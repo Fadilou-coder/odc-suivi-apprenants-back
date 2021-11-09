@@ -26,9 +26,8 @@ public class CompetenceDto {
                 .id(competence.getId())
                 .libelle(competence.getLibelle())
                 .niveauEvaluations(
-                        competence.getNiveauEvaluations() == null
-                                ? null
-                                : competence.getNiveauEvaluations().stream().map(NiveauEvaluationDto::fromEntity).collect(Collectors.toList())
+                        competence.getNiveauEvaluations() != null
+                                ? competence.getNiveauEvaluations().stream().map(NiveauEvaluationDto::fromEntity).collect(Collectors.toList()) : null
                 )
 
                 .build();

@@ -21,6 +21,7 @@ public class BriefApprenantDto {
     @JsonIgnore
     private Collection<LivrablesPartielsDto> livrablePartiels;
     private FilDeDiscutionDto filDiscussion;
+    private Collection<LivrablesDto> livrables;
     private boolean valide;
 
     public static BriefApprenantDto fromEntity(BriefApprenant briefApprenant){
@@ -29,13 +30,19 @@ public class BriefApprenantDto {
                 .id(briefApprenant.getId())
                 .apprenant(ApprenantDto.fromEntity(briefApprenant.getApprenant()))
                 //.brief(BriefDto.fromEntity(briefApprenant.getBrief()))
-                .livrablePartiels(
+                /*.livrablePartiels(
                         briefApprenant.getLivrablePartiels() != null ?
                                 briefApprenant.getLivrablePartiels().stream()
                                         .map(LivrablesPartielsDto::fromEntity)
                                         .collect(Collectors.toList()) : null
-                )
+                )*/
                 .filDiscussion(FilDeDiscutionDto.fromEntity(briefApprenant.getFilDiscussion()))
+                .livrables(
+                        briefApprenant.getLivrables() != null ?
+                                briefApprenant.getLivrables().stream()
+                                        .map(LivrablesDto::fromEntity)
+                                        .collect(Collectors.toList()) : null
+                )
                 .valide(briefApprenant.isValide())
                 .build();
     }
@@ -45,12 +52,13 @@ public class BriefApprenantDto {
         BriefApprenant briefApprenant = new BriefApprenant();
         briefApprenant.setId(briefApprenantDto.getId());
         briefApprenant.setApprenant(ApprenantDto.toEntity(briefApprenantDto.getApprenant()));
-        //briefApprenant.setBrief(BriefDto.toEntity(briefApprenantDto.getBrief()));
+        briefApprenant.setBrief(BriefDto.toEntity(briefApprenantDto.getBrief()));
         briefApprenant.setFilDiscussion(FilDeDiscutionDto.toEntity(briefApprenantDto.getFilDiscussion()));
         briefApprenant.setValide(briefApprenantDto.isValide());
         if (briefApprenantDto.getLivrablePartiels() != null)
             briefApprenant.setLivrablePartiels(briefApprenantDto.getLivrablePartiels().stream().map(LivrablesPartielsDto::toEntity).collect(Collectors.toList()));
-
+        if (briefApprenant.getLivrables() != null)
+            briefApprenant.setLivrables(briefApprenantDto.getLivrables().stream().map(LivrablesDto::toEntity).collect(Collectors.toList()));
         return briefApprenant;
     }
 }

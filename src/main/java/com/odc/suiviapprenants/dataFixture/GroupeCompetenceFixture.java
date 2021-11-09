@@ -28,11 +28,11 @@ public class GroupeCompetenceFixture implements CommandLineRunner {
         groupeCompetenceRepository.saveAll(Arrays.asList(
                 new GroupeCompetence("Développer le back-end d’une application web", "Description",
                         Arrays.asList(competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), competenceRepository.findByLibelleAndArchiveFalse("Développer les composants d’accès aux données").get()),
-                        Arrays.asList(referentielRepository.findByLibelle("ref1").get(), referentielRepository.findByLibelle("ref2").get()),
+                        Arrays.asList(referentielRepository.findByLibelle("ref1").get(), referentielRepository.findByLibelle("ref1").get()),
                         Arrays.asList(tagRepository.findByLibelleAndArchiveFalse("MySQL").get(), tagRepository.findByLibelleAndArchiveFalse("PHP").get())),
                 new GroupeCompetence("Développer le front-end d’une application web", "Description",
                         Arrays.asList(competenceRepository.findByLibelleAndArchiveFalse("BD MYSQL").get(), competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get()),
-                        Arrays.asList(referentielRepository.findByLibelle("ref1").get(), referentielRepository.findByLibelle("ref2").get()),
+                        Arrays.asList(referentielRepository.findByLibelle("ref1").get(), referentielRepository.findByLibelle("ref1").get()),
                         Arrays.asList(tagRepository.findByLibelleAndArchiveFalse("MySQL").get(), tagRepository.findByLibelleAndArchiveFalse("PHP").get())
                 )));
     }

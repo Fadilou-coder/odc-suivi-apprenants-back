@@ -13,7 +13,6 @@ import javax.persistence.Id;
 @Data
 @Builder
 public class NiveauEvaluationDto {
-    @Id
     private Long id;
 
     private String libelle;
