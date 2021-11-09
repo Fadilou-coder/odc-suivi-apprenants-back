@@ -28,7 +28,8 @@ public class ProfilSortieFixture implements CommandLineRunner {
                 new ProfilSortie("Référent Digital"),
                 new ProfilSortie("Community Manager"),
                 new ProfilSortie("Data Scientist"),
-                new ProfilSortie("IOT")
+                new ProfilSortie("IOT"),
+            new ProfilSortie("BRO")
         ));
     }
 }
