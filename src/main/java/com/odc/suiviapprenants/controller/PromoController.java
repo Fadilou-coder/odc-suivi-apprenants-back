@@ -58,7 +58,7 @@ public class PromoController implements PromoApi {
     }
 
     @Override
-    public Collection<Apprenant> findApprenantsByPromoId(Long id) {
+    public List<ApprenantDto> findApprenantsByPromoId(Long id) {
         return promoService.findApprenantsByPromoId(id);
     }
 

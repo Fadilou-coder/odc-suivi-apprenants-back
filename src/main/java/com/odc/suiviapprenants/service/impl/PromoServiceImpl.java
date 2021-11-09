@@ -195,12 +195,13 @@ public class PromoServiceImpl implements PromoService {
     }
 
     @Override
-    public Collection<Apprenant> findApprenantsByPromoId(Long id) {
+    public List<ApprenantDto> findApprenantsByPromoId(Long id) {
         if (id == null) {
             return null;
         }
         Promo promo = promoRepository.findByIdAndArchiveFalse(id).get();
         Groupe groupe = groupeRepository.findByTypeAndPromo("principale",promo).get();
-        return groupe.getApprenants();
+        return groupe.getApprenants().stream().map(ApprenantDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }

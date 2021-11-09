@@ -33,7 +33,7 @@ public interface PromoApi {
     PromoDto findById(@PathVariable Long id);
 
     @GetMapping("/promos/{id}/apprenants")
-    Collection<Apprenant> findApprenantsByPromoId(@PathVariable Long id);
+    List<ApprenantDto> findApprenantsByPromoId(@PathVariable Long id);
 
     @PutMapping("/promos/{id}")
     PromoDto put(@RequestBody PromoDto promoDto, @PathVariable Long id);
