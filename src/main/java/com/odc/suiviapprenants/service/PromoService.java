@@ -28,5 +28,5 @@ public interface PromoService {
 
     PromoDto put(PromoDto promoDto,Long id);
 
-    Collection<Apprenant> findApprenantsByPromoId(Long id);
+    List<ApprenantDto> findApprenantsByPromoId(Long id);
 }
