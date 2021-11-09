@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.BriefGroupe;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +13,7 @@ import lombok.Data;
 public class BriefGroupeDto {
     private Long id;
     private GroupeDto groupe;
+    @JsonIgnore
     private BriefDto brief;
     private boolean valide;
 
@@ -20,7 +22,7 @@ public class BriefGroupeDto {
         return BriefGroupeDto.builder()
                 .id(briefGroupe.getId())
                 .groupe(GroupeDto.fromEntity(briefGroupe.getGroupe()))
-                .brief(BriefDto.fromEntity(briefGroupe.getBrief()))
+                //.brief(BriefDto.fromEntity(briefGroupe.getBrief()))
                 .valide(briefGroupe.isValide())
                 .build();
     }

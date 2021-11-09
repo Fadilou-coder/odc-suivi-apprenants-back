@@ -17,4 +17,7 @@ public class Livrable extends AbstractEntity{
 
     @ManyToMany
     private Collection<LivrableRendu> livrableRendus;
+
+    @ManyToOne
+    private  BriefApprenant briefApprenant;
 }

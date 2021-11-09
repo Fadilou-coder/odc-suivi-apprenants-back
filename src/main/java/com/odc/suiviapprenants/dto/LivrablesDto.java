@@ -15,13 +15,15 @@ import java.util.stream.Collectors;
 public class LivrablesDto {
 
     Long id;
-    private Collection<LivrablesRendusDto> livrableRendus;
+    String url;
+    BriefApprenantDto briefApprenant;
 
 
     public static LivrablesDto fromEntity(Livrable livrable){
         if (livrable == null) return null;
         return LivrablesDto.builder()
                 .id(livrable.getId())
+                .url(livrable.getUrl())
                 .build();
     }
 
@@ -29,9 +31,8 @@ public class LivrablesDto {
         if (livrablesDto == null) return null;
         Livrable livrable = new Livrable();
         livrable.setId(livrablesDto.getId());
-        if (livrablesDto.getLivrableRendus() != null)
-        livrable.setLivrableRendus(livrablesDto.getLivrableRendus().stream().map(LivrablesRendusDto::toEntity).collect(Collectors.toList()));
-
+        livrable.setUrl(livrablesDto.getUrl());
+        livrable.setBriefApprenant(BriefApprenantDto.toEntity(livrablesDto.getBriefApprenant()));
         return livrable;
     }
 }

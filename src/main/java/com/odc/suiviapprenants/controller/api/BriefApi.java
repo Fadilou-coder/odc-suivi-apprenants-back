@@ -2,6 +2,7 @@ package com.odc.suiviapprenants.controller.api;
 
 
 import com.odc.suiviapprenants.dto.BriefDto;
+import com.odc.suiviapprenants.dto.LivrablesAttendusDto;
 import com.odc.suiviapprenants.dto.LivrablesPartielsDto;
 import com.odc.suiviapprenants.dto.LivrablesRendusDto;
 import io.swagger.annotations.Api;
@@ -47,7 +48,7 @@ public interface BriefApi {
     Collection<LivrablesPartielsDto> ListLivrablesPartiels(@PathVariable Long id);
 
     @PostMapping("/briefs/{id}/apprenants/{idApp}/livrables")
-    Collection<LivrablesRendusDto> addUrl(@RequestBody Collection<LivrablesRendusDto> livrablesRendusDtos, @PathVariable("id") Long id, @PathVariable("idApp") Long idApp);
+    Collection<LivrablesAttendusDto> addUrl(@RequestBody Collection<LivrablesAttendusDto> livrablesAttendusDtos, @PathVariable("id") Long id, @PathVariable("idApp") Long idApp);
 
     @GetMapping("/briefs/{id}/apprenants/{idApp}/livrablesPartiels")
     Collection<LivrablesPartielsDto> findLivrablesPartielsByAprrenant(@PathVariable("id") Long id, @PathVariable("idApp") Long idApp);

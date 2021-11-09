@@ -24,5 +24,8 @@ public class BriefApprenant {
     @OneToOne
     private FilDiscussion filDiscussion;
 
+    @OneToMany(mappedBy = "briefApprenant")
+    private Collection<Livrable> livrables;
+
     private boolean valide;
 }

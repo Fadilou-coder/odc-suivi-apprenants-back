@@ -3,6 +3,7 @@ package com.odc.suiviapprenants.controller;
 
 import com.odc.suiviapprenants.controller.api.BriefApi;
 import com.odc.suiviapprenants.dto.BriefDto;
+import com.odc.suiviapprenants.dto.LivrablesAttendusDto;
 import com.odc.suiviapprenants.dto.LivrablesPartielsDto;
 import com.odc.suiviapprenants.dto.LivrablesRendusDto;
 import com.odc.suiviapprenants.service.BriefService;
@@ -10,7 +11,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -68,27 +68,27 @@ public class BriefController implements BriefApi {
 
     @Override
     public Collection<LivrablesPartielsDto> ListLivrablesPartiels(Long id) {
-        return null;
+        return briefService.ListLivrablesPartiels(id);
     }
 
     @Override
-    public Collection<LivrablesRendusDto> addUrl(Collection<LivrablesRendusDto> livrablesRendusDtos, Long id, Long idApp) {
-        return null;
+    public Collection<LivrablesAttendusDto> addUrl(Collection<LivrablesAttendusDto> livrablesAttendusDtos, Long id, Long idApp) {
+        return briefService.addUrl(livrablesAttendusDtos, id, idApp);
     }
 
     @Override
     public Collection<LivrablesPartielsDto> findLivrablesPartielsByAprrenant(Long id, Long idApp) {
-        return null;
+        return briefService.findLivrablesPartielsByAprrenant(id, idApp);
     }
 
     @Override
     public LivrablesPartielsDto rendreLivrablePartiel(Long id, Long idApp, Long idLp) {
-        return null;
+        return briefService.rendreLivrablePartiel(id, idApp, idLp);
     }
 
     @Override
     public BriefDto cloturerBrief(Long id) {
-        return null;
+        return briefService.cloturerBrief(id);
     }
 
 }

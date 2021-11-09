@@ -23,7 +23,7 @@ public class BriefCompetenceDto {
         if (briefCompetence == null) return null;
         return BriefCompetenceDto.builder()
                 .id(briefCompetence.getId())
-                .brief(BriefDto.fromEntity(briefCompetence.getBrief()))
+                //.brief(BriefDto.fromEntity(briefCompetence.getBrief()))
                 .competence(CompetenceDto.fromEntity(briefCompetence.getCompetence()))
                 .niveau(NiveauEvaluationDto.fromEntity(briefCompetence.getNiveau()))
                 .valide(briefCompetence.isValide())
