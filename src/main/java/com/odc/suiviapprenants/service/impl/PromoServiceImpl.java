@@ -1,9 +1,6 @@
 package com.odc.suiviapprenants.service.impl;
 
-import com.odc.suiviapprenants.dto.FormateurDto;
-import com.odc.suiviapprenants.dto.GroupeDto;
-import com.odc.suiviapprenants.dto.PromoDto;
-import com.odc.suiviapprenants.dto.ReferentielDto;
+import com.odc.suiviapprenants.dto.*;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
@@ -22,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -194,5 +192,16 @@ public class PromoServiceImpl implements PromoService {
             throw new InvalidEntityException("L'id promo n'est pas valide", ErrorCodes.PROMO_NOT_VALID);
         }
         return PromoDto.fromEntity(promoRepository.findByIdAndArchiveFalse(id).get());
+    }
+
+    @Override
+    public List<ApprenantDto> findApprenantsByPromoId(Long id) {
+        if (id == null) {
+            return null;
+        }
+        Promo promo = promoRepository.findByIdAndArchiveFalse(id).get();
+        Groupe groupe = groupeRepository.findByTypeAndPromo("principale",promo).get();
+        return groupe.getApprenants().stream().map(ApprenantDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }

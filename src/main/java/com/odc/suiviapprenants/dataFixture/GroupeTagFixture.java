@@ -15,7 +15,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(18)
+@Order(7)
 public class GroupeTagFixture implements CommandLineRunner {
     private GroupeTagRepository groupeTagRepository;
     private TagRepository tagRepository;

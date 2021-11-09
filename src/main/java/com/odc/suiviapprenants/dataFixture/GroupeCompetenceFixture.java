@@ -34,6 +34,6 @@ public class GroupeCompetenceFixture implements CommandLineRunner {
                         Arrays.asList(competenceRepository.findByLibelleAndArchiveFalse("BD MYSQL").get(), competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get()),
                         Arrays.asList(referentielRepository.findByLibelle("ref1").get(), referentielRepository.findByLibelle("ref2").get()),
                         Arrays.asList(tagRepository.findByLibelleAndArchiveFalse("MySQL").get(), tagRepository.findByLibelleAndArchiveFalse("PHP").get())
-        )));
+                )));
     }
 }
