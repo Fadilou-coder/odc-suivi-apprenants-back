@@ -2,6 +2,7 @@ package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -12,12 +13,12 @@ import java.util.Collection;
 public class Livrable extends AbstractEntity{
     private String url;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private LivrableAttendu livrableAttendu;
 
     @ManyToMany
     private Collection<LivrableRendu> livrableRendus;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private  BriefApprenant briefApprenant;
 }

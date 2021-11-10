@@ -21,7 +21,7 @@ public class BriefApprenant {
     @ManyToMany(mappedBy = "briefApprenants", cascade = CascadeType.MERGE)
     private Collection<LivrablePartiel> livrablePartiels;
 
-    @OneToOne
+    @OneToOne(mappedBy = "briefApprenant")
     private FilDiscussion filDiscussion;
 
     @OneToMany(mappedBy = "briefApprenant")

@@ -1,12 +1,8 @@
 package com.odc.suiviapprenants.service;
 
-import com.odc.suiviapprenants.dto.BriefDto;
-import com.odc.suiviapprenants.dto.LivrablesAttendusDto;
-import com.odc.suiviapprenants.dto.LivrablesPartielsDto;
-import com.odc.suiviapprenants.dto.LivrablesRendusDto;
+import com.odc.suiviapprenants.dto.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -35,13 +31,15 @@ public interface BriefService {
 
     Collection<LivrablesPartielsDto> ListLivrablesPartiels(Long id);
 
-    Collection<LivrablesAttendusDto> addUrl(Collection<LivrablesAttendusDto> livrablesAttendusDtos, Long id, Long idApp);
+    Collection<LivrablesDto> addUrl(Collection<LivrablesDto> livrablesDtos, Long id, Long idApp);
 
     Collection<LivrablesPartielsDto> findLivrablesPartielsByAprrenant(Long id, Long idApp);
 
     LivrablesPartielsDto rendreLivrablePartiel(Long id, Long idApp, Long idLp);
 
     BriefDto cloturerBrief(Long id);
+
+    CompetenceValideDto validerCompetence(Long id, Long idComp);
 
 
 }

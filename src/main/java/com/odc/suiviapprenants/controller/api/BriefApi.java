@@ -1,18 +1,11 @@
 package com.odc.suiviapprenants.controller.api;
 
 
-import com.odc.suiviapprenants.dto.BriefDto;
-import com.odc.suiviapprenants.dto.LivrablesAttendusDto;
-import com.odc.suiviapprenants.dto.LivrablesPartielsDto;
-import com.odc.suiviapprenants.dto.LivrablesRendusDto;
+import com.odc.suiviapprenants.dto.*;
 import io.swagger.annotations.Api;
-import org.springframework.security.access.method.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.persistence.Lob;
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -48,7 +41,7 @@ public interface BriefApi {
     Collection<LivrablesPartielsDto> ListLivrablesPartiels(@PathVariable Long id);
 
     @PostMapping("/briefs/{id}/apprenants/{idApp}/livrables")
-    Collection<LivrablesAttendusDto> addUrl(@RequestBody Collection<LivrablesAttendusDto> livrablesAttendusDtos, @PathVariable("id") Long id, @PathVariable("idApp") Long idApp);
+    Collection<LivrablesDto> addUrl(@RequestBody Collection<LivrablesDto> livrablesDtos, @PathVariable("id") Long id, @PathVariable("idApp") Long idApp);
 
     @GetMapping("/briefs/{id}/apprenants/{idApp}/livrablesPartiels")
     Collection<LivrablesPartielsDto> findLivrablesPartielsByAprrenant(@PathVariable("id") Long id, @PathVariable("idApp") Long idApp);
@@ -58,5 +51,8 @@ public interface BriefApi {
 
     @PutMapping ("/briefs/{id}")
     BriefDto cloturerBrief(@PathVariable Long id);
+
+    @PostMapping("/appprenant/{id}/competence/{idComp}")
+    CompetenceValideDto validerCompetence(@PathVariable("id") Long id, @PathVariable("idComp") Long idComp);
 
 }

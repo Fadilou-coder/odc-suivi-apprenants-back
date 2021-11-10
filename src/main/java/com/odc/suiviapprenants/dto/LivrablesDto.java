@@ -1,13 +1,10 @@
 package com.odc.suiviapprenants.dto;
 
 import com.odc.suiviapprenants.model.Livrable;
-import com.odc.suiviapprenants.model.LivrableRendu;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Builder
 @Data
@@ -17,6 +14,7 @@ public class LivrablesDto {
     Long id;
     String url;
     BriefApprenantDto briefApprenant;
+    LivrablesAttendusDto livrableAttendu;
 
 
     public static LivrablesDto fromEntity(Livrable livrable){
@@ -24,6 +22,7 @@ public class LivrablesDto {
         return LivrablesDto.builder()
                 .id(livrable.getId())
                 .url(livrable.getUrl())
+                .livrableAttendu(LivrablesAttendusDto.fromEntity(livrable.getLivrableAttendu()))
                 .build();
     }
 
@@ -33,6 +32,7 @@ public class LivrablesDto {
         livrable.setId(livrablesDto.getId());
         livrable.setUrl(livrablesDto.getUrl());
         livrable.setBriefApprenant(BriefApprenantDto.toEntity(livrablesDto.getBriefApprenant()));
+        livrable.setLivrableAttendu(LivrablesAttendusDto.toEntity(livrablesDto.getLivrableAttendu()));
         return livrable;
     }
 }

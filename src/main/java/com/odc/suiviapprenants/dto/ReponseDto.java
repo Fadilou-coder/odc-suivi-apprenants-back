@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.Reponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,9 +12,16 @@ import lombok.Data;
 public class ReponseDto {
 
     Long id;
-    private String libelle;
-    private byte[] pieceJointe;
-    private int note;
+    String libelle;
+    byte[] pieceJointe;
+    int note;
+
+    @JsonIgnore
+    MessageDto message;
+    @JsonIgnore
+    ApprenantDto apprenant;
+    @JsonIgnore
+    FormateurDto formateur;
 
     public static ReponseDto fromEntity(Reponse reponse){
         if (reponse == null) return null;
@@ -37,6 +45,9 @@ public class ReponseDto {
         reponse.setLibelle(dto.getLibelle());
         reponse.setPieceJointe(dto.getPieceJointe());
         reponse.setNote(dto.getNote());
+        reponse.setMessage(MessageDto.toEntity(dto.getMessage()));
+        reponse.setApprenant(ApprenantDto.toEntity(dto.getApprenant()));
+        reponse.setFormateur(FormateurDto.toEntity(dto.getFormateur()));
 
         return reponse;
     }

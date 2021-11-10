@@ -62,7 +62,6 @@ public class GroupeServiceImpl implements GroupeService {
     @Override
     public GroupeDto findById(Long id) {
         if (id == null) {
-            log.error("Groupe ID is null");
             return null;
         }
 
@@ -123,16 +122,19 @@ public class GroupeServiceImpl implements GroupeService {
 
     @Override
     public List<ApprenantDto> findApprenantNonAffecterByGroupe(Long id) {
-        Groupe groupe = groupeRepository.findById(id).get();
-        Groupe grpPrincipale = groupeRepository.findByNomGroupeAndPromo("GROUPE PRINCIPALE", groupe.getPromo()).get();
-        List<Apprenant> apprenantList = new ArrayList<>();
-        grpPrincipale.getApprenants().forEach(apprenant -> {
-            if (!groupe.getApprenants().contains(apprenant)){
-                apprenantList.add(apprenant);
-            }
-        });
-        return apprenantList.stream()
-                .map(ApprenantDto::fromEntity)
-                .collect(Collectors.toList());
+        if (groupeRepository.findById(id).isPresent()) {
+            Groupe groupe = groupeRepository.findById(id).get();
+            Groupe grpPrincipale = groupeRepository.findByNomGroupeAndPromo("GROUPE PRINCIPALE", groupe.getPromo()).get();
+            List<Apprenant> apprenantList = new ArrayList<>();
+            grpPrincipale.getApprenants().forEach(apprenant -> {
+                if (!groupe.getApprenants().contains(apprenant)) {
+                    apprenantList.add(apprenant);
+                }
+            });
+            return apprenantList.stream()
+                    .map(ApprenantDto::fromEntity)
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
     }
 }

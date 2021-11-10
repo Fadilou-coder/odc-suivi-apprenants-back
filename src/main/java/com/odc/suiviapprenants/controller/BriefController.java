@@ -2,10 +2,7 @@ package com.odc.suiviapprenants.controller;
 
 
 import com.odc.suiviapprenants.controller.api.BriefApi;
-import com.odc.suiviapprenants.dto.BriefDto;
-import com.odc.suiviapprenants.dto.LivrablesAttendusDto;
-import com.odc.suiviapprenants.dto.LivrablesPartielsDto;
-import com.odc.suiviapprenants.dto.LivrablesRendusDto;
+import com.odc.suiviapprenants.dto.*;
 import com.odc.suiviapprenants.service.BriefService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,8 +69,8 @@ public class BriefController implements BriefApi {
     }
 
     @Override
-    public Collection<LivrablesAttendusDto> addUrl(Collection<LivrablesAttendusDto> livrablesAttendusDtos, Long id, Long idApp) {
-        return briefService.addUrl(livrablesAttendusDtos, id, idApp);
+    public Collection<LivrablesDto> addUrl(Collection<LivrablesDto> livrablesDtos, Long id, Long idApp) {
+        return briefService.addUrl(livrablesDtos, id, idApp);
     }
 
     @Override
@@ -89,6 +86,11 @@ public class BriefController implements BriefApi {
     @Override
     public BriefDto cloturerBrief(Long id) {
         return briefService.cloturerBrief(id);
+    }
+
+    @Override
+    public CompetenceValideDto validerCompetence(Long id, Long idComp) {
+        return briefService.validerCompetence(id, idComp);
     }
 
 }

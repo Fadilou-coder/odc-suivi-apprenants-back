@@ -3,6 +3,7 @@ package com.odc.suiviapprenants.service.impl;
 import com.odc.suiviapprenants.dto.*;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
+import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.*;
 import com.odc.suiviapprenants.repository.*;
 import com.odc.suiviapprenants.service.ApplicationService;
@@ -36,6 +37,8 @@ public class BriefServiceImpl implements BriefService {
     BriefCompetenceRepository briefCompetenceRepository;
     BriefApprenantRepository briefApprenantRepository;
     BriefGroupeRepository briefGroupeRepository;
+    LivrableRepository livrableRepository;
+    CompetenceValideRepository competenceValideRepository;
 
     @Override
     public BriefDto save(
@@ -210,15 +213,17 @@ public class BriefServiceImpl implements BriefService {
     }
 
     @Override
-    public Collection<LivrablesAttendusDto> addUrl(Collection<LivrablesAttendusDto> livrablesAttendusDtos, Long id, Long idApp) {
+    public Collection<LivrablesDto> addUrl(Collection<LivrablesDto> livrablesDtos, Long id, Long idApp) {
         if (briefRepository.findById(id).isPresent()) {
             if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()){
                 BriefApprenant briefApprenant = briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get();
-                livrablesAttendusDtos.forEach(livrablesAttendusDto -> {
-                    livrablesAttendusDto.getLivrables().forEach(livrablesDto -> {
+                livrablesDtos.forEach(livrablesDto -> {
                         livrablesDto.setBriefApprenant(BriefApprenantDto.fromEntity(briefApprenant));
-                    });
                 });
+                return livrableRepository.saveAll(livrablesDtos.stream().map(LivrablesDto::toEntity).collect(Collectors.toList()))
+                        .stream()
+                        .map(LivrablesDto::fromEntity)
+                        .collect(Collectors.toList());
             }
             return null;
         }
@@ -256,6 +261,25 @@ public class BriefServiceImpl implements BriefService {
             brief.setStatut("cloturer");
             briefRepository.flush();
             return BriefDto.fromEntity(brief);
+        }
+        return null;
+    }
+
+    @Override
+    public CompetenceValideDto validerCompetence(Long id, Long idComp) {
+        if (briefCompetenceRepository.findByCompetenceId(idComp).isPresent()){
+            CompetenceValideDto competenceValideDto = new CompetenceValideDto();
+            competenceValideDto.setCompetence(CompetenceDto.fromEntity(competenceRepository.findById(idComp).get()));
+            competenceValideDto.setApprenant(ApprenantDto.fromEntity(apprenantRepository.findById(id).get()));
+            if (Objects.equals(briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getLibelle(), "Niveau 1")){
+                competenceValideDto.setNiveau1(true);
+            }else if (Objects.equals(briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getLibelle(), "Niveau 2")){
+                competenceValideDto.setNiveau2(true);
+            }else competenceValideDto.setNiveau3(true);
+
+            return CompetenceValideDto.fromEntity(
+                    competenceValideRepository.save(CompetenceValideDto.toEntity(competenceValideDto))
+            );
         }
         return null;
     }
