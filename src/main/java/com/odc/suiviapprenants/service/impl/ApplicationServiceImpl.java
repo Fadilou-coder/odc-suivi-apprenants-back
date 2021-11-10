@@ -4,7 +4,6 @@ import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.dto.PromoDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
-import com.odc.suiviapprenants.exception.ErrorCodes;
 
 import com.odc.suiviapprenants.model.*;
 import com.odc.suiviapprenants.repository.*;
@@ -18,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 
 @Service
@@ -93,6 +94,12 @@ public class ApplicationServiceImpl implements ApplicationService {
                     .orElseThrow(() -> new EntityNotFoundException("Vous etes affecter à aucune promo en cours", ErrorCodes.PROMO_NOT_FOUND)
                     );
         }
-        return null;
+        else{
+            AtomicReference<Promo> promo = null;
+            apprenantRepository.findByUsernameAndArchiveFalse(username).getGroupes().forEach(groupe -> {
+                 promo.set(groupe.getPromo());
+            });
+            return PromoDto.fromEntity(promo.get());
+        }
     }
 }
