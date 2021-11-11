@@ -28,4 +28,12 @@ public class NiveauEvaluation extends AbstractEntity {
 
     @OneToMany(mappedBy = "niveau")
     private Collection<BriefCompetence> briefCompetences;
+
+    public NiveauEvaluation(String libelle, String groupeAction, String critereEvaluation, Competence competence, Referentiel referentiel) {
+        this.libelle = libelle;
+        this.groupeAction = groupeAction;
+        this.critereEvaluation = critereEvaluation;
+        this.competence = competence;
+        this.referentiel = referentiel;
+    }
 }
