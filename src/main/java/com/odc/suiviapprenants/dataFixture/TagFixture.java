@@ -13,7 +13,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(10)
+@Order(6)
 public class TagFixture implements CommandLineRunner {
     private TagRepository tagRepository;
 

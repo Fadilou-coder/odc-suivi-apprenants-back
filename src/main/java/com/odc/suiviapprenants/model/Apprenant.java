@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import java.time.LocalDate;
 import java.util.Collection;
 
 @Entity
@@ -21,10 +22,10 @@ public class Apprenant extends AppUser {
 
     public Apprenant(
             String username, String password,
-                     String prenom, String nom, String email,
-                     String cni, String adresse, String numeroTelephone,
-                     String etat, String matricule, String role) {
-        super(username, password, prenom, nom, email, cni, adresse, numeroTelephone);
+            String prenom, String nom, String email,
+            String cni, String adresse, String numeroTelephone,
+            String etat, String matricule, String role, LocalDate dateNaissance) {
+        super(username, password, prenom, nom, email, cni, adresse, numeroTelephone,dateNaissance);
         this.etat = etat;
         this.matricule = matricule;
         this.role = role;

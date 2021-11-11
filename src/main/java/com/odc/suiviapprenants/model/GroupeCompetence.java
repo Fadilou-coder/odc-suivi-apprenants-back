@@ -24,17 +24,18 @@ public class GroupeCompetence extends AbstractEntity {
     @ManyToMany(cascade = CascadeType.MERGE)
     private Collection<Competence> competences;
 
-    @ManyToMany(mappedBy = "groupeCompetences", cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy = "groupeCompetences")
     private Collection<Referentiel> referentiels;
 
     @ManyToMany(cascade = CascadeType.MERGE)
     @JsonIgnore
     private Collection<Tag> tags;
-    public GroupeCompetence(String libelle, String description, Collection<Competence> competences, Collection<Referentiel> referentiels) {
+
+    public GroupeCompetence(String libelle, String description, Collection<Competence> competences, Collection<Tag> tags) {
         this.libelle = libelle;
         this.description = description;
         this.competences = competences;
-        this.referentiels = referentiels;
+        this.tags = tags;
     }
 
     public void addCompetence(Competence competence){

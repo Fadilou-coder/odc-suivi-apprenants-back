@@ -1,6 +1,5 @@
 package com.odc.suiviapprenants.dataFixture;
 
-import com.odc.suiviapprenants.model.GroupeCompetence;
 import com.odc.suiviapprenants.model.GroupeTag;
 import com.odc.suiviapprenants.repository.GroupeTagRepository;
 import com.odc.suiviapprenants.repository.TagRepository;
@@ -15,7 +14,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(18)
+@Order(7)
 public class GroupeTagFixture implements CommandLineRunner {
     private GroupeTagRepository groupeTagRepository;
     private TagRepository tagRepository;

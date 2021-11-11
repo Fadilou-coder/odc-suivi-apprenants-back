@@ -16,13 +16,12 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(14)
+@Order(11)
 class GroupeFixture implements CommandLineRunner {
     GroupeRepository groupeRepository;
     FormateurRepository formateurRepository;
@@ -42,10 +41,11 @@ class GroupeFixture implements CommandLineRunner {
         for(int i = 25; i < 50; i++){
             apprenantList2.add(apprenants.get(i));
         }
-        groupeRepository.saveAll(Arrays.asList(
-                new Groupe("groupe 1", "plusieurs", "ouvert", promoList.get(1), formateurs, apprenantList1),
-                new Groupe("groupe 2", "plusieurs", "ouvert", promoList.get(1), formateurs, apprenantList2),
-                new Groupe("GROUPE PRINCIPALE", "plusieurs", "ouvert", promoList.get(1), formateurs, apprenants)
-        ));
+
+        for (int i = 0 ; i < promoList.toArray().length;i++){
+            groupeRepository.save(new Groupe("GROUPE PRINCIPALE_"+i, "principale", "ouvert", promoList.get(i), formateurs, apprenants));
+            groupeRepository.save(  new Groupe("groupe "+i, "plusieurs", "ouvert", promoList.get(i), formateurs, apprenantList1));
+            groupeRepository.save( new Groupe("groupe "+i, "plusieurs", "ouvert", promoList.get(i), formateurs, apprenantList2));
+        }
     }
 }

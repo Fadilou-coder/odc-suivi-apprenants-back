@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Collection;
 
 @Entity
@@ -22,8 +23,9 @@ public class Admin extends AppUser {
     @ManyToMany(mappedBy = "admins")
     private Collection<Promo> promos;
 
-    public Admin(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone, Role role) {
-        super(username, password, prenom, nom, email, cni, adresse, numeroTelephone);
+    public Admin(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone, Role role,
+                 LocalDate dateNaissance) {
+        super(username, password, prenom, nom, email, cni, adresse, numeroTelephone,dateNaissance);
         this.role = role;
     }
 

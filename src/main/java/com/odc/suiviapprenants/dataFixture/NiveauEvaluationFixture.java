@@ -15,7 +15,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(16)
+@Order(14)
 public class NiveauEvaluationFixture implements CommandLineRunner {
     private NiveauEvaluationRepository niveauEvaluationRepository;
     private CompetenceRepository competenceRepository;

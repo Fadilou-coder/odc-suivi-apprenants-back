@@ -17,7 +17,7 @@ public class Formateur extends AppUser{
     @OneToMany(mappedBy="formateur")
     private Collection<Document> documents;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "formateurs")
     Collection<Referentiel> referentiels;
 
     @ManyToMany(mappedBy = "formateurs")
@@ -32,10 +32,9 @@ public class Formateur extends AppUser{
     @OneToMany(mappedBy = "formateur")
     private Collection<Reponse> reponses;
 
-    public Formateur(String username, String password, String prenom, String nom, String email, String numeroTelephone, String role, Collection<Promo> promos)
+    public Formateur(String username, String password, String prenom, String nom, String email, String numeroTelephone, String role)
     {
         super(username, password, prenom, nom, email, numeroTelephone);
-        this.setPromos(promos);
         this.role = role;
     }
 }

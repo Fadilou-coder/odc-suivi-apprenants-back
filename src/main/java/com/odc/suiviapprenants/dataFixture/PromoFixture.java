@@ -11,13 +11,12 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.List;
 
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(9)
+@Order(10)
 public class PromoFixture implements CommandLineRunner {
     PromoRepository promoRepository;
     ReferentielRepository referentielRepository;
