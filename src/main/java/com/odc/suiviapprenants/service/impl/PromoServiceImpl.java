@@ -1,8 +1,6 @@
 package com.odc.suiviapprenants.service.impl;
 
-import com.odc.suiviapprenants.dto.GroupeDto;
-import com.odc.suiviapprenants.dto.PromoDto;
-import com.odc.suiviapprenants.dto.ReferentielDto;
+import com.odc.suiviapprenants.dto.*;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
@@ -16,11 +14,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +34,7 @@ public class PromoServiceImpl implements PromoService {
     ApprenantRepository apprenantRepository;
     AdminRepository adminRepository;
     GroupeRepository groupeRepository;
+    FormateurRepository formateurRepository;
 
     public PromoDto insertInPromoDto (String langue, String title,
                                       String description, String lieu, String dateDebut,
@@ -59,7 +60,7 @@ public class PromoServiceImpl implements PromoService {
             String dateDebut, String dateFinProvisoire, String etat,
             MultipartFile avatarPromo,
             String referentiel,
-            List<String> apprenantsEmail
+            List<String> apprenantsEmail, List<String> formateurs
     ) throws Exception{
         PromoDto promoDto = insertInPromoDto(
                 langue, title,
@@ -71,6 +72,8 @@ public class PromoServiceImpl implements PromoService {
         groupe1.setType("principale");
         groupe1.setStatut("ouvert");
         Referentiel referentiel1 = referentielRepository.findByLibelle(referentiel).get();
+        List<FormateurDto> formateurList= new ArrayList<>();
+        log.info(promoDto.toString());
         promoDto.setReferentiel(ReferentielDto.fromEntity(referentiel1));
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         List<Apprenant> apprenants = new ArrayList<>();
@@ -92,14 +95,30 @@ public class PromoServiceImpl implements PromoService {
 
             }
             groupe1.setApprenants(apprenants);
+           // groupe1.setFormateurs(formateurList);
         }
         else {groupe1.setApprenants(null);}
 
-        return getPromoDto(promoDto, groupe1,groupeDtoList);
+        return getPromoDto(promoDto, groupe1,groupeDtoList,formateurs);
     }
 
-    private PromoDto getPromoDto(PromoDto promoDto, Groupe groupe1,List<GroupeDto> groupeDtoList) {
+    private PromoDto getPromoDto(PromoDto promoDto, Groupe groupe1,List<GroupeDto> groupeDtoList,List<String> formateurs) {
         groupe1.setPromo(PromoDto.toEntity(promoDto));
+        List<Formateur> formateurList = new ArrayList<>();
+        if (formateurs !=null){
+            formateurs.forEach(formateur -> {
+                if (formateurRepository.findByIdAndArchiveFalse(Long.valueOf(formateur)).isPresent())
+                {
+                    if (!promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateurRepository.findByIdAndArchiveFalse(Long.valueOf(formateur)).get()).isPresent()){
+                        formateurList.add(formateurRepository.findByIdAndArchiveFalse(Long.valueOf(formateur)).get());
+                        groupe1.getPromo().setFormateurs(formateurList);
+                    }
+                    else {
+                        throw new InvalidOperationException(formateurRepository.findById(Long.valueOf(formateur)).get().getUsername() + " est deja dans une promo en cours");
+                    }
+                }
+            });
+        }else {groupe1.getPromo().getFormateurs().add(null);}
           groupeDtoList.add(GroupeDto.fromEntity(groupe1));
         List<String> errors = PromoValidator.validatePromo(promoDto);
         if (!errors.isEmpty()) {
@@ -154,16 +173,16 @@ public class PromoServiceImpl implements PromoService {
                     }
                 });
             }
-            if (promoDto.getAdmins() !=null){
-                promoDto.getAdmins().forEach(adminDto -> {
-                    if (adminRepository.findById(adminDto.getId()).isPresent())
+            if (promoDto.getFormateurs() !=null){
+                promoDto.getFormateurs().forEach(formateurDto -> {
+                    if (formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).isPresent())
                     {
-                        if (!promoRepository.findByEnCoursTrueAndArchiveFalseAndAdmins(adminRepository.findById(adminDto.getId()).get()).isPresent()){
-                            promo.getAdmins().add(adminRepository.findById(adminDto.getId()).get());
+                        if (!promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get()).isPresent()){
+                            promo.getFormateurs().add(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get());
                             promoRepository.flush();
                         }
                         else {
-                            throw new InvalidOperationException(adminRepository.findById(adminDto.getId()).get().getUsername() + " est deja dans une promo en cours");
+                            throw new InvalidOperationException(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get().getUsername() + " Est deja dans un promo en cours");
                         }
                     }
                 });
@@ -174,5 +193,16 @@ public class PromoServiceImpl implements PromoService {
             throw new InvalidEntityException("L'id promo n'est pas valide", ErrorCodes.PROMO_NOT_VALID);
         }
         return PromoDto.fromEntity(promoRepository.findByIdAndArchiveFalse(id).get());
+    }
+
+    @Override
+    public List<ApprenantDto> findApprenantsByPromoId(Long id) {
+        if (id == null) {
+            return null;
+        }
+        Promo promo = promoRepository.findByIdAndArchiveFalse(id).get();
+        Groupe groupe = groupeRepository.findByTypeAndPromo("principale",promo).get();
+        return groupe.getApprenants().stream().map(ApprenantDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }

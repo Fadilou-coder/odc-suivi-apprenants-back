@@ -15,7 +15,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(12)
+@Order(16)
 public class PretFixture implements CommandLineRunner {
     private PretRepository pretRepository;
     private ApprenantRepository apprenantRepository;

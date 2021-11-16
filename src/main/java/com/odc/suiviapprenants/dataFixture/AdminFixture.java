@@ -11,6 +11,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 @AllArgsConstructor
@@ -28,9 +32,8 @@ public class AdminFixture implements CommandLineRunner {
         String encodedPassword = passwordEncoder.encode(password);
 
         adminRepository.saveAll(Arrays.asList(
-                new Admin("admin", encodedPassword, "admin", "admin", "admin@gmail.com", "1 234 5678 90123", "adresse", "770000000", roleRepository.findByLibelle("ADMIN")),
-                new Admin("leadFormateur", encodedPassword, "leadFormateur", "leadFormateur", "leadFormateur@gmail.com", "1 234 5678 90124", "adresse", "770000001", roleRepository.findByLibelle("LEAD_FORMATEUR")),
-                new Admin("cm", encodedPassword, "cm", "cm", "cm@gmail.com", "1 234 5678 90125", "adresse", "770000003", roleRepository.findByLibelle("CM"))
+                new Admin("leadFormateur", encodedPassword, "leadFormateur", "leadFormateur", "leadFormateur@gmail.com", "1 234 5678 90124", "adresse", "770000001", roleRepository.findByLibelle("LEAD_FORMATEUR"),LocalDate.parse("2000-02-21")),
+                new Admin("cm", encodedPassword, "cm", "cm", "cm@gmail.com", "1 234 5678 90125", "adresse", "770000003", roleRepository.findByLibelle("CM"), LocalDate.parse("2000-02-21"))
         ));
     }
 }

@@ -16,20 +16,22 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(10)
+@Order(8)
 public class GroupeCompetenceFixture implements CommandLineRunner {
     private GroupeCompetenceRepository groupeCompetenceRepository;
     private CompetenceRepository competenceRepository;
-    private ReferentielRepository referentielRepository;
     private TagRepository tagRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        groupeCompetenceRepository.saveAll(Arrays.asList(
-                new GroupeCompetence("Développer le back-end d’une application web", "Description",
-                        Arrays.asList(competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), competenceRepository.findByLibelleAndArchiveFalse("Développer les composants d’accès aux données").get()),
-                        Arrays.asList(referentielRepository.findByLibelle("Développement Web et mobile").get()),
-                        Arrays.asList(tagRepository.findByLibelleAndArchiveFalse("MySQL").get()))
-        ));
+        for (int i=0;i<15;i++){
+            groupeCompetenceRepository.save(
+                    new GroupeCompetence("libelle"+i,"description"+i,
+                    Arrays.asList(competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(),
+                            competenceRepository.findByLibelleAndArchiveFalse("Développer les composants d’accès aux données").get()),
+                            Arrays.asList(tagRepository.findByLibelleAndArchiveFalse("Laravel").get(),tagRepository.findByLibelleAndArchiveFalse("Ionic").get())
+
+                    ));
+        }
     }
 }

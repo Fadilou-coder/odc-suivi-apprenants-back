@@ -16,7 +16,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(13)
+@Order(4)
 class FormateurFixture implements CommandLineRunner {
 
     FormateurRepository formateurRepository;
@@ -25,7 +25,6 @@ class FormateurFixture implements CommandLineRunner {
         String password = "password";
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(password);
-        Formateur formateur = new Formateur();
 
         formateurRepository.saveAll(Arrays.asList(
                 new Formateur("formateur1",encodedPassword,"formateur1","nom1","email1@email.com","771234455","FORMATEUR"),

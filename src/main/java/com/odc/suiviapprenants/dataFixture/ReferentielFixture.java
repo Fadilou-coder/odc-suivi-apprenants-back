@@ -1,6 +1,7 @@
 package com.odc.suiviapprenants.dataFixture;
 
 import com.odc.suiviapprenants.model.Referentiel;
+import com.odc.suiviapprenants.repository.GroupeCompetenceRepository;
 import com.odc.suiviapprenants.repository.ReferentielRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
@@ -13,14 +14,15 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(5)
+@Order(9)
 public class ReferentielFixture implements CommandLineRunner {
     private ReferentielRepository referentielRepository;
+    private GroupeCompetenceRepository groupeCompetenceRepository;
 
     @Override
     public void run(String... args) throws Exception {
         for(int i=0;i < 15;i++ ){
-            referentielRepository.save(new Referentiel("ref"+i,"description"+i,"crictereDev"+i,"crictereAdmin"+i));
+            referentielRepository.save(new Referentiel("ref"+i,"description"+i,"crictereDev"+i,"crictereAdmin"+i,groupeCompetenceRepository.findAll()));
         }
     }
 }

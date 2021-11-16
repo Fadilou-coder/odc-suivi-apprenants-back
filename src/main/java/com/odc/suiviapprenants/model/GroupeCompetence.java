@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -26,7 +28,15 @@ public class GroupeCompetence extends AbstractEntity {
     private Collection<Referentiel> referentiels;
 
     @ManyToMany(cascade = CascadeType.MERGE)
+    @JsonIgnore
     private Collection<Tag> tags;
+
+    public GroupeCompetence(String libelle, String description, Collection<Competence> competences, Collection<Tag> tags) {
+        this.libelle = libelle;
+        this.description = description;
+        this.competences = competences;
+        this.tags = tags;
+    }
 
     public void addCompetence(Competence competence){
         this.competences.add(competence);
