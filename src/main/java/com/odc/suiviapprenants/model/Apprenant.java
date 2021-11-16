@@ -46,5 +46,15 @@ public class Apprenant extends AppUser {
     @ManyToMany(mappedBy = "apprenants")
     private Collection<Groupe> groupes;
 
+    @OneToMany(mappedBy = "apprenant")
+    private Collection<BriefApprenant> briefApprenants;
 
+    @OneToMany(mappedBy = "apprenant")
+    private Collection<FilDiscussion> filDiscussions;
+
+    @OneToMany(mappedBy = "apprenant")
+    private Collection<Message> messages;
+
+    @OneToMany(mappedBy = "apprenant")
+    private Collection<Reponse> reponses;
 }

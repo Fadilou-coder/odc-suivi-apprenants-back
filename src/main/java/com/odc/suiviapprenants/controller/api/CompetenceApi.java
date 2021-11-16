@@ -26,4 +26,7 @@ public interface CompetenceApi {
 
     @PutMapping("/competences/niveaux_affectes")
     CompetenceDto affectedNiveau(@RequestBody CompetenceDto competenceDto);
+
+    @GetMapping("/referentiels/{id}/competences")
+    List<CompetenceDto> competencesByRef(@PathVariable Long id);
 }

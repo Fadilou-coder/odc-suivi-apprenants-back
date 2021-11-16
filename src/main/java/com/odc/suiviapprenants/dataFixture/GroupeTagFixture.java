@@ -1,6 +1,5 @@
 package com.odc.suiviapprenants.dataFixture;
 
-import com.odc.suiviapprenants.model.GroupeCompetence;
 import com.odc.suiviapprenants.model.GroupeTag;
 import com.odc.suiviapprenants.repository.GroupeTagRepository;
 import com.odc.suiviapprenants.repository.TagRepository;

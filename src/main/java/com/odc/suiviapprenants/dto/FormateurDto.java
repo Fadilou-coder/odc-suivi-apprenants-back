@@ -68,6 +68,7 @@ public class FormateurDto {
         if (formateurDto == null) return null;
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         Formateur formateur = new Formateur();
+        formateur.setId(formateurDto.getId());
         formateur.setUsername(formateurDto.getUsername());
         formateur.setPassword(encoder.encode("password"));
         formateur.setPrenom(formateurDto.getPrenom());
