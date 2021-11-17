@@ -19,7 +19,7 @@ public class CompetenceFixture implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         competenceRepository.saveAll(Arrays.asList(
-                new Competence("BD POSTGRESS"),
+                new Competence("BD POSTGRES"),
                 new Competence("GESTION DE PROJET"),
                 new Competence("RIGUEUR ET METHODE"),
                 new Competence("REALISATION DE REPORTING"),
