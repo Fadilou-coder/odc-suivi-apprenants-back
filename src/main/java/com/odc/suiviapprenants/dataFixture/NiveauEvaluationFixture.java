@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.dataFixture;
 
+import com.odc.suiviapprenants.model.Competence;
 import com.odc.suiviapprenants.model.NiveauEvaluation;
 import com.odc.suiviapprenants.repository.CompetenceRepository;
 import com.odc.suiviapprenants.repository.NiveauEvaluationRepository;
@@ -11,6 +12,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+import java.util.List;
 
 @AllArgsConstructor
 @Component
@@ -23,10 +25,13 @@ public class NiveauEvaluationFixture implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        niveauEvaluationRepository.saveAll(Arrays.asList(
-                new NiveauEvaluation("Niveau 1", "Groupe d'action 1", "Critère d'évaluation 1", competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), referentielRepository.findByLibelle("ref1").get()),
-                new NiveauEvaluation("Niveau 2", "Groupe d'action 2", "Critère d'évaluation 2", competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), referentielRepository.findByLibelle("ref1").get()),
-                new NiveauEvaluation("Niveau 3", "Groupe d'action 3", "Critère d'évaluation 3", competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), referentielRepository.findByLibelle("ref1").get())
-        ));
+        List<Competence> competenceList = competenceRepository.findAll();
+        for (int i=0;i<competenceList.toArray().length;i++){
+            niveauEvaluationRepository.saveAll(Arrays.asList(
+                    new NiveauEvaluation("Niveau 1", "D’autres attentes sont exprimées dans les offres d’emploi par les recruteurs. Ainsi, parmi les qualités ", "Concevoir et développer un site : conception, modélisation et architecture d’applications, méthodes, normes, langages et outils de développemen", competenceList.get(i), referentielRepository.findByLibelle("ref1").get()),
+                    new NiveauEvaluation("Niveau 2", "Maîtriser l’anglais un minimum (pour comprendre les différents langages de code comme le html par exemple", "Analyse, programmation et publication sont les trois grandes missions du développeur informatique.", competenceList.get(i), referentielRepository.findByLibelle("ref1").get()),
+                    new NiveauEvaluation("Niveau 3", "D’autres attentes sont exprimées dans les offres d’emploi par les recruteurs. Ainsi, parmi les qualités ", "Maîtriser l’anglais un minimum (pour comprendre les différents langages de code comme le html par exemple", competenceList.get(i), referentielRepository.findByLibelle("ref1").get())
+            ));
+        }
     }
 }
