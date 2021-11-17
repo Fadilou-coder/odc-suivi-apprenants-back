@@ -20,7 +20,6 @@ public class GroupeDto {
     private Collection<ApprenantDto> apprenants;
     private Collection<AdminDto> admins;
     private PromoDto promo;
-    private Promo promo1;
 
 
     public static GroupeDto fromEntity(Groupe groupe)
@@ -51,6 +50,7 @@ public class GroupeDto {
     public static Groupe toEntity(GroupeDto groupeDto) {
         if (groupeDto == null) return null;
         Groupe groupe = new Groupe();
+        groupe.setId(groupeDto.getId());
         groupe.setNomGroupe(groupeDto.getNomGroupe());
         groupe.setStatut(groupeDto.getStatut());
         groupe.setType(groupeDto.getType());

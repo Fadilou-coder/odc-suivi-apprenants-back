@@ -29,6 +29,10 @@ public class Groupe extends AbstractEntity {
     @ManyToOne
     private Promo promo;
 
+    @OneToMany(mappedBy = "groupe")
+    @JsonIgnore
+    private Collection<BriefGroupe> briefGroupes;
+
     public void addApprenant(Apprenant apprenant) {
         this.apprenants.add(apprenant);
         apprenant.getGroupes().add(this);

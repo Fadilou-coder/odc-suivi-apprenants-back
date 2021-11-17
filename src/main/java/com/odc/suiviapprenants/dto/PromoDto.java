@@ -54,6 +54,7 @@ public class PromoDto {
     public static Promo toEntity(PromoDto promoDto) {
         if (promoDto == null) return null;
         Promo promo = new Promo();
+        promo.setId(promoDto.getId());
         promo.setLangue(promoDto.getLangue());
         promo.setTitle(promoDto.getTitle());
         promo.setDescription(promoDto.getDescription());

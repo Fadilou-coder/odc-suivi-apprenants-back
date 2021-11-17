@@ -48,7 +48,6 @@ public class AppUser extends AbstractEntity {
         this.adresse = adresse;
         this.numeroTelephone = numeroTelephone;
         this.dateNaissance = dateNaissance;
-        this.avatar = avatar;
     }
 
     public AppUser(String username, String password, String prenom, String nom, String email, String numeroTelephone) {

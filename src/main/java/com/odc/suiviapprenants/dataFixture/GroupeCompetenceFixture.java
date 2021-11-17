@@ -27,7 +27,6 @@ public class GroupeCompetenceFixture implements CommandLineRunner {
             groupeCompetenceRepository.save(
                     new GroupeCompetence("libelle"+i,"description"+i, competenceRepository.findAll(),
                             Arrays.asList(tagRepository.findByLibelleAndArchiveFalse("Laravel").get(),tagRepository.findByLibelleAndArchiveFalse("Ionic").get())
-
                     ));
         }
     }
