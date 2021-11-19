@@ -34,10 +34,6 @@ public class Groupe extends AbstractEntity {
     @JsonIgnore
     private Collection<BriefGroupe> briefGroupes;
 
-    public void addApprenant(Apprenant apprenant) {
-        this.apprenants.add(apprenant);
-        apprenant.getGroupes().add(this);
-    }
 
     public void removeAllApprenant(Collection<Apprenant> apprenantList)
     {
