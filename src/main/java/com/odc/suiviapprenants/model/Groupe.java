@@ -18,13 +18,13 @@ public class Groupe extends AbstractEntity {
     private String type;
     private  String statut;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<Apprenant> apprenants;
 
     @ManyToMany
     private Collection<Admin> admins;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     Collection<Formateur> formateurs;
 
     @ManyToOne
@@ -34,6 +34,10 @@ public class Groupe extends AbstractEntity {
     @JsonIgnore
     private Collection<BriefGroupe> briefGroupes;
 
+    public void addApprenant(Apprenant apprenant) {
+        this.apprenants.add(apprenant);
+        apprenant.getGroupes().add(this);
+    }
 
     public void removeAllApprenant(Collection<Apprenant> apprenantList)
     {
