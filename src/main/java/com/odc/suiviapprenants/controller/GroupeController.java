@@ -49,4 +49,9 @@ public class GroupeController implements GroupeApi {
     public List<ApprenantDto> findApprenantNonAffecterByGroupe(Long id) {
         return groupeService.findApprenantNonAffecterByGroupe(id);
     }
+
+    @Override
+    public List<GroupeDto> findByFormateur(Long id) {
+        return groupeService.findByFormateur(id);
+    }
 }

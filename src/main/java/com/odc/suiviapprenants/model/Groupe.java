@@ -23,6 +23,7 @@ public class Groupe extends AbstractEntity {
 
     @ManyToMany
     private Collection<Admin> admins;
+
     @ManyToMany
     Collection<Formateur> formateurs;
 
