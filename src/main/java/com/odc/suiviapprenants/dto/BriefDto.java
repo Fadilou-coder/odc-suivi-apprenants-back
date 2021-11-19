@@ -30,6 +30,7 @@ public class BriefDto {
     private Collection<TagDto> tags;
     private Collection<RessourcesDto> ressources;
     private FormateurDto formateur;
+    @JsonIgnore
     private PromoDto promo;
     @JsonIgnore
     private Collection<BriefGroupeDto> briefGroupes;
