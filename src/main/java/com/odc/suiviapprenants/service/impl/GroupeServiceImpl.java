@@ -11,6 +11,7 @@ import com.odc.suiviapprenants.model.Promo;
 import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.GroupeRepository;
 import com.odc.suiviapprenants.repository.PromoRepository;
+import com.odc.suiviapprenants.service.ApplicationService;
 import com.odc.suiviapprenants.service.GroupeService;
 import com.odc.suiviapprenants.validator.GroupeValidator;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +33,7 @@ public class GroupeServiceImpl implements GroupeService {
     GroupeRepository groupeRepository;
     PromoRepository promoRepository;
     ApprenantRepository apprenantRepository;
+    ApplicationService applicationService;
 
     @Override
     public GroupeDto save(GroupeDto groupeDto) throws IOException {
@@ -136,5 +137,13 @@ public class GroupeServiceImpl implements GroupeService {
                     .collect(Collectors.toList());
         }
         return new ArrayList<>();
+    }
+
+    @Override
+    public List<GroupeDto> findByFormateur(Long id) {
+        return groupeRepository.findByNomGroupeNotAndFormateursIdAndPromoId("GROUPE PRINCIPALE", id, applicationService.promoEncours().getId())
+                .stream()
+                .map(GroupeDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }

@@ -19,4 +19,6 @@ public interface GroupeService {
     void delete(Long id);
 
     List<ApprenantDto> findApprenantNonAffecterByGroupe(Long id);
+
+    List<GroupeDto> findByFormateur(Long id);
 }

@@ -18,12 +18,13 @@ public class Groupe extends AbstractEntity {
     private String type;
     private  String statut;
 
-    @ManyToMany //ALL was present before
+    @ManyToMany(cascade = CascadeType.PERSIST) //ALL was present before
     private Collection<Apprenant> apprenants;
 
     @ManyToMany
     private Collection<Admin> admins;
-    @ManyToMany
+
+    @ManyToMany(cascade = CascadeType.PERSIST)
     Collection<Formateur> formateurs;
 
     @ManyToOne

@@ -24,9 +24,12 @@ public class NiveauEvaluationFixture implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         niveauEvaluationRepository.saveAll(Arrays.asList(
-                new NiveauEvaluation("Niveau 1", "Groupe d'action 1", "Critère d'évaluation 1", competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), referentielRepository.findByLibelle("ref1").get()),
-                new NiveauEvaluation("Niveau 2", "Groupe d'action 2", "Critère d'évaluation 2", competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), referentielRepository.findByLibelle("ref1").get()),
-                new NiveauEvaluation("Niveau 3", "Groupe d'action 3", "Critère d'évaluation 3", competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), referentielRepository.findByLibelle("ref1").get())
+                new NiveauEvaluation("Niveau 1", "Groupe d'action 1", "Critère d'évaluation 1", competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), referentielRepository.findByLibelle("ref0").get()),
+                new NiveauEvaluation("Niveau 2", "Groupe d'action 2", "Critère d'évaluation 2", competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), referentielRepository.findByLibelle("ref0").get()),
+                new NiveauEvaluation("Niveau 3", "Groupe d'action 3", "Critère d'évaluation 3", competenceRepository.findByLibelleAndArchiveFalse("Créer une base de données").get(), referentielRepository.findByLibelle("ref0").get()),
+                new NiveauEvaluation("Niveau 1", "Groupe d'action 1", "Critère d'évaluation 1", competenceRepository.findByLibelleAndArchiveFalse("Développer les composants d’accès aux données").get(), referentielRepository.findByLibelle("ref0").get()),
+                new NiveauEvaluation("Niveau 2", "Groupe d'action 2", "Critère d'évaluation 2", competenceRepository.findByLibelleAndArchiveFalse("Développer les composants d’accès aux données").get(), referentielRepository.findByLibelle("ref0").get()),
+                new NiveauEvaluation("Niveau 3", "Groupe d'action 3", "Critère d'évaluation 3", competenceRepository.findByLibelleAndArchiveFalse("Développer les composants d’accès aux données").get(), referentielRepository.findByLibelle("ref0").get())
         ));
     }
 }

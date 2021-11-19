@@ -29,4 +29,7 @@ public interface GroupeApi {
 
     @GetMapping("/groupes/{id}/apprenantsNonAffecter")
     List<ApprenantDto> findApprenantNonAffecterByGroupe (@PathVariable Long id);
+
+    @GetMapping("/formateurs/{id}/groupes")
+    List<GroupeDto> findByFormateur(@PathVariable Long id);
 }
