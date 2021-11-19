@@ -1,6 +1,8 @@
 package com.odc.suiviapprenants.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -8,11 +10,13 @@ import java.util.Collection;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Brief extends AbstractEntity{
     private String titre;
     private String description;
     private String contexte;
-    private LocalDate dateEcheance;
+    private LocalDate dateEcheance = LocalDate.now();
     private String modalitePedagodiques;
     private String criterePerformances;
     private String modaliteEvaluations;
@@ -44,4 +48,18 @@ public class Brief extends AbstractEntity{
 
     @ManyToMany(cascade = CascadeType.PERSIST)
     private Collection<LivrableAttendu> livrableAttendus;
+
+    public Brief(String titre, String description, String contexte, LocalDate dateEcheance, String modalitePedagodiques, String criterePerformances, String modaliteEvaluations, String statut, boolean valide, Formateur formateur, Promo promo) {
+        this.titre = titre;
+        this.description = description;
+        this.contexte = contexte;
+        this.dateEcheance = dateEcheance;
+        this.modalitePedagodiques = modalitePedagodiques;
+        this.criterePerformances = criterePerformances;
+        this.modaliteEvaluations = modaliteEvaluations;
+        this.statut = statut;
+        this.valide = valide;
+        this.formateur = formateur;
+        this.promo = promo;
+    }
 }
