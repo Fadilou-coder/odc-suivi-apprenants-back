@@ -28,9 +28,9 @@ public class NiveauEvaluationFixture implements CommandLineRunner {
         List<Competence> competenceList = competenceRepository.findAll();
         for (int i=0;i<competenceList.toArray().length;i++){
             niveauEvaluationRepository.saveAll(Arrays.asList(
-                    new NiveauEvaluation("Niveau 1", "D’autres attentes sont exprimées dans les offres d’emploi par les recruteurs. Ainsi, parmi les qualités ", "Concevoir et développer un site : conception, modélisation et architecture d’applications, méthodes, normes, langages et outils de développemen", competenceList.get(i), referentielRepository.findByLibelle("ref0").get()),
-                    new NiveauEvaluation("Niveau 2", "Maîtriser l’anglais un minimum (pour comprendre les différents langages de code comme le html par exemple", "Analyse, programmation et publication sont les trois grandes missions du développeur informatique.", competenceList.get(i), referentielRepository.findByLibelle("ref0").get()),
-                    new NiveauEvaluation("Niveau 3", "D’autres attentes sont exprimées dans les offres d’emploi par les recruteurs. Ainsi, parmi les qualités ", "Maîtriser l’anglais un minimum (pour comprendre les différents langages de code comme le html par exemple", competenceList.get(i), referentielRepository.findByLibelle("ref0").get())
+                    new NiveauEvaluation("Niveau 1", "D’autres attentes sont exprimées dans les offres d’emploi par les recruteurs. Ainsi, parmi les qualités ", "Concevoir et développer un site : conception, modélisation et architecture d’applications, méthodes, normes, langages et outils de développemen", competenceList.get(i), referentielRepository.findByLibelle("DEVELOPPEUR DATA").get()),
+                    new NiveauEvaluation("Niveau 2", "Maîtriser l’anglais un minimum (pour comprendre les différents langages de code comme le html par exemple", "Analyse, programmation et publication sont les trois grandes missions du développeur informatique.", competenceList.get(i), referentielRepository.findByLibelle("DEVELOPPEUR DATA").get()),
+                    new NiveauEvaluation("Niveau 3", "D’autres attentes sont exprimées dans les offres d’emploi par les recruteurs. Ainsi, parmi les qualités ", "Maîtriser l’anglais un minimum (pour comprendre les différents langages de code comme le html par exemple", competenceList.get(i), referentielRepository.findByLibelle("DEVELOPPEUR DATA").get())
             ));
         }
     }

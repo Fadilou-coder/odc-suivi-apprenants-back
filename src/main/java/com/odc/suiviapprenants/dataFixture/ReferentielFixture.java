@@ -10,6 +10,9 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @AllArgsConstructor
 @Component
@@ -22,8 +25,15 @@ public class ReferentielFixture implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for(int i=0;i < 15;i++ ){
-            referentielRepository.save(new Referentiel("ref"+i,"description"+i,"crictereDev"+i,"crictereAdmin"+i,groupeCompetenceRepository.findAll(), formateurRepository.findAll()));
+        List<String> referentielLibelle = new ArrayList<>();
+        referentielLibelle.add("DEVELOPPEUR WEB & MOBILE");
+        referentielLibelle.add("DEVELOPPEUR DATA");
+        referentielLibelle.add("REFERENTIEL DIGITAL");
+        referentielLibelle.add("COMPETENCES NUMERIQUES FONDAMENTALE");
+        referentielLibelle.add("DEVELOPPEUR DATA & INTELLIGENCE ARTIFICIELLE");
+        referentielLibelle.add("OBJETS CONNECTES");
+        for(int i=0;i < referentielLibelle.toArray().length;i++ ){
+            referentielRepository.save(new Referentiel(referentielLibelle.get(i),"description"+i,"crictereDev"+i,"crictereAdmin"+i,groupeCompetenceRepository.findAll(), formateurRepository.findAll()));
         }
     }
 }
