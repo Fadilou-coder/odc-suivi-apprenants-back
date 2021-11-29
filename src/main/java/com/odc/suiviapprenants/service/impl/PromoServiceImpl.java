@@ -107,14 +107,14 @@ public class PromoServiceImpl implements PromoService {
         List<Formateur> formateurList = new ArrayList<>();
         if (formateurs !=null){
             formateurs.forEach(formateur -> {
-                if (formateurRepository.findByIdAndArchiveFalse(Long.valueOf(formateur)).isPresent())
+                if (formateurRepository.findByUsernameAndArchiveFalse(formateur).isPresent())
                 {
-                    if (!promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateurRepository.findByIdAndArchiveFalse(Long.valueOf(formateur)).get()).isPresent()){
-                        formateurList.add(formateurRepository.findByIdAndArchiveFalse(Long.valueOf(formateur)).get());
+                    if (!promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateurRepository.findByUsernameAndArchiveFalse(formateur).get()).isPresent()){
+                        formateurList.add(formateurRepository.findByUsernameAndArchiveFalse(formateur).get());
                         groupe1.getPromo().setFormateurs(formateurList);
                     }
                     else {
-                        throw new InvalidOperationException(formateurRepository.findById(Long.valueOf(formateur)).get().getUsername() + " est deja dans une promo en cours");
+                        throw new InvalidOperationException(formateurRepository.findByUsernameAndArchiveFalse(formateur).get().getUsername() + " est deja dans une promo en cours");
                     }
                 }
             });
