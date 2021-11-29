@@ -33,6 +33,7 @@ public class Referentiel extends AbstractEntity{
     @ManyToMany(cascade = CascadeType.MERGE)
     Collection<Formateur> formateurs;
 
+
     public Referentiel(String libelle, String description, String critereAdmission, String critereEvaluation, Collection<GroupeCompetence> groupeCompetences, Collection<Formateur> formateurs) {
         this.libelle = libelle;
         this.description = description;

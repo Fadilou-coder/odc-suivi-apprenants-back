@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.service.impl;
 
+import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.FormateurDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
@@ -19,6 +20,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.odc.suiviapprenants.repository.AdminRepository;
 import com.odc.suiviapprenants.repository.PromoRepository;
@@ -78,5 +80,12 @@ public class FormateurImpl implements FormateurService {
 
         formateurRepository.flush();
         return FormateurDto.fromEntity(formateur);
+    }
+
+    @Override
+    public List<FormateurDto> getAll() {
+        return formateurRepository.findAllByArchiveFalse().stream()
+                .map(FormateurDto::fromEntity)
+                .collect(Collectors.toList());
     }
 }

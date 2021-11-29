@@ -283,4 +283,52 @@ public class BriefServiceImpl implements BriefService {
         }
         return null;
     }
+
+    @Override
+    public Collection<LivrablesPartielsDto> findLivrablesACorrigerByAprrenant(Long id, Long idApp) {
+        if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
+            Collection<LivrablePartiel> livrablesPartielsList = new ArrayList<>();
+             briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get().getLivrablePartiels().forEach(livrablePartiel -> {
+                 if (!livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getType(), "A Corriger"))
+                     livrablesPartielsList.add(livrablePartiel);
+             });
+            return livrablesPartielsList.stream()
+                    .map(LivrablesPartielsDto::fromEntity)
+                    .collect(Collectors.toList());
+        }
+        else
+            return new ArrayList<>();
+    }
+
+    @Override
+    public Collection<LivrablesPartielsDto> findLivrablesARefaireByAprrenant(Long id, Long idApp) {
+        if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
+            Collection<LivrablePartiel> livrablesPartielsList = new ArrayList<>();
+            briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get().getLivrablePartiels().forEach(livrablePartiel -> {
+                if (!livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getType(), "A Refaire"))
+                    livrablesPartielsList.add(livrablePartiel);
+            });
+            return livrablesPartielsList.stream()
+                    .map(LivrablesPartielsDto::fromEntity)
+                    .collect(Collectors.toList());
+        }
+        else
+            return new ArrayList<>();
+    }
+
+    @Override
+    public Collection<LivrablesPartielsDto> findLivrablesValidesByAprrenant(Long id, Long idApp) {
+        if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
+            Collection<LivrablePartiel> livrablesPartielsList = new ArrayList<>();
+            briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get().getLivrablePartiels().forEach(livrablePartiel -> {
+                if (!livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getType(), "Valides"))
+                    livrablesPartielsList.add(livrablePartiel);
+            });
+            return livrablesPartielsList.stream()
+                    .map(LivrablesPartielsDto::fromEntity)
+                    .collect(Collectors.toList());
+        }
+        else
+            return new ArrayList<>();
+    }
 }

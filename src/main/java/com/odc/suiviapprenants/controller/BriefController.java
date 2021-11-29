@@ -93,4 +93,19 @@ public class BriefController implements BriefApi {
         return briefService.validerCompetence(id, idComp);
     }
 
+    @Override
+    public Collection<LivrablesPartielsDto> findLivrablesACorrigerByAprrenant(Long id, Long idApp) {
+        return briefService.findLivrablesACorrigerByAprrenant(id, idApp);
+    }
+
+    @Override
+    public Collection<LivrablesPartielsDto> findLivrablesARefaireByAprrenant(Long id, Long idApp) {
+        return briefService.findLivrablesARefaireByAprrenant(id, idApp);
+    }
+
+    @Override
+    public Collection<LivrablesPartielsDto> findLivrablesValidesByAprrenant(Long id, Long idApp) {
+        return briefService.findLivrablesValidesByAprrenant(id, idApp);
+    }
+
 }

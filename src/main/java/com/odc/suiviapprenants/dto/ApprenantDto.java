@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.Apprenant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,7 @@ public class ApprenantDto {
 
     private String username;
 
+    @JsonIgnore
     private String password;
 
     private String prenom;
@@ -47,7 +49,6 @@ public class ApprenantDto {
         return ApprenantDto.builder()
                 .id(apprenant.getId())
                 .username(apprenant.getUsername())
-                .password(apprenant.getPassword())
                 .prenom(apprenant.getPrenom())
                 .nom(apprenant.getNom())
                 .email(apprenant.getEmail())
