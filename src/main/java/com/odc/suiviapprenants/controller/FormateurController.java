@@ -38,4 +38,9 @@ public class FormateurController implements FormateurApi {
                 justificatif
         );
     }
+
+    @Override
+    public List<FormateurDto> getAll() {
+        return formateurService.getAll();
+    }
 }
