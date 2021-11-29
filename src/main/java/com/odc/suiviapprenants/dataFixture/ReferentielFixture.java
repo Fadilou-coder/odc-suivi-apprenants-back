@@ -29,7 +29,7 @@ public class ReferentielFixture implements CommandLineRunner {
         referentielLibelle.add("DEVELOPPEUR WEB & MOBILE");
         referentielLibelle.add("DEVELOPPEUR DATA");
         referentielLibelle.add("REFERENTIEL DIGITAL");
-        referentielLibelle.add("COMPETENCES NUMERIQUES FONDAMENTALE");
+        referentielLibelle.add("COMPETENCES NUMERIQUS FONDAMENTALE");
         referentielLibelle.add("DEVELOPPEUR DATA & INTELLIGENCE ARTIFICIELLE");
         referentielLibelle.add("OBJETS CONNECTES");
         for(int i=0;i < referentielLibelle.toArray().length;i++ ){
