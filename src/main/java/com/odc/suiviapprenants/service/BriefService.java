@@ -41,5 +41,9 @@ public interface BriefService {
 
     CompetenceValideDto validerCompetence(Long id, Long idComp);
 
+    Collection<LivrablesPartielsDto> findLivrablesACorrigerByAprrenant(Long id, Long idApp);
 
+    Collection<LivrablesPartielsDto> findLivrablesARefaireByAprrenant(Long id, Long idApp);
+
+    Collection<LivrablesPartielsDto> findLivrablesValidesByAprrenant(Long id, Long idApp);
 }

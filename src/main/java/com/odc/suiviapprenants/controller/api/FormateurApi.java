@@ -30,6 +30,8 @@ public interface FormateurApi {
                      @RequestParam("libelle") List<String> libelle,
                      @RequestParam("justificatif") List<MultipartFile> justificatif
     ) throws IOException;
+    @GetMapping("/admins/formateurs")
+    List<FormateurDto> getAll();
 }
 
 

@@ -21,5 +21,6 @@ public interface FormateurService {
                      List<String> libelle,
                      List<MultipartFile> justificatif
     ) throws IOException;
+    List<FormateurDto> getAll();
 
 }

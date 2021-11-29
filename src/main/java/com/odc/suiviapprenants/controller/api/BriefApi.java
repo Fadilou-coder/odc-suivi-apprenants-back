@@ -55,4 +55,13 @@ public interface BriefApi {
     @PostMapping("/appprenant/{id}/competence/{idComp}")
     CompetenceValideDto validerCompetence(@PathVariable("id") Long id, @PathVariable("idComp") Long idComp);
 
+    @GetMapping("/briefs/{id}/apprenants/{idApp}/livrablesACorriger")
+    Collection<LivrablesPartielsDto> findLivrablesACorrigerByAprrenant(@PathVariable("id") Long id, @PathVariable("idApp") Long idApp);
+
+    @GetMapping("/briefs/{id}/apprenants/{idApp}/livrablesARefaire")
+    Collection<LivrablesPartielsDto> findLivrablesARefaireByAprrenant(@PathVariable("id") Long id, @PathVariable("idApp") Long idApp);
+
+    @GetMapping("/briefs/{id}/apprenants/{idApp}/livrablesValides")
+    Collection<LivrablesPartielsDto> findLivrablesValidesByAprrenant(@PathVariable("id") Long id, @PathVariable("idApp") Long idApp);
+
 }
