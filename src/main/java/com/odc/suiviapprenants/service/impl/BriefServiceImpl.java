@@ -3,7 +3,6 @@ package com.odc.suiviapprenants.service.impl;
 import com.odc.suiviapprenants.dto.*;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
-import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.*;
 import com.odc.suiviapprenants.repository.*;
 import com.odc.suiviapprenants.service.ApplicationService;
