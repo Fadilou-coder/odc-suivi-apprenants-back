@@ -91,7 +91,6 @@ public class ApplicationServiceImpl implements ApplicationService {
                     .map(PromoDto::fromEntity)
                     .orElseThrow(() -> new EntityNotFoundException("Vous etes affecter à aucune promo en cours", ErrorCodes.PROMO_NOT_FOUND)
                     );
-        }
         return null;
     }
 }

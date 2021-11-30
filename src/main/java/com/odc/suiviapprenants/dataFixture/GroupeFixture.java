@@ -43,7 +43,7 @@ class GroupeFixture implements CommandLineRunner {
         }
 
         for (int i = 0 ; i < promoList.toArray().length; i++){
-            groupeRepository.save(new Groupe("GROUPE PRINCIPALE", "principale", "ouvert", promoList.get(i), formateurs, apprenants));
+            groupeRepository.save(new Groupe("GROUPE PRINCIPALE", "principal", "ouvert", promoList.get(i), formateurs, apprenants));
             groupeRepository.save(  new Groupe("groupe "+1, "plusieurs", "ouvert", promoList.get(i), formateurs, apprenantList1));
             groupeRepository.save( new Groupe("groupe "+2, "plusieurs", "ouvert", promoList.get(i), formateurs, apprenantList2));
         }
