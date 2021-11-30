@@ -16,6 +16,7 @@ public interface PromoRepository extends JpaRepository<Promo , Long> {
     List<Promo> findAllByArchiveFalse();
     Optional<Promo> findByEnCoursTrueAndArchiveFalseAndAdmins(Admin admins);
     Optional<Promo> findByEnCoursTrueAndArchiveFalseAndFormateurs(Formateur formateur);
+    Optional<Promo> findByArchiveFalseAndGroupes(Groupe groupes);
     Optional<Promo> findByIdAndArchiveFalse(Long id);
     Optional<Promo> findByEnCoursTrueAndFormateurs(Formateur formateur);
 }
