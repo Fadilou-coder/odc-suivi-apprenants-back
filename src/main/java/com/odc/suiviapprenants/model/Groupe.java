@@ -18,7 +18,7 @@ public class Groupe extends AbstractEntity {
     private String type;
     private  String statut;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
     private Collection<Apprenant> apprenants;
 
     @ManyToMany
