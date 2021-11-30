@@ -69,7 +69,7 @@ public class PromoServiceImpl implements PromoService {
         );
         Groupe groupe1 = new Groupe();
         groupe1.setNomGroupe("GROUPE PRINCIPALE");
-        groupe1.setType("principale");
+        groupe1.setType("principal");
         groupe1.setStatut("ouvert");
         Referentiel referentiel1 = referentielRepository.findByLibelle(referentiel).get();
         List<FormateurDto> formateurList= new ArrayList<>();
@@ -201,7 +201,7 @@ public class PromoServiceImpl implements PromoService {
             return null;
         }
         Promo promo = promoRepository.findByIdAndArchiveFalse(id).get();
-        Groupe groupe = groupeRepository.findByTypeAndPromo("principale",promo).get();
+        Groupe groupe = groupeRepository.findByNomGroupeAndPromo("GROUPE PRINCIPALE",promo).get();
         return groupe.getApprenants().stream().map(ApprenantDto::fromEntity)
                 .collect(Collectors.toList());
     }
