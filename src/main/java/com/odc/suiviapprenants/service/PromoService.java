@@ -29,4 +29,5 @@ public interface PromoService {
     PromoDto put(PromoDto promoDto,Long id);
 
     List<ApprenantDto> findApprenantsByPromoId(Long id);
+    PromoDto delete(Long id);
 }

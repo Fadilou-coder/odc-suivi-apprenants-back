@@ -205,4 +205,22 @@ public class PromoServiceImpl implements PromoService {
         return groupe.getApprenants().stream().map(ApprenantDto::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public PromoDto delete(Long id) {
+        if (id == null) {
+            return null;
+        }
+        Promo promo = promoRepository.findByIdAndArchiveFalse(id).get();
+        promo.setArchive(true);
+        promo.getGroupes().forEach(groupe -> {
+            groupe.setArchive(true);
+            groupe.getApprenants().forEach(apprenant -> apprenant.setArchive(true));
+        });
+        promo.getFormateurs().forEach(formateur -> formateur.setArchive(true));
+        promo.getReferentiel().setArchive(true);
+        promo.getReferentiel().getGroupeCompetences().forEach(groupeCompetence -> groupeCompetence.setArchive(true));
+        promoRepository.flush();
+        return PromoDto.fromEntity(promo);
+    }
 }
