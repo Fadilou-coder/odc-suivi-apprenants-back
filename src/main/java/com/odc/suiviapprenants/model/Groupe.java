@@ -27,7 +27,6 @@ public class Groupe extends AbstractEntity {
     @ManyToMany
     Collection<Formateur> formateurs;
 
-
     @ManyToOne
     private Promo promo;
 
