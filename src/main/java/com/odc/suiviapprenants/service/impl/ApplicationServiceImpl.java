@@ -30,7 +30,8 @@ public class ApplicationServiceImpl implements ApplicationService {
     FormateurRepository formateurRepository;
     ApprenantRepository apprenantRepository;
     ReferentielRepository referentielRepository;
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    PasswordEncoder passwordEncoder;
+    GroupeRepository groupeRepository;
     @Override
     public Admin findUserByUsernameAdmin(String username) {
         if (adminRepository.findByUsernameAndArchiveFalse(username).isPresent()){
@@ -92,11 +93,7 @@ public class ApplicationServiceImpl implements ApplicationService {
                     .orElseThrow(() -> new EntityNotFoundException("Vous etes affecter à aucune promo en cours", ErrorCodes.PROMO_NOT_FOUND)
                     );
         }else if (apprenantRepository.findByUsernameAndArchiveFalse(username) != null){
-            /*return promoRepository.findByArchiveFalseAndGroupes(apprenantRepository.findByUsernameAndArchiveFalse(username).getGroupes())
-                    .map(PromoDto::fromEntity)
-                    .orElseThrow(() -> new EntityNotFoundException("Vous etes affecter à aucune promo en cours", ErrorCodes.PROMO_NOT_FOUND)
-                    );*/
-            //return null;
+            return PromoDto.fromEntity(groupeRepository.findByNomGroupeAndApprenantsAndPromoEnCoursTrue("GROUPE PRINCIPALE", apprenantRepository.findByUsernameAndArchiveFalse(username)).get().getPromo());
         }
         return null;
     }

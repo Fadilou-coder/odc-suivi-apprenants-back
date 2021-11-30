@@ -17,6 +17,7 @@ public interface GroupeRepository extends JpaRepository<Groupe,Long> {
     Optional<Groupe> findByTypeAndPromoEnCoursTrueAndFormateurs(String type, Formateur formateurs);
     Optional<Groupe> findByTypeAndPromo(String type, Promo promo);
     Optional<Groupe> findByNomGroupeAndPromo(String nomGroupe, Promo promo);
+    Optional<Groupe> findByNomGroupeAndApprenantsAndPromoEnCoursTrue(String nomGroupe, Apprenant apprenant);
 
     List<Groupe> findAllByIdNot(Long id);
 
