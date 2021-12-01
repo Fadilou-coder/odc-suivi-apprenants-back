@@ -11,13 +11,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Component
@@ -27,7 +23,6 @@ public class BriefFixture implements CommandLineRunner {
     private BriefRepository briefRepository;
     private FormateurRepository formateurRepository;
     private PromoRepository promoRepository;
-    private BriefService briefService;
 
     @Override
     public void run(String... args) throws Exception {
