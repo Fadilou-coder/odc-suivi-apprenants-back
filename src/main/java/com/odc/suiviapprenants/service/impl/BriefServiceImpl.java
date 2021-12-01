@@ -38,6 +38,7 @@ public class BriefServiceImpl implements BriefService {
     BriefGroupeRepository briefGroupeRepository;
     LivrableRepository livrableRepository;
     CompetenceValideRepository competenceValideRepository;
+    PromoRepository promoRepository;
 
     @Override
     public BriefDto save(
@@ -54,7 +55,8 @@ public class BriefServiceImpl implements BriefService {
             List<String> competences,
             List<Long> niveaux
     ) throws Exception {
-        PromoDto promo = applicationService.promoEncours();
+        /*PromoDto promo = applicationService.promoEncours();*/
+        PromoDto promo = PromoDto.fromEntity(promoRepository.findById(85L).get());
         if (promo == null)  return null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = "";
