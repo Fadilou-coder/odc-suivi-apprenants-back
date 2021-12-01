@@ -38,6 +38,7 @@ public class BriefServiceImpl implements BriefService {
     BriefGroupeRepository briefGroupeRepository;
     LivrableRepository livrableRepository;
     CompetenceValideRepository competenceValideRepository;
+    PromoRepository promoRepository;
 
     @Override
     public BriefDto save(
