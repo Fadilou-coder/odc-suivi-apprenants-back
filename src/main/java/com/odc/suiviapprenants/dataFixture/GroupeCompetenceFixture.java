@@ -23,7 +23,7 @@ public class GroupeCompetenceFixture implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        for (int i=0;i<15;i++){
+        for (int i=0;i<5;i++){
             groupeCompetenceRepository.save(
                     new GroupeCompetence("libelle"+i,"description"+i, competenceRepository.findAll(),
                             Arrays.asList(tagRepository.findByLibelleAndArchiveFalse("Laravel").get(),tagRepository.findByLibelleAndArchiveFalse("Ionic").get())
