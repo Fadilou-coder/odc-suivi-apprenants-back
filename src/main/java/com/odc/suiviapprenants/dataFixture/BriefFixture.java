@@ -1,11 +1,9 @@
 package com.odc.suiviapprenants.dataFixture;
 
-import com.odc.suiviapprenants.dto.LivrablesAttendusDto;
 import com.odc.suiviapprenants.model.Brief;
 import com.odc.suiviapprenants.repository.BriefRepository;
 import com.odc.suiviapprenants.repository.FormateurRepository;
 import com.odc.suiviapprenants.repository.PromoRepository;
-import com.odc.suiviapprenants.service.BriefService;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
