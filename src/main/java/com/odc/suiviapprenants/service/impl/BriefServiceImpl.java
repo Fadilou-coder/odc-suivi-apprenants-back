@@ -55,8 +55,7 @@ public class BriefServiceImpl implements BriefService {
             List<String> competences,
             List<Long> niveaux
     ) throws Exception {
-        /*PromoDto promo = applicationService.promoEncours();*/
-        PromoDto promo = PromoDto.fromEntity(promoRepository.findById(85L).get());
+        PromoDto promo = applicationService.promoEncours();
         if (promo == null)  return null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = "";
