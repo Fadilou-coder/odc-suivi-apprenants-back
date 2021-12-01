@@ -48,8 +48,8 @@ public class GroupeCompetenceDto {
         groupeCompetence.setDescription(groupeCompetenceDto.getDescription());
         if (groupeCompetenceDto.getCompetences() != null)
         groupeCompetence.setCompetences(groupeCompetenceDto.getCompetences().stream().map(CompetenceDto::toEntity).collect(Collectors.toList()));
-        if (groupeCompetenceDto.getTags() != null)
-        groupeCompetence.setTags(groupeCompetenceDto.getTags().stream().map(TagDto::toEntity).collect(Collectors.toList()));
+//        if (groupeCompetenceDto.getTags() != null)
+//        groupeCompetence.setTags(groupeCompetenceDto.getTags().stream().map(TagDto::toEntity).collect(Collectors.toList()));
 
         return groupeCompetence;
     }

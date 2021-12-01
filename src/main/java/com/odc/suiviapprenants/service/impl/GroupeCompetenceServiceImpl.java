@@ -67,7 +67,7 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
 
         GroupeCompetence groupeCompetence = GroupeCompetenceDto.toEntity(groupeCompetenceDto);
         addCompetences(groupeCompetenceDto, groupeCompetence);
-        addTags(groupeCompetenceDto, groupeCompetence);
+        //addTags(groupeCompetenceDto, groupeCompetence);
 
         return GroupeCompetenceDto.fromEntity(
                 groupeCompetenceRepository.save(groupeCompetence)
