@@ -28,6 +28,7 @@ public class Groupe extends AbstractEntity {
     @ManyToMany
     Collection<Formateur> formateurs;
 
+
    // @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.PERSIST)
     @ManyToOne
     private Promo promo;
