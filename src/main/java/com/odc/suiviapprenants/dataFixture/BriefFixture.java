@@ -37,5 +37,21 @@ public class BriefFixture implements CommandLineRunner {
                 new Brief("Comment choisir son CMS sur son site Web", "Créer, structurer et/ou modifier un document textuel, pour communiquer des idées, rendre compte et valoriser ses travaux (éditeur de texte, logiciel de présentation, site web sans coder).", "contexte site Web", LocalDate.now(), "modalite pedagogique site Web", "critère de performances site Web", "modalite d'evaluation site Web", "Non assigné", false, formateurRepository.findAll().get(0), promoRepository.findAll().get(0)),
                 new Brief("Sql pour créer et exploiter une base de données", "Le langage SQL pour créer et exploiter une base de données. Ce brief a pour ambition de présenter de façon simple et complète le langage SQL et ses applications pour le développement.", "contexte Sql", LocalDate.now(), "modalite pedagogique Sql", "critère de performances Sql", "modalite d'evaluation Sql", "Clôturé", false, formateurRepository.findAll().get(0), promoRepository.findAll().get(0))
         ));
+        List<String> tag = new ArrayList<>();
+        tag.add("PHP");
+        tag.add("MYSQL");
+        List<String> groupe = new ArrayList<>(); groupe.add("groupe 1");
+        List<String> competence =  new ArrayList<>(); competence.add("Créer une base de données"); competence.add("BD MYSQL");
+        List<String> niv = new ArrayList<>(); niv.add("183"); niv.add("139");
+        MultipartFile multipartFile = null;
+
+        briefService.save("testBrief 1",
+                "test description",
+                "test contexte",
+                "test modalitePedagodiques",
+                "test criterePerformances",
+                "test modaliteEvaluations", multipartFile, tag , groupe, competence, niv, new ArrayList<>());
+
+
     }
 }
