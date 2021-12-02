@@ -201,8 +201,12 @@ public class BriefServiceImpl implements BriefService {
 
             brief.getBriefApprenants().forEach(briefApprenant -> {
                 briefApprenant.getLivrablePartiels().forEach(livrablePartiel -> {
-                    if (!livrablesPartielsList.contains(livrablePartiel))
-                        livrablesPartielsList.add(livrablePartiel);
+                    if (!livrablesPartielsList.contains(livrablePartiel)) {
+                        livrablesPartielsList.forEach(lv -> {
+                            if (!Objects.equals(lv.getLibelle(), livrablePartiel.getLibelle()))
+                                livrablesPartielsList.add(livrablePartiel);
+                        });
+                    }
                 });
 
             });
@@ -244,9 +248,6 @@ public class BriefServiceImpl implements BriefService {
                     }
             );
             return livrablesPartiels;
-            /*return briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get().getLivrablePartiels().stream()
-                    .map(LivrablesPartielsDto::fromEntity)
-                    .collect(Collectors.toList());*/
         }
         else
             return new ArrayList<>();
