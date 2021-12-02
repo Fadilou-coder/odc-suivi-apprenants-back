@@ -206,7 +206,7 @@ public class BriefServiceImpl implements BriefService {
                 });
 
             });
-            Collection<LivrablePartiel> livrablesPartiels = new ArrayList<>();
+            /*Collection<LivrablePartiel> livrablesPartiels = new ArrayList<>();
             brief.getBriefApprenants().forEach(briefApprenant -> {
                 briefApprenant.getLivrablePartiels().forEach(livrablePartiel -> {
                     livrablesPartielsList.forEach(lv -> {
@@ -215,14 +215,14 @@ public class BriefServiceImpl implements BriefService {
                     });
                 });
 
-            });
+            });*/
 
-            return livrablesPartiels.stream()
-                    .map(LivrablesPartielsDto::fromEntity)
-                    .collect(Collectors.toList());
-            /*return livrablesPartielsList.stream()
+            /*return livrablesPartiels.stream()
                     .map(LivrablesPartielsDto::fromEntity)
                     .collect(Collectors.toList());*/
+            return livrablesPartielsList.stream()
+                    .map(LivrablesPartielsDto::fromEntity)
+                    .collect(Collectors.toList());
         }
         else
             return new ArrayList<>();
