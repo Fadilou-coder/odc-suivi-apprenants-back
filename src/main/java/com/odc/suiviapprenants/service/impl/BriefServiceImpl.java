@@ -198,21 +198,18 @@ public class BriefServiceImpl implements BriefService {
         if (briefRepository.findById(id).isPresent()) {
             Brief brief = briefRepository.findById(id).get();
             Collection<LivrablePartiel> livrablesPartielsList = new ArrayList<>();
+
             brief.getBriefApprenants().forEach(briefApprenant -> {
                 briefApprenant.getLivrablePartiels().forEach(livrablePartiel -> {
-                    if (livrablesPartielsList.isEmpty())
+                    if (!livrablesPartielsList.contains(livrablePartiel))
                         livrablesPartielsList.add(livrablePartiel);
-                    else{
-                        livrablesPartielsList.forEach(lv -> {
-                            if (!Objects.equals(lv.getLibelle(), livrablePartiel.getLibelle()) && !livrablesPartielsList.contains(livrablePartiel))
-                                livrablesPartielsList.add(livrablePartiel);
-                        });
-                    }
                 });
+
             });
-                return livrablesPartielsList.stream()
-                        .map(LivrablesPartielsDto::fromEntity)
-                        .collect(Collectors.toList());
+
+            return livrablesPartielsList.stream()
+                    .map(LivrablesPartielsDto::fromEntity)
+                    .collect(Collectors.toList());
         }
         else
             return new ArrayList<>();
