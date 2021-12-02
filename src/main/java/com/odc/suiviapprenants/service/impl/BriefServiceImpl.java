@@ -206,20 +206,6 @@ public class BriefServiceImpl implements BriefService {
                 });
 
             });
-            /*Collection<LivrablePartiel> livrablesPartiels = new ArrayList<>();
-            brief.getBriefApprenants().forEach(briefApprenant -> {
-                briefApprenant.getLivrablePartiels().forEach(livrablePartiel -> {
-                    livrablesPartielsList.forEach(lv -> {
-                        if (!Objects.equals(lv.getLibelle(), livrablePartiel.getLibelle()))
-                            livrablesPartiels.add(livrablePartiel);
-                    });
-                });
-
-            });*/
-
-            /*return livrablesPartiels.stream()
-                    .map(LivrablesPartielsDto::fromEntity)
-                    .collect(Collectors.toList());*/
             return livrablesPartielsList.stream()
                     .map(LivrablesPartielsDto::fromEntity)
                     .collect(Collectors.toList());
