@@ -211,7 +211,7 @@ public class BriefServiceImpl implements BriefService {
                 briefApprenant.getLivrablePartiels().forEach(livrablePartiel -> {
                     livrablesPartielsList.forEach(lv -> {
                         if (!Objects.equals(lv.getLibelle(), livrablePartiel.getLibelle())) {
-                                livrablesPartiels.add(lv);
+                                livrablesPartiels.add(livrablePartiel);
                         }
                     });
                 });
