@@ -201,8 +201,9 @@ public class BriefServiceImpl implements BriefService {
             List<String> libelles = new ArrayList<>();
             brief.getBriefApprenants().forEach(briefApprenant -> {
                 briefApprenant.getLivrablePartiels().forEach(livrablePartiel -> {
-                    if (!libelles.contains(livrablePartiel.getLibelle()))
+                    if (!libelles.contains(livrablePartiel.getLibelle())) {
                         livrablesPartielsList.add(livrablePartiel);
+                    }
                     libelles.add(livrablePartiel.getLibelle());
                 });
 
