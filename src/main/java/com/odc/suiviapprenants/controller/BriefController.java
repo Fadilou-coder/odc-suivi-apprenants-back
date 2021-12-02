@@ -108,4 +108,9 @@ public class BriefController implements BriefApi {
         return briefService.findLivrablesValidesByAprrenant(id, idApp);
     }
 
+    @Override
+    public LivrablesPartielsDto corrigerLivrable(Long id, String status) {
+        return briefService.corrigerLivrable(id, status);
+    }
+
 }
