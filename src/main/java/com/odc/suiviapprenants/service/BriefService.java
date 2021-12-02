@@ -46,4 +46,6 @@ public interface BriefService {
     Collection<LivrablesPartielsDto> findLivrablesARefaireByAprrenant(Long id, Long idApp);
 
     Collection<LivrablesPartielsDto> findLivrablesValidesByAprrenant(Long id, Long idApp);
+
+    LivrablesPartielsDto corrigerLivrable(Long id, String status);
 }

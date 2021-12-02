@@ -64,4 +64,7 @@ public interface BriefApi {
     @GetMapping("/briefs/{id}/apprenants/{idApp}/livrablesValides")
     Collection<LivrablesPartielsDto> findLivrablesValidesByAprrenant(@PathVariable("id") Long id, @PathVariable("idApp") Long idApp);
 
+    @PutMapping("livrablePartiel/{id}")
+    LivrablesPartielsDto corrigerLivrable(@PathVariable Long id, @RequestBody String status);
+
 }

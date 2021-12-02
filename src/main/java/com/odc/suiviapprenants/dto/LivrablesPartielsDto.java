@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.LivrablePartiel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,6 +8,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Builder
@@ -19,28 +21,21 @@ public class LivrablesPartielsDto {
     private String description;
     private LocalDate delai;
     private String type;
-    private Collection<LivrablesRendusDto> livrableRendus;
-    private Collection<BriefApprenantDto> briefApprenant;
+    private LivrablesRendusDto livrableRendu;
+    @JsonIgnore
+    private BriefApprenantDto briefApprenant;
+    private List<ApprenantDto> apprenants;
 
     public static LivrablesPartielsDto fromEntity(LivrablePartiel livrablePartiel){
         if (livrablePartiel == null) return null;
         return LivrablesPartielsDto.builder()
                 .id(livrablePartiel.getId())
                 .libelle(livrablePartiel.getLibelle())
+                .description(livrablePartiel.getDescription())
                 .delai(livrablePartiel.getDelai())
                 .type(livrablePartiel.getType())
-                .livrableRendus(
-                        livrablePartiel.getLivrableRendus() != null ?
-                                livrablePartiel.getLivrableRendus().stream()
-                                        .map(LivrablesRendusDto::fromEntity)
-                                        .collect(Collectors.toList()) : null
-                )
-                .briefApprenant(
-                        livrablePartiel.getBriefApprenants() != null ?
-                                livrablePartiel.getBriefApprenants().stream()
-                                        .map(BriefApprenantDto::fromEntity)
-                                        .collect(Collectors.toList()) : null
-                )
+                .livrableRendu(LivrablesRendusDto.fromEntity(livrablePartiel.getLivrableRendu()))
+                .briefApprenant(BriefApprenantDto.fromEntity(livrablePartiel.getBriefApprenant()))
                 .build();
     }
 
@@ -52,10 +47,11 @@ public class LivrablesPartielsDto {
         livrablePartiel.setDelai(livrablesPartielsDto.getDelai());
         livrablePartiel.setDescription(livrablesPartielsDto.getDescription());
         livrablePartiel.setType(livrablesPartielsDto.getType());
-        if (livrablesPartielsDto.getLivrableRendus() != null)
-        livrablePartiel.setLivrableRendus(livrablesPartielsDto.getLivrableRendus().stream().map(LivrablesRendusDto::toEntity).collect(Collectors.toList()));
+        if (livrablesPartielsDto.getLivrableRendu() != null)
+        livrablePartiel.setLivrableRendu(LivrablesRendusDto.toEntity(livrablesPartielsDto.getLivrableRendu()));
         if (livrablesPartielsDto.getBriefApprenant() != null)
-        livrablePartiel.setBriefApprenants(livrablesPartielsDto.getBriefApprenant().stream().map(BriefApprenantDto::toEntity).collect(Collectors.toList()));
+        livrablePartiel.setBriefApprenant(BriefApprenantDto.toEntity(livrablesPartielsDto.getBriefApprenant()));
+
         return livrablePartiel;
     }
 }
