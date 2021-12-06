@@ -55,9 +55,9 @@ public class GroupeController implements GroupeApi {
         return groupeService.findByFormateur(id);
     }
 
-    @Override
+    /*@Override
     public List<GroupeDto> findByBrief(Long idBr) {
         return groupeService.findByFormateurAndBrief(idBr);
-    }
+    }*/
 
 }
