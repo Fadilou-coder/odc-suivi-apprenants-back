@@ -11,4 +11,5 @@ public interface BriefRepository extends JpaRepository<Brief, Long> {
     List<Brief> findAllByArchiveFalseAndPromoId(Long promo_id);
     Optional<Brief> findByIdAndArchiveFalseAndPromoId(Long id, Long promo_id);
     Optional<Brief> findByTitreAndArchiveFalseAndPromoId(String titre, Long promo_id);
+
 }

@@ -20,4 +20,5 @@ public interface GroupeRepository extends JpaRepository<Groupe,Long> {
     Optional<Groupe> findByNomGroupeAndApprenantsAndPromoEnCoursTrue(String nomGroupe, Apprenant apprenant);
     List<Groupe> findAllByIdNot(Long id);
     List<Groupe> findByNomGroupeNotAndFormateursIdAndPromoId(String nomGroupe, Long formateurs_id, Long promo_id);
+
 }

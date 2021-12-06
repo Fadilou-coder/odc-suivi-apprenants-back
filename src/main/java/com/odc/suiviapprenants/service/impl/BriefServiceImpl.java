@@ -299,8 +299,10 @@ public class BriefServiceImpl implements BriefService {
         if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
             Collection<LivrablePartiel> livrablesPartielsList = new ArrayList<>();
              briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get().getLivrablePartiels().forEach(livrablePartiel -> {
-                 if (!livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getLivrableRendu().getStatut(), "A Corriger"))
-                     livrablesPartielsList.add(livrablePartiel);
+                 if (livrablePartiel.getLivrableRendu() != null) {
+                     if (!livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getLivrableRendu().getStatut(), "A Corriger"))
+                         livrablesPartielsList.add(livrablePartiel);
+                 }
              });
             return livrablesPartielsList.stream()
                     .map(LivrablesPartielsDto::fromEntity)
@@ -315,8 +317,10 @@ public class BriefServiceImpl implements BriefService {
         if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
             Collection<LivrablePartiel> livrablesPartielsList = new ArrayList<>();
             briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get().getLivrablePartiels().forEach(livrablePartiel -> {
-                if (!livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getLivrableRendu().getStatut(), "A Refaire"))
-                    livrablesPartielsList.add(livrablePartiel);
+                if (livrablePartiel.getLivrableRendu() != null) {
+                    if (!livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getLivrableRendu().getStatut(), "A Refaire"))
+                        livrablesPartielsList.add(livrablePartiel);
+                }
             });
             return livrablesPartielsList.stream()
                     .map(LivrablesPartielsDto::fromEntity)
@@ -331,8 +335,10 @@ public class BriefServiceImpl implements BriefService {
         if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
             Collection<LivrablePartiel> livrablesPartielsList = new ArrayList<>();
             briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get().getLivrablePartiels().forEach(livrablePartiel -> {
-                if (!livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getLivrableRendu().getStatut(), "Valides"))
-                    livrablesPartielsList.add(livrablePartiel);
+                if (livrablePartiel.getLivrableRendu() != null) {
+                    if (!livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getLivrableRendu().getStatut(), "Valides"))
+                        livrablesPartielsList.add(livrablePartiel);
+                }
             });
             return livrablesPartielsList.stream()
                     .map(LivrablesPartielsDto::fromEntity)
