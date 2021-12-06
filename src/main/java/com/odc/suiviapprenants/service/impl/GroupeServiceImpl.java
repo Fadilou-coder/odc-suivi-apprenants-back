@@ -149,12 +149,12 @@ public class GroupeServiceImpl implements GroupeService {
                 .collect(Collectors.toList());
     }
 
-    /*@Override
+    @Override
     public List<GroupeDto> findByFormateurAndBrief(Long idBr) {
         List<GroupeDto> groupeDtoList = new ArrayList<>();
         briefGroupeRepository.findByBriefId(idBr).forEach(briefGroupe -> {
             groupeDtoList.add(GroupeDto.fromEntity(briefGroupe.getGroupe()));
         });
         return groupeDtoList;
-    }*/
+    }
 }

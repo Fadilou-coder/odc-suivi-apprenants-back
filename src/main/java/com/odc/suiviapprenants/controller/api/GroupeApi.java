@@ -33,8 +33,8 @@ public interface GroupeApi {
     @GetMapping("/formateurs/{id}/groupes")
     List<GroupeDto> findByFormateur(@PathVariable Long id);
 
-    /*@GetMapping("/briefs/{idBr}/groupes")
-    List<GroupeDto> findByBrief(@PathVariable("idBr") Long idBr);*/
+    @GetMapping("/briefs/{idBr}/groupes")
+    List<GroupeDto> findByBrief(@PathVariable("idBr") Long idBr);
 
 
 }
