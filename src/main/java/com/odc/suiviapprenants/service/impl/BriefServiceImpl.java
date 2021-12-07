@@ -344,9 +344,15 @@ public class BriefServiceImpl implements BriefService {
 
     @Override
     public LivrablesPartielsDto corrigerLivrable(Long id, String status) {
+        String st = "";
+        if (status.substring(1, 10).equals("A Refaire")){
+            st = "A Refaire";
+        }else if (status.substring(1, 8).equals("Valides")){
+            st = "Valides";
+        }
         if (livrablePartielRepository.findById(id).isPresent()){
             LivrablePartiel livrablePartiel = livrablePartielRepository.findById(id).get();
-            livrablePartiel.getLivrableRendu().setStatut(status.substring(1, 10));
+            livrablePartiel.getLivrableRendu().setStatut(st);
             livrablePartielRepository.flush();
             return LivrablesPartielsDto.fromEntity(livrablePartiel);
         }
