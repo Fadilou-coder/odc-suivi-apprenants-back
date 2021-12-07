@@ -347,7 +347,7 @@ public class BriefServiceImpl implements BriefService {
         String st = "";
         if (status.length() > 10 && status.substring(1, 10).equals("A Refaire")){
             st = "A Refaire";
-        }else if (status.substring(1, 8).equals("Valides")){
+        }else if (status.length() > 8 && status.substring(1, 8).equals("Valides")){
             st = "Valides";
         }
         if (livrablePartielRepository.findById(id).isPresent()){
