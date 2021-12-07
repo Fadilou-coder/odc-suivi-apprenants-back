@@ -345,7 +345,7 @@ public class BriefServiceImpl implements BriefService {
     @Override
     public LivrablesPartielsDto corrigerLivrable(Long id, String status) {
         String st = "";
-        if (status.substring(1, 10).equals("A Refaire")){
+        if (status.length() > 10 && status.substring(1, 10).equals("A Refaire")){
             st = "A Refaire";
         }else if (status.substring(1, 8).equals("Valides")){
             st = "Valides";
