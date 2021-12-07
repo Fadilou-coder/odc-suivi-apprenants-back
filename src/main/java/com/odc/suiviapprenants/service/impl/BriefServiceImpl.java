@@ -315,7 +315,7 @@ public class BriefServiceImpl implements BriefService {
         if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
             Collection<LivrablePartiel> livrablesPartielsList = new ArrayList<>();
             briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get().getLivrablePartiels().forEach(livrablePartiel -> {
-                if (livrablePartiel.getLivrableRendu() != null && !livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getLivrableRendu().getStatut(), "A Refaire"))
+                if (livrablePartiel.getLivrableRendu() != null && !livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getLivrableRendu().getStatut(), "\"A Refaire\""))
                     livrablesPartielsList.add(livrablePartiel);
             });
             return livrablesPartielsList.stream()
@@ -331,7 +331,7 @@ public class BriefServiceImpl implements BriefService {
         if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
             Collection<LivrablePartiel> livrablesPartielsList = new ArrayList<>();
             briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get().getLivrablePartiels().forEach(livrablePartiel -> {
-                if (livrablePartiel.getLivrableRendu() != null && !livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getLivrableRendu().getStatut(), "Valides"))
+                if (livrablePartiel.getLivrableRendu() != null && !livrablesPartielsList.contains(livrablePartiel) && Objects.equals(livrablePartiel.getLivrableRendu().getStatut(), "\"Valides\""))
                     livrablesPartielsList.add(livrablePartiel);
             });
             return livrablesPartielsList.stream()
