@@ -69,7 +69,7 @@ public class PromoServiceImpl implements PromoService {
         );
         Groupe groupe1 = new Groupe();
         groupe1.setNomGroupe("GROUPE PRINCIPALE");
-        groupe1.setType("principale");
+        groupe1.setType("principal");
         groupe1.setStatut("ouvert");
         Referentiel referentiel1 = referentielRepository.findByLibelle(referentiel).get();
         List<FormateurDto> formateurList= new ArrayList<>();
@@ -107,14 +107,14 @@ public class PromoServiceImpl implements PromoService {
         List<Formateur> formateurList = new ArrayList<>();
         if (formateurs !=null){
             formateurs.forEach(formateur -> {
-                if (formateurRepository.findByIdAndArchiveFalse(Long.valueOf(formateur)).isPresent())
+                if (formateurRepository.findByUsernameAndArchiveFalse(formateur).isPresent())
                 {
-                    if (!promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateurRepository.findByIdAndArchiveFalse(Long.valueOf(formateur)).get()).isPresent()){
-                        formateurList.add(formateurRepository.findByIdAndArchiveFalse(Long.valueOf(formateur)).get());
+                    if (!promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateurRepository.findByUsernameAndArchiveFalse(formateur).get()).isPresent()){
+                        formateurList.add(formateurRepository.findByUsernameAndArchiveFalse(formateur).get());
                         groupe1.getPromo().setFormateurs(formateurList);
                     }
                     else {
-                        throw new InvalidOperationException(formateurRepository.findById(Long.valueOf(formateur)).get().getUsername() + " est deja dans une promo en cours");
+                        throw new InvalidOperationException(formateurRepository.findByUsernameAndArchiveFalse(formateur).get().getUsername() + " est deja dans une promo en cours");
                     }
                 }
             });
@@ -201,8 +201,26 @@ public class PromoServiceImpl implements PromoService {
             return null;
         }
         Promo promo = promoRepository.findByIdAndArchiveFalse(id).get();
-        Groupe groupe = groupeRepository.findByTypeAndPromo("principale",promo).get();
+        Groupe groupe = groupeRepository.findByNomGroupeAndPromo("GROUPE PRINCIPALE",promo).get();
         return groupe.getApprenants().stream().map(ApprenantDto::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public PromoDto delete(Long id) {
+        if (id == null) {
+            return null;
+        }
+        Promo promo = promoRepository.findByIdAndArchiveFalse(id).get();
+        promo.setArchive(true);
+        promo.getGroupes().forEach(groupe -> {
+            groupe.setArchive(true);
+            groupe.getApprenants().forEach(apprenant -> apprenant.setArchive(true));
+        });
+        promo.getFormateurs().forEach(formateur -> formateur.setArchive(true));
+        promo.getReferentiel().setArchive(true);
+        promo.getReferentiel().getGroupeCompetences().forEach(groupeCompetence -> groupeCompetence.setArchive(true));
+        promoRepository.flush();
+        return PromoDto.fromEntity(promo);
     }
 }

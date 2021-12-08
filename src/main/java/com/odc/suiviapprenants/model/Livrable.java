@@ -16,9 +16,6 @@ public class Livrable extends AbstractEntity{
     @ManyToOne(cascade = CascadeType.MERGE)
     private LivrableAttendu livrableAttendu;
 
-    @ManyToMany
-    private Collection<LivrableRendu> livrableRendus;
-
     @ManyToOne(cascade = CascadeType.MERGE)
     private  BriefApprenant briefApprenant;
 }

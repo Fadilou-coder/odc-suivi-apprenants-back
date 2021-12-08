@@ -35,4 +35,7 @@ public interface GroupeApi {
 
     @GetMapping("/formateurs/id/groupePrincipal")
     List<GroupeDto> findGroupeByFormateur(@PathVariable Long id);
+
+    @GetMapping("/briefs/{idBr}/groupes")
+    List<GroupeDto> findByBrief(@PathVariable("idBr") Long idBr);
 }

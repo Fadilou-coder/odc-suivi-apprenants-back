@@ -29,13 +29,6 @@ public class BriefApprenantDto {
         return BriefApprenantDto.builder()
                 .id(briefApprenant.getId())
                 .apprenant(ApprenantDto.fromEntity(briefApprenant.getApprenant()))
-                //.brief(BriefDto.fromEntity(briefApprenant.getBrief()))
-                /*.livrablePartiels(
-                        briefApprenant.getLivrablePartiels() != null ?
-                                briefApprenant.getLivrablePartiels().stream()
-                                        .map(LivrablesPartielsDto::fromEntity)
-                                        .collect(Collectors.toList()) : null
-                )*/
                 .filDiscussion(FilDeDiscutionDto.fromEntity(briefApprenant.getFilDiscussion()))
                 .livrables(
                         briefApprenant.getLivrables() != null ?

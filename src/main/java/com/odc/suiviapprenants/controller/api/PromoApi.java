@@ -35,4 +35,7 @@ public interface PromoApi {
 
     @PutMapping("/promos/{id}")
     PromoDto put(@RequestBody PromoDto promoDto, @PathVariable Long id);
+
+    @DeleteMapping("/promos/{id}")
+    PromoDto delete(@PathVariable Long id);
 }

@@ -14,14 +14,9 @@ public class LivrablePartiel extends AbstractEntity{
     private LocalDate delai;
     private String type;
 
-    @OneToMany(mappedBy = "livrablePartiel", cascade = CascadeType.PERSIST)
-    private Collection<LivrableRendu> livrableRendus;
+    @OneToOne(mappedBy = "livrablePartiel", cascade = CascadeType.PERSIST)
+    private LivrableRendu livrableRendu;
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private Collection<BriefApprenant> briefApprenants;
-
-    public void addLivrableRendu(LivrableRendu livrableRendu) {
-        this.livrableRendus.add(livrableRendu);
-        livrableRendu.setLivrablePartiel(this);
-    }
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private BriefApprenant briefApprenant;
 }

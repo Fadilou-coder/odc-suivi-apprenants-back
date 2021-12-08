@@ -33,8 +33,8 @@ public class PromoFixture implements CommandLineRunner {
         promoTitles.add("COHORTE#1 DATA");
         promoTitles.add("COHORTE#1 REF");
         promoTitles.add("COHORTE#2 DEV");
-        promoTitles.add("COHORTE#1 DATA");
-        promoTitles.add("COHORTE#1 REF");
+        promoTitles.add("COHORTE#2 DATA");
+        promoTitles.add("COHORTE#2 REF");
         List<Referentiel> referentiels = referentielRepository.findAll();
         for(int i=0;i < referentiels.toArray().length;i++ ){
             if (i == 0) {
