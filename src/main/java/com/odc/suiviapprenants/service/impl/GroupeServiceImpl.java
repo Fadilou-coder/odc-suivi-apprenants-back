@@ -146,4 +146,15 @@ public class GroupeServiceImpl implements GroupeService {
                 .map(GroupeDto::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<GroupeDto> findGroupeByFormateur(Long id) {
+        if(groupeRepository.findById(id).isPresent()){
+            return groupeRepository.findByFormateursIdAndPromoId(id, applicationService.promoEncours().getId())
+                    .stream()
+                    .map(GroupeDto::fromEntity)
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
 }

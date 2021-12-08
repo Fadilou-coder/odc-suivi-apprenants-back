@@ -32,4 +32,7 @@ public interface GroupeApi {
 
     @GetMapping("/formateurs/{id}/groupes")
     List<GroupeDto> findByFormateur(@PathVariable Long id);
+
+    @GetMapping("/formateurs/id/groupePrincipal")
+    List<GroupeDto> findGroupeByFormateur(@PathVariable Long id);
 }
