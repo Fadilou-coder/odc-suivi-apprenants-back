@@ -286,13 +286,6 @@ public class BriefServiceImpl implements BriefService {
         brief.setBriefApprenants(new ArrayList<>());
         brief.setBriefCompetences(new ArrayList<>());
 
-        brief.setLivrableAttendus(new ArrayList<>(Arrays.asList(
-                livrableAttenduRepository.save(new LivrableAttendu("Github", new ArrayList<>())),
-                livrableAttenduRepository.save(new LivrableAttendu("Trello", new ArrayList<>())),
-                livrableAttenduRepository.save(new LivrableAttendu("Figma", new ArrayList<>())),
-                livrableAttenduRepository.save(new LivrableAttendu("Deploiement", new ArrayList<>()))
-        )));
-
         briefDto.getBriefGroupes().forEach(briefGroupeDto -> {
             briefGroupeRepository.delete(BriefGroupeDto.toEntity(briefGroupeDto));
         });
