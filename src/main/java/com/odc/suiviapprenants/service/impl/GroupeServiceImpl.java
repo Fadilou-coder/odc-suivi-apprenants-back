@@ -8,10 +8,7 @@ import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.Apprenant;
 import com.odc.suiviapprenants.model.Groupe;
 import com.odc.suiviapprenants.model.Promo;
-import com.odc.suiviapprenants.repository.ApprenantRepository;
-import com.odc.suiviapprenants.repository.BriefGroupeRepository;
-import com.odc.suiviapprenants.repository.GroupeRepository;
-import com.odc.suiviapprenants.repository.PromoRepository;
+import com.odc.suiviapprenants.repository.*;
 import com.odc.suiviapprenants.service.ApplicationService;
 import com.odc.suiviapprenants.service.GroupeService;
 import com.odc.suiviapprenants.validator.GroupeValidator;
@@ -36,6 +33,7 @@ public class GroupeServiceImpl implements GroupeService {
     ApprenantRepository apprenantRepository;
     ApplicationService applicationService;
     BriefGroupeRepository briefGroupeRepository;
+    FormateurRepository formateurRepository;
 
     @Override
     public GroupeDto save(GroupeDto groupeDto) throws IOException {
@@ -151,7 +149,7 @@ public class GroupeServiceImpl implements GroupeService {
 
     @Override
     public List<GroupeDto> findGroupeByFormateur(Long id) {
-        if (groupeRepository.findById(id).isPresent()) {
+        if (formateurRepository.findById(id).isPresent()) {
             return groupeRepository.findByFormateursIdAndPromoId(id, applicationService.promoEncours().getId())
                     .stream()
                     .map(GroupeDto::fromEntity)
