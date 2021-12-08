@@ -59,6 +59,26 @@ public class BriefController implements BriefApi {
     }
 
     @Override
+    public List<BriefDto> findByFormateur(Long id) {
+        return briefService.findByFormateur(id);
+    }
+
+    @Override
+    public List<BriefDto> findByApprenant(Long id) {
+        return briefService.findByApprenant(id);
+    }
+
+    @Override
+    public BriefDto duopliquerBrief(Long id) {
+        return briefService.dupliquerBrief(id);
+    }
+
+    @Override
+    public BriefDto putBrief(Long id, String titre, String description, String contexte, String modalitePedagodiques, String criterePerformances, String modaliteEvaluations, MultipartFile image, List<String> tags, List<String> groupes, List<String> apprenants, List<String> competences, List<Long> niveaux) throws Exception {
+        return briefService.putBrief(id, titre, description, contexte, modalitePedagodiques, criterePerformances, modaliteEvaluations, image, tags, groupes, apprenants, competences, niveaux);
+    }
+
+    @Override
     public LivrablesPartielsDto addLivrablesPartiels(LivrablesPartielsDto livrablesPartielsDto, Long id) {
         return briefService.addLivrablesPartiels(livrablesPartielsDto, id);
     }
@@ -74,6 +94,11 @@ public class BriefController implements BriefApi {
     }
 
     @Override
+    public Collection<LivrablesDto> findUrl(Long id, Long idApp) {
+        return briefService.findUrl(id, idApp);
+    }
+
+    @Override
     public Collection<LivrablesPartielsDto> findLivrablesPartielsByAprrenant(Long id, Long idApp) {
         return briefService.findLivrablesPartielsByAprrenant(id, idApp);
     }
@@ -86,6 +111,11 @@ public class BriefController implements BriefApi {
     @Override
     public BriefDto cloturerBrief(Long id) {
         return briefService.cloturerBrief(id);
+    }
+
+    @Override
+    public BriefDto ArchiverBrief(Long id) {
+        return briefService.archiverBrief(id);
     }
 
     @Override

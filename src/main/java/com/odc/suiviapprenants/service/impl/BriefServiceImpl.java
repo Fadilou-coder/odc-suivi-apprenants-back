@@ -39,6 +39,7 @@ public class BriefServiceImpl implements BriefService {
     LivrableRepository livrableRepository;
     CompetenceValideRepository competenceValideRepository;
     PromoRepository promoRepository;
+    LivrableAttenduRepository livrableAttenduRepository;
 
     @Override
     public BriefDto save(
@@ -95,7 +96,7 @@ public class BriefServiceImpl implements BriefService {
                 modalitePedagodiques,
                 criterePerformances,
                 modaliteEvaluations,
-                "Brouillon",
+                "En cours",
                 false,
                 image.getBytes(),
                 tagList,
@@ -145,8 +146,6 @@ public class BriefServiceImpl implements BriefService {
         briefDto.setBriefGroupes(groupeList);
         briefDto.setBriefApprenants(apprenantList);
         briefDto.setBriefCompetences(competenceList);
-
-
        return briefDto;
     }
 
@@ -173,6 +172,182 @@ public class BriefServiceImpl implements BriefService {
                 .map(BriefDto::fromEntity)
                 .orElseThrow(() -> new EntityNotFoundException("Aucun Brief  avec l'ID = " + id + " n' ete trouve dans la BDD", ErrorCodes.BRIEF_NOT_FOUND)
                 );
+    }
+
+    @Override
+    public List<BriefDto> findByFormateur(Long id) {
+        if (id == null){
+            return null;
+        }
+        Formateur formateur = formateurRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
+                new EntityNotFoundException(
+                        "Aucun Formateur avec l'ID = " + id + " ne se trouve dans la BDD",
+                        ErrorCodes.FORMATEUR_NOT_FOUND
+                ));
+        return briefRepository.findAllByArchiveFalseAndFormateurId(formateur.getId())
+                .stream().map(BriefDto::fromEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BriefDto> findByApprenant(Long id) {
+        if (id == null){
+            return null;
+        }
+        List<Brief> briefs = new ArrayList<>();
+        Apprenant apprenant = apprenantRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
+                new EntityNotFoundException(
+                        "Aucun Apprenant avec l'ID = " + id + " ne se trouve dans la BDD",
+                        ErrorCodes.APPRENANT_NOT_FOUND
+                ));
+        briefApprenantRepository.findAllByApprenantId(apprenant.getId()).forEach(briefApprenant -> {
+            briefs.add(briefApprenant.getBrief());
+        });
+
+        return briefs.stream().map(BriefDto::fromEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public BriefDto dupliquerBrief(Long id){
+
+        if (briefRepository.findById(id).isPresent()) {
+            PromoDto promo = applicationService.promoEncours();
+            if (promo == null) return null;
+
+            BriefDto briefDto = BriefDto.fromEntity(briefRepository.findById(id).get());
+            Collection<BriefCompetenceDto> competenceList = briefDto.getBriefCompetences();
+
+            List<LivrablesAttendusDto> livrablesAttendusList = new ArrayList<>(Arrays.asList(
+                    new LivrablesAttendusDto(null, "Github", new ArrayList<>()),
+                    new LivrablesAttendusDto(null, "Trello", new ArrayList<>()),
+                    new LivrablesAttendusDto(null, "Figma", new ArrayList<>()),
+                    new LivrablesAttendusDto(null, "Deploiement", new ArrayList<>())
+            ));
+
+            briefDto.setId(null);
+            briefDto.setLivrableAttendus(livrablesAttendusList);
+            briefDto.setBriefApprenants(new ArrayList<>());
+            briefDto.setBriefGroupes(new ArrayList<>());
+            briefDto.setBriefCompetences(new ArrayList<>());
+            briefDto = BriefDto.fromEntity(briefRepository.save(BriefDto.toEntity(briefDto)));
+
+            if (!briefDto.getBriefCompetences().isEmpty()){
+                AtomicInteger i = new AtomicInteger();
+                BriefDto finalBriefDto = briefDto;
+                competenceList.forEach(comp -> {
+                    BriefCompetenceDto.fromEntity(briefCompetenceRepository.save(BriefCompetenceDto.toEntity( new BriefCompetenceDto(null,
+                            finalBriefDto, comp.getCompetence(), comp.getNiveau(), false))));
+                });
+            }
+            briefDto.setBriefCompetences(competenceList);
+            return briefDto;
+        }
+        return null;
+    }
+
+    @Override
+    public BriefDto putBrief(Long id, String titre, String description, String contexte, String modalitePedagodiques, String criterePerformances, String modaliteEvaluations, MultipartFile image, List<String> tags, List<String> groupes, List<String> apprenants, List<String> competences, List<Long> niveaux) throws Exception {
+        if (id == null){
+            return null;
+        }
+        Brief brief = briefRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(
+                        "Aucun Brief avec l'ID = " + id + " ne se trouve dans la BDD",
+                        ErrorCodes.BRIEF_NOT_FOUND));
+
+        if (titre != null && !titre.equals(""))
+            brief.setTitre(titre);
+        if (description != null && !description.equals(""))
+        brief.setDescription(description);
+        if (contexte != null && !contexte.equals(""))
+            brief.setContexte(contexte);
+        if (criterePerformances != null && !criterePerformances.equals(""))
+            brief.setCriterePerformances(criterePerformances);
+        if (modalitePedagodiques != null && !modalitePedagodiques.equals(""))
+            brief.setModalitePedagodiques(modalitePedagodiques);
+        if (modaliteEvaluations != null && !modaliteEvaluations.equals(""))
+            brief.setModaliteEvaluations(modaliteEvaluations);
+        if (image != null)
+            brief.setImage(image.getBytes());
+
+        BriefDto briefDto = BriefDto.fromEntity(brief);
+        List<TagDto> tagList = new ArrayList<>();
+        List<BriefGroupeDto> groupeList = new ArrayList<>();
+        List<BriefApprenantDto>  apprenantList = new ArrayList<>();
+        List<BriefCompetenceDto> competenceList = new ArrayList<>();
+
+        if (!tags.isEmpty()){
+            tags.forEach(tag ->{
+                if (tagRepository.findByLibelleAndArchiveFalse(tag).isPresent())
+                    tagList.add(TagDto.fromEntity(tagRepository.findByLibelleAndArchiveFalse(tag).get()));
+            });
+        }
+        brief.setTags(tagList.stream().map(TagDto::toEntity).collect(Collectors.toList()));
+        brief.setBriefGroupes(new ArrayList<>());
+        brief.setBriefApprenants(new ArrayList<>());
+        brief.setBriefCompetences(new ArrayList<>());
+
+        brief.setLivrableAttendus(new ArrayList<>(Arrays.asList(
+                livrableAttenduRepository.save(new LivrableAttendu("Github", new ArrayList<>())),
+                livrableAttenduRepository.save(new LivrableAttendu("Trello", new ArrayList<>())),
+                livrableAttenduRepository.save(new LivrableAttendu("Figma", new ArrayList<>())),
+                livrableAttenduRepository.save(new LivrableAttendu("Deploiement", new ArrayList<>()))
+        )));
+
+        briefDto.getBriefGroupes().forEach(briefGroupeDto -> {
+            briefGroupeRepository.delete(BriefGroupeDto.toEntity(briefGroupeDto));
+        });
+        briefDto.getBriefApprenants().forEach(briefApprenantDto -> {
+            briefApprenantRepository.delete(BriefApprenantDto.toEntity(briefApprenantDto));
+        });
+        briefDto.getBriefCompetences().forEach(briefCompetenceDto -> {
+            briefCompetenceRepository.delete(BriefCompetenceDto.toEntity(briefCompetenceDto));
+        });
+
+        briefRepository.flush();
+        briefCompetenceRepository.flush();
+        briefApprenantRepository.flush();
+        briefGroupeRepository.flush();
+
+        if (!competences.isEmpty()){
+            AtomicInteger i = new AtomicInteger();
+            competences.forEach(comp -> {
+                competenceList.add(
+                        BriefCompetenceDto.fromEntity(briefCompetenceRepository.save(BriefCompetenceDto.toEntity( new BriefCompetenceDto(null, briefDto,
+                                CompetenceDto.fromEntity(competenceRepository.findByLibelleAndArchiveFalse(comp).get()),
+                                NiveauEvaluationDto.fromEntity(niveauEvaluationRepository.findById(niveaux.get(i.getAndIncrement())).get()), false))))
+                );
+            });
+        }
+
+        if (!groupes.isEmpty()){
+            groupes.forEach(groupe -> {
+                if (groupeRepository.findByNomGroupeAndPromo(groupe, PromoDto.toEntity(briefDto.getPromo())).isPresent()) {
+                    groupeList.add(
+                            BriefGroupeDto.fromEntity(briefGroupeRepository.save(BriefGroupeDto.toEntity(new BriefGroupeDto(null,
+                                    GroupeDto.fromEntity(groupeRepository.findByNomGroupeAndPromo(groupe, PromoDto.toEntity(briefDto.getPromo())).get()), briefDto, false))))
+                    );
+                    groupeRepository.findByNomGroupeAndPromo(groupe, PromoDto.toEntity(briefDto.getPromo())).get()
+                            .getApprenants().forEach(app -> {
+                                apprenantList.add(
+                                        BriefApprenantDto.fromEntity(briefApprenantRepository.save(BriefApprenantDto.toEntity(new BriefApprenantDto(null, briefDto,
+                                                ApprenantDto.fromEntity(app), null, null, null, false))))
+                                );
+                            });
+                }
+            });
+        }
+
+        if (!apprenants.isEmpty()){
+            apprenants.forEach(app -> {
+                apprenantList.add(
+                        new BriefApprenantDto(null, briefDto, ApprenantDto.fromEntity(apprenantRepository.findByUsernameAndArchiveFalse(app)), null, null, null, false)
+                );
+            });
+        }
+        briefDto.setBriefGroupes(groupeList);
+        briefDto.setBriefApprenants(apprenantList);
+        briefDto.setBriefCompetences(competenceList);
+        return briefDto;
     }
 
     @Override
@@ -235,6 +410,21 @@ public class BriefServiceImpl implements BriefService {
     }
 
     @Override
+    public Collection<LivrablesDto> findUrl(Long id, Long idApp) {
+        if (briefRepository.findById(id).isPresent()) {
+            if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
+                BriefApprenant briefApprenant = briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get();
+                return livrableRepository.findByBriefApprenantId(briefApprenant.getId())
+                        .stream()
+                        .map(LivrablesDto::fromEntity)
+                        .collect(Collectors.toList());
+            }
+            return new ArrayList<>();
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
     public Collection<LivrablesPartielsDto> findLivrablesPartielsByAprrenant(Long id, Long idApp) {
         if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
             List<LivrablesPartielsDto> livrablesPartiels = new ArrayList<>();
@@ -268,11 +458,25 @@ public class BriefServiceImpl implements BriefService {
     public BriefDto cloturerBrief(Long id) {
         if (briefRepository.findById(id).isPresent()){
             Brief brief = briefRepository.findById(id).get();
-            brief.setStatut("cloturer");
+            brief.setStatut("Clôturé");
             briefRepository.flush();
             return BriefDto.fromEntity(brief);
         }
         return null;
+    }
+
+    @Override
+    public BriefDto archiverBrief(Long id) {
+        if (id == null){
+            return null;
+        }
+        Brief brief = briefRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(
+                        "Aucun Brief avec l'ID = " + id + " ne se trouve dans la BDD",
+                        ErrorCodes.BRIEF_NOT_FOUND));
+        brief.setArchive(true);
+        briefRepository.flush();
+        return BriefDto.fromEntity(brief);
     }
 
     @Override

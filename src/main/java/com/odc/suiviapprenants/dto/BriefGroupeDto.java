@@ -22,7 +22,6 @@ public class BriefGroupeDto {
         return BriefGroupeDto.builder()
                 .id(briefGroupe.getId())
                 .groupe(GroupeDto.fromEntity(briefGroupe.getGroupe()))
-                //.brief(BriefDto.fromEntity(briefGroupe.getBrief()))
                 .valide(briefGroupe.isValide())
                 .build();
     }
