@@ -19,7 +19,7 @@ public class Groupe extends AbstractEntity {
     private  String statut;
 
   //  @ManyToMany
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany
     private Collection<Apprenant> apprenants;
 
     @ManyToMany
@@ -28,7 +28,7 @@ public class Groupe extends AbstractEntity {
     @ManyToMany
     Collection<Formateur> formateurs;
 
-    @ManyToOne(fetch = FetchType.LAZY ,cascade = CascadeType.PERSIST)
+    @ManyToOne
     //@ManyToOne
     private Promo promo;
 
