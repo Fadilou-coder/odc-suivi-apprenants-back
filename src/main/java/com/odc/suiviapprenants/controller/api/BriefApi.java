@@ -54,8 +54,6 @@ public interface BriefApi {
             @RequestParam("modaliteEvaluations") String modaliteEvaluations,
             @RequestParam("image") MultipartFile image,
             @RequestParam("tags") List<String> tags,
-            @RequestParam("groupes") List<String> groupes,
-            @RequestParam("apprenants") List<String> apprenants,
             @RequestParam("competences") List<String> competences,
             @RequestParam("niveaux") List<Long> niveaux
     ) throws Exception;
@@ -98,5 +96,8 @@ public interface BriefApi {
 
     @PutMapping("livrablePartiel/{id}")
     LivrablesPartielsDto corrigerLivrable(@PathVariable Long id, @RequestBody String status);
+
+    @PostMapping("/briefs/{id}/addAprrenants")
+    Collection<GroupeDto> addApprenantsToBriefs(@PathVariable Long id, @RequestBody Collection<GroupeDto> groupeDto);
 
 }

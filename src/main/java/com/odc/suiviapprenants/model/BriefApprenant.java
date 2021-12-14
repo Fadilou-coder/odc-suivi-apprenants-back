@@ -1,12 +1,14 @@
 package com.odc.suiviapprenants.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class BriefApprenant {
     @Id
     @GeneratedValue
@@ -27,5 +29,10 @@ public class BriefApprenant {
     @OneToMany(mappedBy = "briefApprenant")
     private Collection<Livrable> livrables;
 
-    private boolean valide;
+    public BriefApprenant(Brief brief, Apprenant apprenant) {
+        this.brief = brief;
+        this.apprenant = apprenant;
+    }
+
+    private boolean valide = false;
 }
