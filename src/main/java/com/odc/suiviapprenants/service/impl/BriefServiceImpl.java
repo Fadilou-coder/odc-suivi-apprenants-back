@@ -438,8 +438,12 @@ public class BriefServiceImpl implements BriefService {
         if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
             if (livrablePartielRepository.findById(idLp).isPresent()) {
                 LivrablePartiel livrablePartiel = livrablePartielRepository.findById(idLp).get();
-                LivrablesRendusDto livrablesRendusDto = new LivrablesRendusDto(null, "A Corriger", livrablePartiel.getDelai(), LocalDate.now(), "", LivrablesPartielsDto.fromEntity(livrablePartiel));
-                livrablePartiel.setLivrableRendu(LivrablesRendusDto.toEntity(livrablesRendusDto));
+                if (livrablePartiel.getLivrableRendu() == null) {
+                    LivrablesRendusDto livrablesRendusDto = new LivrablesRendusDto(null, "A Corriger", livrablePartiel.getDelai(), LocalDate.now(), "", LivrablesPartielsDto.fromEntity(livrablePartiel));
+                    livrablePartiel.setLivrableRendu(LivrablesRendusDto.toEntity(livrablesRendusDto));
+                }else {
+                    livrablePartiel.getLivrableRendu().setStatut("A Corriger");
+                }
                 livrablePartielRepository.flush();
                 return LivrablesPartielsDto.fromEntity(livrablePartielRepository.findById(idLp).get());
             }

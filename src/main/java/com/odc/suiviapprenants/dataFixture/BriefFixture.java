@@ -35,12 +35,12 @@ public class BriefFixture implements CommandLineRunner {
                 new Brief("Sql pour créer et exploiter une base de données", "Le langage SQL pour créer et exploiter une base de données. Ce brief a pour ambition de présenter de façon simple et complète le langage SQL et ses applications pour le développement.", "contexte Sql", LocalDate.now(), "modalite pedagogique Sql", "critère de performances Sql", "modalite d'evaluation Sql", "Clôturé", false, formateurRepository.findAll().get(0), promoRepository.findAll().get(0))
         ));
         briefRepository.findAll().forEach(brief -> {
-            brief.setLivrableAttendus(new ArrayList<>(Arrays.asList(
+            brief.setLivrableAttendus(Arrays.asList(
                     livrableAttenduRepository.save(new LivrableAttendu("Github", new ArrayList<>())),
                     livrableAttenduRepository.save(new LivrableAttendu("Trello", new ArrayList<>())),
                     livrableAttenduRepository.save(new LivrableAttendu("Figma", new ArrayList<>())),
                     livrableAttenduRepository.save(new LivrableAttendu("Deploiement", new ArrayList<>()))
-            )));
+            ));
         });
     }
 }
