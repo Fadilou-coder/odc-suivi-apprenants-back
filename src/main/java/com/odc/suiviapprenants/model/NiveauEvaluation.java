@@ -28,10 +28,9 @@ public class NiveauEvaluation extends AbstractEntity {
     }
 
     @ManyToOne(cascade= CascadeType.MERGE)
-    @JoinColumn(nullable=true)
     private Competence competence;
 
-    @ManyToOne(optional = false, cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Referentiel referentiel;
 
     @OneToMany(mappedBy = "niveau")
