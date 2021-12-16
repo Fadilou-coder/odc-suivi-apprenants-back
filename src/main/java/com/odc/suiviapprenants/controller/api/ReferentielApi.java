@@ -18,8 +18,7 @@ public interface ReferentielApi {
             @RequestParam String description,
             @RequestParam String critereEvaluation,
             @RequestParam String critereAdmission,
-            @RequestParam MultipartFile programme,
-            @RequestParam String grpCompetences
+            @RequestParam MultipartFile programme
     ) throws IOException;
 
     @GetMapping("/referentiels")
@@ -44,6 +43,9 @@ public interface ReferentielApi {
             @RequestParam MultipartFile programme,
             @RequestParam String grpCompetences
     ) throws IOException;
+
+    @PutMapping("/referentiels/groupeCompetences/{id}")
+    ReferentielDto updateReferentiel(@PathVariable Long id, @RequestBody ReferentielDto referentielDto);
 
     @DeleteMapping("/referentiels/{id}")
     void delete(@PathVariable Long id);

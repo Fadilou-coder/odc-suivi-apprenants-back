@@ -42,4 +42,10 @@ public class Referentiel extends AbstractEntity{
         this.groupeCompetences = groupeCompetences;
         this.formateurs = formateurs;
     }
+    public void addGroupeCompetence(Collection<GroupeCompetence> groupeCompetencesList){
+        groupeCompetencesList.forEach(groupeCompetence -> {
+            this.groupeCompetences.add(groupeCompetence);
+            groupeCompetence.getReferentiels().add(this);
+        });
+    }
 }

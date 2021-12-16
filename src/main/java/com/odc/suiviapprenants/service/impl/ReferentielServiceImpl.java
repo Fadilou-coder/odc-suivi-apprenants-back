@@ -4,8 +4,13 @@ import com.odc.suiviapprenants.dto.ReferentielDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
+import com.odc.suiviapprenants.model.Competence;
+import com.odc.suiviapprenants.model.GroupeCompetence;
+import com.odc.suiviapprenants.model.NiveauEvaluation;
 import com.odc.suiviapprenants.model.Referentiel;
+import com.odc.suiviapprenants.repository.CompetenceRepository;
 import com.odc.suiviapprenants.repository.GroupeCompetenceRepository;
+import com.odc.suiviapprenants.repository.NiveauEvaluationRepository;
 import com.odc.suiviapprenants.repository.ReferentielRepository;
 import com.odc.suiviapprenants.service.ReferentielService;
 import com.odc.suiviapprenants.validator.ReferentielValidator;
@@ -26,9 +31,13 @@ import java.util.stream.Collectors;
 public class ReferentielServiceImpl implements ReferentielService {
     ReferentielRepository referentielRepository;
     GroupeCompetenceRepository groupeCompetenceRepository;
+    CompetenceRepository competenceRepository;
+    NiveauEvaluationRepository niveauEvaluationRepository;
 
     @Override
-    public ReferentielDto save(String libelle, String description, String critereEvaluation, String critereAdmission, MultipartFile programme, String grpCompetences) throws IOException {
+    public ReferentielDto save(String libelle, String description,
+                               String critereEvaluation, String critereAdmission,
+                               MultipartFile programme) throws IOException {
 
         ReferentielDto referentielDto = new ReferentielDto(
                 null,
@@ -40,7 +49,7 @@ public class ReferentielServiceImpl implements ReferentielService {
                 null
         );
 
-        handleGrpCompetences(grpCompetences, referentielDto);
+       // handleGrpCompetences(grpCompetences, referentielDto);
 
         return ReferentielDto.fromEntity(
                 referentielRepository.save(
@@ -96,11 +105,44 @@ public class ReferentielServiceImpl implements ReferentielService {
     }
 
     @Override
-    public ReferentielDto put(Long id, String libelle, String description, String critereEvaluation, String critereAdmission, MultipartFile programme, String grpCompetences) throws IOException {
+    public ReferentielDto updateReferentiel(Long id, ReferentielDto referentielDto) {
         Referentiel referentiel = referentielRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
                 new EntityNotFoundException(
                         "Aucun referentiel avec l'ID = " + id + " ne se trouve dans la BDD",
                         ErrorCodes.ADMIN_NOT_FOUND));
+        referentielDto.getGroupeCompetences().forEach(groupeCompetenceDto -> {
+            GroupeCompetence groupeCompetence = groupeCompetenceRepository.findByLibelleAndArchiveFalse(groupeCompetenceDto.getLibelle())
+                    .orElseThrow(() -> new EntityNotFoundException(
+                            "Aucun groupe de competence avec le libelle = " + groupeCompetenceDto.getLibelle() + " ne se trouve dans la BDD",
+                            ErrorCodes.GROUPE_COMPETENCE_NOT_FOUND));
+            List<GroupeCompetence> groupeCompetenceList = new ArrayList<>();
+            groupeCompetenceList.add(groupeCompetence);
+            groupeCompetenceDto.getCompetences().forEach(competenceDto -> {
+                Competence competence = competenceRepository.findByLibelleAndArchiveFalse(competenceDto.getLibelle())
+                                .orElseThrow(()-> new EntityNotFoundException(
+                                        "Aucun   competence avec le libelle = " + competenceDto.getLibelle() + " ne se trouve dans la BDD",
+                                        ErrorCodes.COMPETENCE_NOT_FOUND));
+                competenceDto.getNiveauEvaluations().forEach(niveauEvaluationDto -> {
+                    NiveauEvaluation niveauEvaluation = new NiveauEvaluation();
+                    niveauEvaluation.setLibelle(niveauEvaluationDto.getLibelle());
+                    niveauEvaluation.setCritereEvaluation(niveauEvaluationDto.getCritereEvaluation());
+                    niveauEvaluation.setGroupeAction(niveauEvaluationDto.getGroupeAction());
+                    niveauEvaluation.setReferentiel(referentiel);
+                    niveauEvaluation.setCompetence(competence);
+                    niveauEvaluationRepository.save(niveauEvaluation);
+                });
+                referentiel.addGroupeCompetence(groupeCompetenceList);
+            });
+
+        });
+        return ReferentielDto.fromEntity(referentiel);
+    }
+
+    @Override
+    public ReferentielDto put(Long id, String libelle, String description, String critereEvaluation, String critereAdmission, MultipartFile programme, String grpCompetences) throws IOException {
+        Referentiel referentiel = referentielRepository.findByIdAndArchiveFalse(id).orElseThrow(() ->
+                new EntityNotFoundException(
+                        "Aucun referentiel avec l'ID = " + id + " ne se trouve dans la BDD",ErrorCodes.ADMIN_NOT_FOUND));
 
         referentiel.setLibelle(libelle);
         referentiel.setProgramme(AdminServiceImpl.compressBytes(programme.getBytes()));
