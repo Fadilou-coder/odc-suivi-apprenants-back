@@ -4,6 +4,7 @@ import com.odc.suiviapprenants.model.Referentiel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
 
@@ -14,8 +15,9 @@ import java.util.stream.Collectors;
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class ReferentielDto {
-    @Id
+
     private Long id;
 
     private String libelle;
