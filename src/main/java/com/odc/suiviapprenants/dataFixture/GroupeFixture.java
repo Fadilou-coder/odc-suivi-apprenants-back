@@ -36,10 +36,10 @@ class GroupeFixture implements CommandLineRunner {
         List<Promo> promoList = promoRepository.findAll();
         List<Apprenant> apprenantList1 = new ArrayList<>();
         List<Apprenant> apprenantList2 = new ArrayList<>();
-        for(int i = 0; i < 25; i++){
+        for(int i = 0; i < 10; i++){
             apprenantList1.add(apprenants.get(i));
         }
-        for(int i = 25; i < 50; i++){
+        for(int i = 10; i < 25; i++){
             apprenantList2.add(apprenants.get(i));
         }
         groupeRepository.saveAll(Arrays.asList(
@@ -47,5 +47,10 @@ class GroupeFixture implements CommandLineRunner {
                 new Groupe("groupe 2", "plusieurs", "ouvert", promoList.get(1), formateurs, apprenantList2),
                 new Groupe("GROUPE PRINCIPALE", "plusieurs", "ouvert", promoList.get(1), formateurs, apprenants)
         ));
+        for (int i = 0 ; i < promoList.toArray().length; i++){
+            groupeRepository.save(new Groupe("GROUPE PRINCIPALE", "principal", "ouvert", promoList.get(i), formateurs, apprenants));
+            groupeRepository.save(  new Groupe("groupe "+1, "plusieurs", "ouvert", promoList.get(i), formateurs, apprenantList1));
+            groupeRepository.save( new Groupe("groupe "+2, "plusieurs", "ouvert", promoList.get(i), formateurs, apprenantList2));
+        }
     }
 }

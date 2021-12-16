@@ -12,13 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.session.SessionManagementFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
-import java.util.Collections;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -58,7 +52,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 //              .authorizeRequests()
 //            .antMatchers("/**", "/**/roles/create").access("hasAnyAuthority('ADMIN', 'CM','LEAD_FORMATEUR', 'FORMATEUR')")
 //          .anyRequest().fullyAuthenticated();
-
     http.addFilterBefore(applicationRequestFilter, UsernamePasswordAuthenticationFilter.class);
   }
 

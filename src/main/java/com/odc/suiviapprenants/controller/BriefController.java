@@ -2,10 +2,7 @@ package com.odc.suiviapprenants.controller;
 
 
 import com.odc.suiviapprenants.controller.api.BriefApi;
-import com.odc.suiviapprenants.dto.BriefDto;
-import com.odc.suiviapprenants.dto.LivrablesAttendusDto;
-import com.odc.suiviapprenants.dto.LivrablesPartielsDto;
-import com.odc.suiviapprenants.dto.LivrablesRendusDto;
+import com.odc.suiviapprenants.dto.*;
 import com.odc.suiviapprenants.service.BriefService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -62,6 +59,26 @@ public class BriefController implements BriefApi {
     }
 
     @Override
+    public List<BriefDto> findByFormateur(Long id) {
+        return briefService.findByFormateur(id);
+    }
+
+    @Override
+    public List<BriefDto> findByApprenant(Long id) {
+        return briefService.findByApprenant(id);
+    }
+
+    @Override
+    public BriefDto duopliquerBrief(Long id) {
+        return briefService.dupliquerBrief(id);
+    }
+
+    @Override
+    public BriefDto putBrief(Long id, String titre, String description, String contexte, String modalitePedagodiques, String criterePerformances, String modaliteEvaluations, MultipartFile image, List<String> tags, List<String> groupes, List<String> apprenants, List<String> competences, List<Long> niveaux) throws Exception {
+        return briefService.putBrief(id, titre, description, contexte, modalitePedagodiques, criterePerformances, modaliteEvaluations, image, tags, groupes, apprenants, competences, niveaux);
+    }
+
+    @Override
     public LivrablesPartielsDto addLivrablesPartiels(LivrablesPartielsDto livrablesPartielsDto, Long id) {
         return briefService.addLivrablesPartiels(livrablesPartielsDto, id);
     }
@@ -72,8 +89,13 @@ public class BriefController implements BriefApi {
     }
 
     @Override
-    public Collection<LivrablesAttendusDto> addUrl(Collection<LivrablesAttendusDto> livrablesAttendusDtos, Long id, Long idApp) {
-        return briefService.addUrl(livrablesAttendusDtos, id, idApp);
+    public Collection<LivrablesDto> addUrl(Collection<LivrablesDto> livrablesDtos, Long id, Long idApp) {
+        return briefService.addUrl(livrablesDtos, id, idApp);
+    }
+
+    @Override
+    public Collection<LivrablesDto> findUrl(Long id, Long idApp) {
+        return briefService.findUrl(id, idApp);
     }
 
     @Override
@@ -89,6 +111,36 @@ public class BriefController implements BriefApi {
     @Override
     public BriefDto cloturerBrief(Long id) {
         return briefService.cloturerBrief(id);
+    }
+
+    @Override
+    public BriefDto ArchiverBrief(Long id) {
+        return briefService.archiverBrief(id);
+    }
+
+    @Override
+    public CompetenceValideDto validerCompetence(Long id, Long idComp) {
+        return briefService.validerCompetence(id, idComp);
+    }
+
+    @Override
+    public Collection<LivrablesPartielsDto> findLivrablesACorrigerByAprrenant(Long id, Long idApp) {
+        return briefService.findLivrablesACorrigerByAprrenant(id, idApp);
+    }
+
+    @Override
+    public Collection<LivrablesPartielsDto> findLivrablesARefaireByAprrenant(Long id, Long idApp) {
+        return briefService.findLivrablesARefaireByAprrenant(id, idApp);
+    }
+
+    @Override
+    public Collection<LivrablesPartielsDto> findLivrablesValidesByAprrenant(Long id, Long idApp) {
+        return briefService.findLivrablesValidesByAprrenant(id, idApp);
+    }
+
+    @Override
+    public LivrablesPartielsDto corrigerLivrable(Long id, String status) {
+        return briefService.corrigerLivrable(id, status);
     }
 
 }

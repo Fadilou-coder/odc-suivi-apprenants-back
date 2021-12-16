@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.Apprenant;
 import com.odc.suiviapprenants.model.FilDiscussion;
 import com.odc.suiviapprenants.model.Message;
@@ -20,6 +21,8 @@ public class MessageDto {
     private String libelle;
     private byte[] pieceJointe;
     private Collection<ReponseDto> reponses;
+    @JsonIgnore
+    FilDeDiscutionDto filDeDiscution;
 
     public static MessageDto fromEntity(Message message){
 
@@ -46,6 +49,7 @@ public class MessageDto {
         message.setPieceJointe(messageDto.getPieceJointe());
         if (messageDto.getReponses() != null)
         message.setReponses(messageDto.getReponses().stream().map(ReponseDto::toEntity).collect(Collectors.toList()));
+        message.setFilDiscussion(FilDeDiscutionDto.toEntity(messageDto.getFilDeDiscution()));
 
         return message;
     }

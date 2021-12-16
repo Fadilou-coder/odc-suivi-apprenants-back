@@ -39,7 +39,9 @@ public class Promo extends AbstractEntity {
     @ManyToMany
     @JsonIgnore
     Collection<Formateur> formateurs;
-    public Promo(String langue, String title, String description, String lieu, String etat, Referentiel referentiel, Boolean enCours, Collection<Formateur> formateurs) {
+    public Promo(String langue, String title, String description,
+                 String lieu, String etat, Referentiel referentiel, Boolean enCours,
+                 Collection<Formateur> formateurs,LocalDate dateDebut,LocalDate dateFinProvisoire,Collection<Admin> admins) {
 
         this.langue = langue;
         this.title = title;
@@ -49,5 +51,8 @@ public class Promo extends AbstractEntity {
         this.referentiel = referentiel;
         this.enCours = enCours;
         this.formateurs = formateurs;
+        this.dateDebut = dateDebut;
+        this.dateFinProvisoire = dateFinProvisoire;
+        this.admins = admins;
     }
 }

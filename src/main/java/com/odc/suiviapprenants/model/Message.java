@@ -2,6 +2,7 @@ package com.odc.suiviapprenants.model;
 
 import lombok.Data;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -13,7 +14,7 @@ public class Message extends AbstractEntity{
     private String libelle;
     private byte[] pieceJointe;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private FilDiscussion filDiscussion;
 
     @ManyToOne

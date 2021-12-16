@@ -13,7 +13,6 @@ public class CompetenceDto {
     @Id
     private Long id;
     private String libelle;
-
     private List<NiveauEvaluationDto> niveauEvaluations;
 
     public static CompetenceDto fromEntity(Competence competence)
@@ -41,7 +40,8 @@ public class CompetenceDto {
         Competence competence = new Competence();
         competence.setId(competenceDto.getId());
         competence.setLibelle(competenceDto.getLibelle());
-
+        if (competenceDto.getNiveauEvaluations() != null)
+            competence.setNiveauEvaluations(competenceDto.getNiveauEvaluations().stream().map(NiveauEvaluationDto::toEntity).collect(Collectors.toList()));
         return competence;
     }
 }

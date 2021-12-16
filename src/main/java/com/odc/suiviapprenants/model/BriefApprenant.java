@@ -18,10 +18,10 @@ public class BriefApprenant {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Apprenant apprenant;
 
-    @ManyToMany(mappedBy = "briefApprenants", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "briefApprenant", cascade = CascadeType.MERGE)
     private Collection<LivrablePartiel> livrablePartiels;
 
-    @OneToOne
+    @OneToOne(mappedBy = "briefApprenant")
     private FilDiscussion filDiscussion;
 
     @OneToMany(mappedBy = "briefApprenant")

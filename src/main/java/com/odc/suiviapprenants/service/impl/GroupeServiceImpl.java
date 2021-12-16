@@ -9,8 +9,10 @@ import com.odc.suiviapprenants.model.Apprenant;
 import com.odc.suiviapprenants.model.Groupe;
 import com.odc.suiviapprenants.model.Promo;
 import com.odc.suiviapprenants.repository.ApprenantRepository;
+import com.odc.suiviapprenants.repository.BriefGroupeRepository;
 import com.odc.suiviapprenants.repository.GroupeRepository;
 import com.odc.suiviapprenants.repository.PromoRepository;
+import com.odc.suiviapprenants.service.ApplicationService;
 import com.odc.suiviapprenants.service.GroupeService;
 import com.odc.suiviapprenants.validator.GroupeValidator;
 import lombok.AllArgsConstructor;
@@ -20,7 +22,6 @@ import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -33,6 +34,8 @@ public class GroupeServiceImpl implements GroupeService {
     GroupeRepository groupeRepository;
     PromoRepository promoRepository;
     ApprenantRepository apprenantRepository;
+    ApplicationService applicationService;
+    BriefGroupeRepository briefGroupeRepository;
 
     @Override
     public GroupeDto save(GroupeDto groupeDto) throws IOException {
@@ -62,7 +65,6 @@ public class GroupeServiceImpl implements GroupeService {
     @Override
     public GroupeDto findById(Long id) {
         if (id == null) {
-            log.error("Groupe ID is null");
             return null;
         }
 
@@ -123,16 +125,47 @@ public class GroupeServiceImpl implements GroupeService {
 
     @Override
     public List<ApprenantDto> findApprenantNonAffecterByGroupe(Long id) {
-        Groupe groupe = groupeRepository.findById(id).get();
-        Groupe grpPrincipale = groupeRepository.findByNomGroupeAndPromo("GROUPE PRINCIPALE", groupe.getPromo()).get();
-        List<Apprenant> apprenantList = new ArrayList<>();
-        grpPrincipale.getApprenants().forEach(apprenant -> {
-            if (!groupe.getApprenants().contains(apprenant)){
-                apprenantList.add(apprenant);
-            }
-        });
-        return apprenantList.stream()
-                .map(ApprenantDto::fromEntity)
+        if (groupeRepository.findById(id).isPresent()) {
+            Groupe groupe = groupeRepository.findById(id).get();
+            Groupe grpPrincipale = groupeRepository.findByNomGroupeAndPromo("GROUPE PRINCIPALE", groupe.getPromo()).get();
+            List<Apprenant> apprenantList = new ArrayList<>();
+            grpPrincipale.getApprenants().forEach(apprenant -> {
+                if (!groupe.getApprenants().contains(apprenant)) {
+                    apprenantList.add(apprenant);
+                }
+            });
+            return apprenantList.stream()
+                    .map(ApprenantDto::fromEntity)
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<GroupeDto> findByFormateur(Long id) {
+        return groupeRepository.findByNomGroupeNotAndFormateursIdAndPromoId("GROUPE PRINCIPALE", id, applicationService.promoEncours().getId())
+                .stream()
+                .map(GroupeDto::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GroupeDto> findGroupeByFormateur(Long id) {
+        if (groupeRepository.findById(id).isPresent()) {
+            return groupeRepository.findByFormateursIdAndPromoId(id, applicationService.promoEncours().getId())
+                    .stream()
+                    .map(GroupeDto::fromEntity)
+                    .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<GroupeDto> findByFormateurAndBrief(Long idBr) {
+        List<GroupeDto> groupeDtoList = new ArrayList<>();
+        briefGroupeRepository.findByBriefId(idBr).forEach(briefGroupe -> {
+            groupeDtoList.add(GroupeDto.fromEntity(briefGroupe.getGroupe()));
+        });
+        return groupeDtoList;
     }
 }

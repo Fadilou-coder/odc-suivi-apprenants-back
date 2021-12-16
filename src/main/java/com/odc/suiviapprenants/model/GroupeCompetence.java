@@ -24,7 +24,7 @@ public class GroupeCompetence extends AbstractEntity {
     @ManyToMany(cascade = CascadeType.MERGE)
     private Collection<Competence> competences;
 
-    @ManyToMany(mappedBy = "groupeCompetences", cascade = CascadeType.MERGE)
+    @ManyToMany(mappedBy = "groupeCompetences")
     private Collection<Referentiel> referentiels;
 
     @ManyToMany(cascade = CascadeType.MERGE)

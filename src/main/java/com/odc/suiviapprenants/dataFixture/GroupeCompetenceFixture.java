@@ -16,7 +16,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 @Component
 @ConditionalOnProperty(name = "app.db-init", havingValue = "true")
-@Order(17)
+@Order(8)
 public class GroupeCompetenceFixture implements CommandLineRunner {
     private GroupeCompetenceRepository groupeCompetenceRepository;
     private CompetenceRepository competenceRepository;
@@ -35,5 +35,11 @@ public class GroupeCompetenceFixture implements CommandLineRunner {
                         Arrays.asList(referentielRepository.findByLibelle("ref1").get(), referentielRepository.findByLibelle("ref1").get()),
                         Arrays.asList(tagRepository.findByLibelleAndArchiveFalse("MySQL").get(), tagRepository.findByLibelleAndArchiveFalse("PHP").get())
                 )));
+        for (int i=0;i<5;i++){
+            groupeCompetenceRepository.save(
+                    new GroupeCompetence("libelle"+i,"description"+i, competenceRepository.findAll(),
+                            Arrays.asList(tagRepository.findByLibelleAndArchiveFalse("Laravel").get(),tagRepository.findByLibelleAndArchiveFalse("Ionic").get())
+                    ));
+        }
     }
 }

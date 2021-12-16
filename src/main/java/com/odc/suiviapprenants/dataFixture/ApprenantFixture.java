@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.time.LocalDate;
 
 @AllArgsConstructor
 @Component
@@ -25,9 +25,12 @@ public class ApprenantFixture implements CommandLineRunner {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(password);
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 25; i++) {
             apprenantRepository.save(
-                    new Apprenant("apprenant"+i, encodedPassword, "apprenant_prenom"+i, "apprenant_nom"+i, "apprenant@gmail.com"+i, "1 254 5678 901"+i, "adresse"+i, "7700000"+i, "EN COURS", "DEVWEB2020-12920001", "APPRENANT")
+                    new Apprenant("apprenant"+i, encodedPassword, "prenom"+i,
+                            "nom"+i, "apprenant@gmail.com"+i,
+                            "1 254 5678 901"+i, "adresse"+i, "7700000"+i, "EN COURS",
+                            "DEVWEB2020-12920001", "APPRENANT",LocalDate.parse("1990-02-21"))
             );
         }
     }

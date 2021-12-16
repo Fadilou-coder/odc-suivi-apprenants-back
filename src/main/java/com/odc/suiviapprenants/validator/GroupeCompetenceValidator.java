@@ -13,6 +13,7 @@ public class GroupeCompetenceValidator {
         if(groupeCompetenceDto == null) {
             errors.add("Veuillez renseigner le libelle");
             errors.add("Veuillez renseigner la description");
+            errors.add("Au moins un competence");
             return errors;
         }
         if (!StringUtils.hasLength(groupeCompetenceDto.getLibelle())) {
@@ -20,6 +21,9 @@ public class GroupeCompetenceValidator {
         }
         if (!StringUtils.hasLength(groupeCompetenceDto.getDescription())) {
             errors.add("Veuillez renseigner la description'");
+        }
+        if (groupeCompetenceDto.getCompetences().toArray().length==0){
+            errors.add("Veuillez renseigner au moins un competence'");
         }
         return errors;
     }

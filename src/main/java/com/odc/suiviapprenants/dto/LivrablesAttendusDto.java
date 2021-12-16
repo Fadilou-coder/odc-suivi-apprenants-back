@@ -1,6 +1,7 @@
 package com.odc.suiviapprenants.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.Livrable;
 import com.odc.suiviapprenants.model.LivrableAttendu;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ public class LivrablesAttendusDto {
 
     Long id;
     private String libelle;
+    @JsonIgnore
     private Collection<LivrablesDto> livrables;
 
     public static LivrablesAttendusDto fromEntity(LivrableAttendu livrableAttendu){
@@ -24,12 +26,6 @@ public class LivrablesAttendusDto {
         return LivrablesAttendusDto.builder()
                 .id(livrableAttendu.getId())
                 .libelle(livrableAttendu.getLibelle())
-                .livrables(
-                        livrableAttendu.getLivrables() != null ?
-                                livrableAttendu.getLivrables().stream()
-                                        .map(LivrablesDto::fromEntity)
-                                        .collect(Collectors.toList()) : null
-                )
                 .build();
     }
 

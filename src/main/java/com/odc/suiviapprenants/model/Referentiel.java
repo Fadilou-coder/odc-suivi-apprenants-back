@@ -30,14 +30,16 @@ public class Referentiel extends AbstractEntity{
     @OneToMany(mappedBy = "referentiel")
     private Collection<NiveauEvaluation> niveauEvaluations;
 
-    @ManyToMany(mappedBy = "referentiels")
+    @ManyToMany(cascade = CascadeType.MERGE)
     Collection<Formateur> formateurs;
 
-    public Referentiel(String libelle, String description, String critereAdmission, String critereEvaluation,Collection<GroupeCompetence> groupeCompetences) {
+
+    public Referentiel(String libelle, String description, String critereAdmission, String critereEvaluation, Collection<GroupeCompetence> groupeCompetences, Collection<Formateur> formateurs) {
         this.libelle = libelle;
         this.description = description;
         this.critereAdmission = critereAdmission;
         this.critereEvaluation = critereEvaluation;
         this.groupeCompetences = groupeCompetences;
+        this.formateurs = formateurs;
     }
 }
