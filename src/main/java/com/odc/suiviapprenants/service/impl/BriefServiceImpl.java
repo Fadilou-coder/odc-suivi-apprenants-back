@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -245,7 +246,7 @@ public class BriefServiceImpl implements BriefService {
     }
 
     @Override
-    public BriefDto putBrief(Long id, String titre, String description, String contexte, String modalitePedagodiques, String criterePerformances, String modaliteEvaluations, MultipartFile image, List<String> tags, List<String> groupes, List<String> apprenants, List<String> competences, List<Long> niveaux) throws Exception {
+    public BriefDto putBrief(Long id, String titre, String description, String contexte, String modalitePedagodiques, String criterePerformances, String modaliteEvaluations, MultipartFile image, List<String> tags, List<String> competences, List<Long> niveaux) throws Exception {
         if (id == null){
             return null;
         }
@@ -271,8 +272,6 @@ public class BriefServiceImpl implements BriefService {
 
         BriefDto briefDto = BriefDto.fromEntity(brief);
         List<TagDto> tagList = new ArrayList<>();
-        List<BriefGroupeDto> groupeList = new ArrayList<>();
-        List<BriefApprenantDto>  apprenantList = new ArrayList<>();
         List<BriefCompetenceDto> competenceList = new ArrayList<>();
 
         if (!tags.isEmpty()){
@@ -285,22 +284,9 @@ public class BriefServiceImpl implements BriefService {
         brief.setBriefGroupes(new ArrayList<>());
         brief.setBriefApprenants(new ArrayList<>());
         brief.setBriefCompetences(new ArrayList<>());
-
-        briefDto.getBriefGroupes().forEach(briefGroupeDto -> {
-            briefGroupeRepository.delete(BriefGroupeDto.toEntity(briefGroupeDto));
-        });
-        briefDto.getBriefApprenants().forEach(briefApprenantDto -> {
-            briefApprenantRepository.delete(BriefApprenantDto.toEntity(briefApprenantDto));
-        });
         briefDto.getBriefCompetences().forEach(briefCompetenceDto -> {
             briefCompetenceRepository.delete(BriefCompetenceDto.toEntity(briefCompetenceDto));
         });
-
-        briefRepository.flush();
-        briefCompetenceRepository.flush();
-        briefApprenantRepository.flush();
-        briefGroupeRepository.flush();
-
         if (!competences.isEmpty()){
             AtomicInteger i = new AtomicInteger();
             competences.forEach(comp -> {
@@ -312,33 +298,8 @@ public class BriefServiceImpl implements BriefService {
             });
         }
 
-        if (!groupes.isEmpty()){
-            groupes.forEach(groupe -> {
-                if (groupeRepository.findByNomGroupeAndPromo(groupe, PromoDto.toEntity(briefDto.getPromo())).isPresent()) {
-                    groupeList.add(
-                            BriefGroupeDto.fromEntity(briefGroupeRepository.save(BriefGroupeDto.toEntity(new BriefGroupeDto(null,
-                                    GroupeDto.fromEntity(groupeRepository.findByNomGroupeAndPromo(groupe, PromoDto.toEntity(briefDto.getPromo())).get()), briefDto, false))))
-                    );
-                    groupeRepository.findByNomGroupeAndPromo(groupe, PromoDto.toEntity(briefDto.getPromo())).get()
-                            .getApprenants().forEach(app -> {
-                                apprenantList.add(
-                                        BriefApprenantDto.fromEntity(briefApprenantRepository.save(BriefApprenantDto.toEntity(new BriefApprenantDto(null, briefDto,
-                                                ApprenantDto.fromEntity(app), null, null, null, false))))
-                                );
-                            });
-                }
-            });
-        }
-
-        if (!apprenants.isEmpty()){
-            apprenants.forEach(app -> {
-                apprenantList.add(
-                        new BriefApprenantDto(null, briefDto, ApprenantDto.fromEntity(apprenantRepository.findByUsernameAndArchiveFalse(app)), null, null, null, false)
-                );
-            });
-        }
-        briefDto.setBriefGroupes(groupeList);
-        briefDto.setBriefApprenants(apprenantList);
+        briefRepository.flush();
+        briefCompetenceRepository.flush();
         briefDto.setBriefCompetences(competenceList);
         return briefDto;
     }
@@ -438,8 +399,12 @@ public class BriefServiceImpl implements BriefService {
         if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
             if (livrablePartielRepository.findById(idLp).isPresent()) {
                 LivrablePartiel livrablePartiel = livrablePartielRepository.findById(idLp).get();
-                LivrablesRendusDto livrablesRendusDto = new LivrablesRendusDto(null, "A Corriger", livrablePartiel.getDelai(), LocalDate.now(), "", LivrablesPartielsDto.fromEntity(livrablePartiel));
-                livrablePartiel.setLivrableRendu(LivrablesRendusDto.toEntity(livrablesRendusDto));
+                if (livrablePartiel.getLivrableRendu() == null) {
+                    LivrablesRendusDto livrablesRendusDto = new LivrablesRendusDto(null, "A Corriger", livrablePartiel.getDelai(), LocalDate.now(), "", LivrablesPartielsDto.fromEntity(livrablePartiel));
+                    livrablePartiel.setLivrableRendu(LivrablesRendusDto.toEntity(livrablesRendusDto));
+                }else {
+                    livrablePartiel.getLivrableRendu().setStatut("A Corriger");
+                }
                 livrablePartielRepository.flush();
                 return LivrablesPartielsDto.fromEntity(livrablePartielRepository.findById(idLp).get());
             }
@@ -542,9 +507,9 @@ public class BriefServiceImpl implements BriefService {
     @Override
     public LivrablesPartielsDto corrigerLivrable(Long id, String status) {
         String st = "";
-        if (status.length() > 10 && status.substring(1, 10).equals("A Refaire")){
+        if (status.length() > 10 && status.startsWith("A Refaire", 1)){
             st = "A Refaire";
-        }else if (status.length() > 8 && status.substring(1, 8).equals("Valides")){
+        }else if (status.length() > 8 && status.startsWith("Valides", 1)){
             st = "Valides";
         }
         if (livrablePartielRepository.findById(id).isPresent()){
@@ -554,5 +519,39 @@ public class BriefServiceImpl implements BriefService {
             return LivrablesPartielsDto.fromEntity(livrablePartiel);
         }
         return null;
+    }
+
+    @Override
+    public Collection<GroupeDto> addApprenantsToBriefs(Long id, Collection<GroupeDto> groupeDto) {
+        if (briefRepository.findById(id).isPresent()) {
+            Brief brief = briefRepository.findById(id).get();
+
+            groupeDto.forEach(g -> {
+                if (g.getId() != null){
+                    if (groupeRepository.findById(g.getId()).isPresent()){
+                        if (!briefGroupeRepository.findByBriefIdAndGroupeId(brief.getId(), g.getId()).isPresent()) {
+                            briefGroupeRepository.save(new BriefGroupe(groupeRepository.findById(g.getId()).get(), brief));
+                            groupeRepository.findById(g.getId()).get().getApprenants().forEach(apprenant -> {
+                                if (!briefApprenantRepository.findByBriefIdAndApprenantId(brief.getId(), apprenant.getId()).isPresent()) {
+                                    briefApprenantRepository.save(new BriefApprenant(brief, apprenant));
+                                }
+                            });
+                        }
+                    }
+                }else {
+                    g.getApprenants().forEach(apprenantDto -> {
+                        if (apprenantRepository.findById(apprenantDto.getId()).isPresent()) {
+                            if (!briefApprenantRepository.findByBriefIdAndApprenantId(brief.getId(), apprenantDto.getId()).isPresent()) {
+                                briefApprenantRepository.save(new BriefApprenant(brief, apprenantRepository.findById(apprenantDto.getId()).get()));
+                            }
+                        }
+                    });
+                }
+            });
+            brief.setStatut("En cours");
+            briefRepository.flush();
+            return groupeDto;
+        }
+        return new ArrayList<>();
     }
 }
