@@ -21,4 +21,9 @@ public interface GroupeService {
     List<ApprenantDto> findApprenantNonAffecterByGroupe(Long id);
 
     List<GroupeDto> findByFormateur(Long id);
+
+    List<GroupeDto> findGroupeByFormateur(Long id);
+
+    List<GroupeDto> findByFormateurAndBrief(Long idBr);
+
 }

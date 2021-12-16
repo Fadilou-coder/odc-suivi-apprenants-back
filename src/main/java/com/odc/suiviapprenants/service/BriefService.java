@@ -27,17 +27,41 @@ public interface BriefService {
 
     BriefDto findBriefById(Long id);
 
+    List<BriefDto> findByFormateur(Long id);
+
+    List<BriefDto> findByApprenant(Long id);
+
+    BriefDto dupliquerBrief(Long id);
+
+    BriefDto putBrief(
+            Long id,
+            String titre,
+            String description,
+            String contexte,
+            String modalitePedagodiques,
+            String criterePerformances,
+            String modaliteEvaluations,
+            MultipartFile image,
+            List<String> tags,
+            List<String> competences,
+            List<Long> niveaux
+    ) throws Exception;
+
     LivrablesPartielsDto addLivrablesPartiels(LivrablesPartielsDto livrablesPartielsDto, Long id);
 
     Collection<LivrablesPartielsDto> ListLivrablesPartiels(Long id);
 
     Collection<LivrablesDto> addUrl(Collection<LivrablesDto> livrablesDtos, Long id, Long idApp);
 
+    Collection<LivrablesDto> findUrl(Long id, Long idApp);
+
     Collection<LivrablesPartielsDto> findLivrablesPartielsByAprrenant(Long id, Long idApp);
 
     LivrablesPartielsDto rendreLivrablePartiel(Long id, Long idApp, Long idLp);
 
     BriefDto cloturerBrief(Long id);
+
+    BriefDto archiverBrief(Long id);
 
     CompetenceValideDto validerCompetence(Long id, Long idComp);
 
@@ -46,4 +70,10 @@ public interface BriefService {
     Collection<LivrablesPartielsDto> findLivrablesARefaireByAprrenant(Long id, Long idApp);
 
     Collection<LivrablesPartielsDto> findLivrablesValidesByAprrenant(Long id, Long idApp);
+
+    LivrablesPartielsDto corrigerLivrable(Long id, String status);
+
+    Collection<GroupeDto> addApprenantsToBriefs(Long id, Collection<GroupeDto> groupeDto);
+
+
 }

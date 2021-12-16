@@ -1,5 +1,7 @@
 package com.odc.suiviapprenants.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.odc.suiviapprenants.model.LivrablePartiel;
 import com.odc.suiviapprenants.model.LivrableRendu;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +19,9 @@ public class LivrablesRendusDto {
     private LocalDate delai;
     private LocalDate dateRendu;
     private String commentaire;
+
+    @JsonIgnore
+    private LivrablesPartielsDto livrablePartiel;
 
     public static LivrablesRendusDto fromEntity(LivrableRendu livrableRendu){
         if (livrableRendu == null) return null;
@@ -37,6 +42,8 @@ public class LivrablesRendusDto {
         livrableRendu.setDelai(livrablesRendusDto.getDelai());
         livrableRendu.setDateRendu(livrablesRendusDto.getDateRendu());
         livrableRendu.setCommentaire(livrablesRendusDto.getCommentaire());
+        if (livrablesRendusDto.getLivrablePartiel() != null)
+            livrableRendu.setLivrablePartiel(LivrablesPartielsDto.toEntity(livrablesRendusDto.getLivrablePartiel()));
 
         return livrableRendu;
     }

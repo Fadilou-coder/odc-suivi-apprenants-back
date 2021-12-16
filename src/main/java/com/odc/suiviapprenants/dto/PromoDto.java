@@ -44,10 +44,10 @@ public class PromoDto {
                 .dateFinReeelle(promo.getDateFinReelle())
                 .etat(promo.getEtat())
                 .avatarPromo(promo.getAvatarPromo())
-               .formateurs(
+                .formateurs(
                        promo.getFormateurs()== null ? null:
                        promo.getFormateurs().stream().map(FormateurDto::fromEntity).collect(Collectors.toList())
-               )
+                )
                 .referentiel(ReferentielDto.fromEntity(promo.getReferentiel()))
                 .build();
     }

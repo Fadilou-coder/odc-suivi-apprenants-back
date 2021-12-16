@@ -16,8 +16,9 @@ public class ApprenantController implements ApprenantApi {
     ApprenantService apprenantService;
 
     @Override
-    public ApprenantDto save(String username, String email, String prenom, String nom, String telephone, String adresse, String cni, MultipartFile avatar, String dateNaissance) throws IOException {
-        return apprenantService.save(username, email, prenom, nom, telephone, adresse, cni, avatar, dateNaissance);
+    public ApprenantDto save(String username, String email, String prenom, String nom, String telephone, String adresse, String cni,
+                             MultipartFile avatar, String dateNaissance, String motif, String genre, String niveauEntree, String handicap, String orphelin, String etablissementPrecedent) throws IOException {
+        return apprenantService.save(username, email, prenom, nom, telephone, adresse, cni, avatar, dateNaissance, motif, genre, niveauEntree, handicap, orphelin, etablissementPrecedent);
     }
 
     @Override
@@ -36,7 +37,8 @@ public class ApprenantController implements ApprenantApi {
     }
 
     @Override
-    public ApprenantDto put(Long id, String username, String email, String prenom, String nom, String telephone, String adresse, String cni, MultipartFile avatar, String dateNaissance, String etat) throws IOException {
-        return apprenantService.put(id, username, email, prenom, nom, telephone, adresse, cni, avatar, dateNaissance, etat);
+    public ApprenantDto put(Long id, String username, String email, String prenom, String nom, String telephone, String adresse, String cni,
+                            MultipartFile avatar, String dateNaissance, String etat,String motif, String genre, String niveauEntree, String handicap, String orphelin, String etablissementPrecedent) throws IOException {
+        return apprenantService.put(id, username, email, prenom, nom, telephone, adresse, cni, avatar, dateNaissance, etat, motif, genre, niveauEntree, handicap, orphelin, etablissementPrecedent);
     }
 }

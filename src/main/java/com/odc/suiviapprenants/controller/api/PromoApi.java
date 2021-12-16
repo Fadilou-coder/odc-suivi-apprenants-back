@@ -1,12 +1,10 @@
 package com.odc.suiviapprenants.controller.api;
 import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.dto.PromoDto;
-import com.odc.suiviapprenants.model.Apprenant;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Collection;
 import java.util.List;
 
 @Api("promo")

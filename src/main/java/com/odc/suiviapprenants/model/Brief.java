@@ -46,7 +46,7 @@ public class Brief extends AbstractEntity{
     @OneToMany(mappedBy = "brief", cascade = CascadeType.PERSIST )
     private Collection<BriefCompetence> briefCompetences;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, mappedBy = "brief")
     private Collection<LivrableAttendu> livrableAttendus;
 
     public Brief(String titre, String description, String contexte, LocalDate dateEcheance, String modalitePedagodiques, String criterePerformances, String modaliteEvaluations, String statut, boolean valide, Formateur formateur, Promo promo) {
