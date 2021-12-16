@@ -28,4 +28,9 @@ public class Competence extends AbstractEntity {
 
     @OneToMany(mappedBy = "competence")
     private Collection<BriefCompetence> briefCompetences;
+
+    public void addGroupeNiveauEvaluations(NiveauEvaluation niveauEvaluation){
+        this.niveauEvaluations.add(niveauEvaluation);
+        niveauEvaluation.setCompetence(this);
+    }
 }

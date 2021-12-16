@@ -14,8 +14,7 @@ public interface ReferentielService {
             String description,
             String critereEvaluation,
             String critereAdmission,
-            MultipartFile programme,
-            String grpCompetences
+            MultipartFile programme
     ) throws IOException;
 
     List<ReferentielDto> findAll();
@@ -37,4 +36,6 @@ public interface ReferentielService {
     ) throws IOException;
 
     void delete(Long id);
+
+    ReferentielDto updateReferentiel(Long id, ReferentielDto referentielDto);
 }

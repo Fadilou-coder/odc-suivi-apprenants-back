@@ -17,8 +17,9 @@ public class ReferentielController implements ReferentielApi {
     private ReferentielService referentielService;
 
     @Override
-    public ReferentielDto save(String libelle, String description, String critereEvaluation, String critereAdmission, MultipartFile programme, String grpCompetences) throws IOException {
-        return referentielService.save(libelle, description, critereEvaluation, critereAdmission, programme, grpCompetences);
+    public ReferentielDto save(String libelle, String description,
+                               String critereEvaluation, String critereAdmission, MultipartFile programme) throws IOException {
+        return referentielService.save(libelle, description, critereEvaluation, critereAdmission, programme);
     }
 
     @Override
@@ -44,6 +45,11 @@ public class ReferentielController implements ReferentielApi {
     @Override
     public ReferentielDto put(Long id, String libelle, String description, String critereEvaluation, String critereAdmission, MultipartFile programme, String grpCompetences) throws IOException {
         return referentielService.put(id, libelle, description, critereEvaluation, critereAdmission, programme, grpCompetences);
+    }
+
+    @Override
+    public ReferentielDto updateReferentiel(Long id, ReferentielDto referentielDto) {
+        return referentielService.updateReferentiel(id,referentielDto);
     }
 
     @Override
