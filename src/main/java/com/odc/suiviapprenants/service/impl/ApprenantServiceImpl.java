@@ -33,7 +33,8 @@ public class ApprenantServiceImpl implements ApprenantService {
     UserRepository userRepository;
 
     @Override
-    public ApprenantDto save(String username, String email, String prenom, String nom, String telephone, String adresse, String cni, MultipartFile avatar, String dateNaissance) throws IOException {
+    public ApprenantDto save(String username, String email, String prenom, String nom, String telephone, String adresse, String cni,
+                             MultipartFile avatar, String dateNaissance,String motif, String genre, String niveauEntree, String handicap, String orphelin, String etablissementPrecedent) throws IOException {
         ApprenantDto apprenantDto = new ApprenantDto(
                 null,
                 username ,
@@ -48,7 +49,13 @@ public class ApprenantServiceImpl implements ApprenantService {
                 AdminServiceImpl.compressBytes(avatar.getBytes()),
                 "APPRENANT",
                 "EN COURS",
-                "213456787DGFHJKJK"
+                "213456787DGFHJKJK",
+                motif,
+                genre,
+                niveauEntree,
+                handicap,
+                orphelin,
+                etablissementPrecedent
         );
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         apprenantDto.setPassword(encoder.encode("password"));
@@ -96,7 +103,8 @@ public class ApprenantServiceImpl implements ApprenantService {
     }
 
     @Override
-    public ApprenantDto put(Long id, String username, String email, String prenom, String nom, String telephone, String adresse, String cni, MultipartFile avatar, String dateNaissance, String etat) throws IOException {
+    public ApprenantDto put(Long id, String username, String email, String prenom, String nom, String telephone, String adresse, String cni, MultipartFile avatar,
+                            String dateNaissance, String etat, String motif, String genre, String niveauEntree, String handicap, String orphelin, String etablissementPrecedent) throws IOException {
         if (id == null) {
             log.error("User ID is null");
         }
@@ -116,6 +124,12 @@ public class ApprenantServiceImpl implements ApprenantService {
         apprenant.setDateNaissance(LocalDate.parse(dateNaissance));
         apprenant.setAvatar(AdminServiceImpl.compressBytes(avatar.getBytes()));
         apprenant.setEtat(etat);
+        apprenant.setMotif(motif);
+        apprenant.setGenre(genre);
+        apprenant.setNiveauEntree(niveauEntree);
+        apprenant.setHandicap(handicap);
+        apprenant.setOrphelin(orphelin);
+        apprenant.setEtablissementPrecedent(etablissementPrecedent);
 
         ApprenantDto apprenantDto = ApprenantDto.fromEntity(apprenant);
         validation(apprenantDto);

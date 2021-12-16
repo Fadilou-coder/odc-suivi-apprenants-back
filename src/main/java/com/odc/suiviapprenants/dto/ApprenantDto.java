@@ -18,29 +18,23 @@ public class ApprenantDto {
 
     @JsonIgnore
     private String password;
-
     private String prenom;
-
     private String nom;
-
     private String email;
-
     private String cni;
-
     private String adresse;
-
     private String numeroTelephone;
-
     private LocalDate dateNaissance;
-
     private byte[] avatar;
-
     private String role;
-
     private String etat;
-
     private String matricule;
-
+    private String motif;
+    private String genre;
+    private String niveauEntree;
+    private String handicap;
+    private String orphelin;
+    private String etablissementPrecedent;
 
     public static ApprenantDto fromEntity(Apprenant apprenant){
         if (apprenant == null){
@@ -60,6 +54,12 @@ public class ApprenantDto {
                 .role(apprenant.getRole())
                 .etat(apprenant.getEtat())
                 .matricule(apprenant.getMatricule())
+                .motif(apprenant.getMotif())
+                .genre(apprenant.getGenre())
+                .niveauEntree(apprenant.getNiveauEntree())
+                .handicap(apprenant.getHandicap())
+                .orphelin(apprenant.getOrphelin())
+                .etablissementPrecedent(apprenant.getEtablissementPrecedent())
                 .build();
     }
 
@@ -81,6 +81,12 @@ public class ApprenantDto {
         apprenant.setRole(apprenantDto.getRole());
         apprenant.setEtat(apprenantDto.getEtat());
         apprenant.setMatricule(apprenantDto.getMatricule());
+        apprenant.setMotif(apprenantDto.getMotif());
+        apprenant.setGenre(apprenantDto.getGenre());
+        apprenant.setNiveauEntree(apprenantDto.getNiveauEntree());
+        apprenant.setHandicap(apprenantDto.getHandicap());
+        apprenant.setOrphelin(apprenantDto.getOrphelin());
+        apprenant.setEtablissementPrecedent(apprenantDto.getEtablissementPrecedent());
 
         return apprenant;
 
