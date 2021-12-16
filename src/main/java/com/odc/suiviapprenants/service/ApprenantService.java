@@ -17,13 +17,7 @@ public interface ApprenantService {
             String adresse,
             String cni,
             MultipartFile avatar,
-            String dateNaissance,
-            String motif,
-            String genre,
-            String niveauEntree,
-            String handicap,
-            String orphelin,
-            String etablissementPrecedent
+            String dateNaissance
     ) throws IOException;
 
     List<ApprenantDto> findAll();
@@ -32,21 +26,15 @@ public interface ApprenantService {
 
     void delete(Long id);
 
-        ApprenantDto put(Long id,
-                     String username ,
-                     String email,
-                     String prenom,
-                     String nom,
-                     String telephone,
-                     String adresse,
-                     String cni,
-                     MultipartFile avatar,
-                     String dateNaissance,
-                     String etat,
-                     String motif,
-                     String genre,
-                     String niveauEntree,
-                     String handicap,
-                     String orphelin,
-                     String etablissementPrecedent) throws IOException;
+    ApprenantDto put(Long id,
+                 String username ,
+                 String email,
+                 String prenom,
+                 String nom,
+                 String telephone,
+                 String adresse,
+                 String cni,
+                 MultipartFile avatar,
+                 String dateNaissance,
+                     String etat) throws IOException;
 }

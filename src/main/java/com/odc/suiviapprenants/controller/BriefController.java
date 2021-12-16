@@ -74,8 +74,8 @@ public class BriefController implements BriefApi {
     }
 
     @Override
-    public BriefDto putBrief(Long id, String titre, String description, String contexte, String modalitePedagodiques, String criterePerformances, String modaliteEvaluations, MultipartFile image, List<String> tags, List<String> competences, List<Long> niveaux) throws Exception {
-        return briefService.putBrief(id, titre, description, contexte, modalitePedagodiques, criterePerformances, modaliteEvaluations, image, tags, competences, niveaux);
+    public BriefDto putBrief(Long id, String titre, String description, String contexte, String modalitePedagodiques, String criterePerformances, String modaliteEvaluations, MultipartFile image, List<String> tags, List<String> groupes, List<String> apprenants, List<String> competences, List<Long> niveaux) throws Exception {
+        return briefService.putBrief(id, titre, description, contexte, modalitePedagodiques, criterePerformances, modaliteEvaluations, image, tags, groupes, apprenants, competences, niveaux);
     }
 
     @Override
@@ -141,11 +141,6 @@ public class BriefController implements BriefApi {
     @Override
     public LivrablesPartielsDto corrigerLivrable(Long id, String status) {
         return briefService.corrigerLivrable(id, status);
-    }
-
-    @Override
-    public Collection<GroupeDto> addApprenantsToBriefs(Long id, Collection<GroupeDto> groupeDto) {
-        return briefService.addApprenantsToBriefs(id, groupeDto);
     }
 
 }

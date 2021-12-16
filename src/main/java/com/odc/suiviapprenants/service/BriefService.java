@@ -43,6 +43,8 @@ public interface BriefService {
             String modaliteEvaluations,
             MultipartFile image,
             List<String> tags,
+            List<String> groupes,
+            List<String> apprenants,
             List<String> competences,
             List<Long> niveaux
     ) throws Exception;
@@ -72,8 +74,6 @@ public interface BriefService {
     Collection<LivrablesPartielsDto> findLivrablesValidesByAprrenant(Long id, Long idApp);
 
     LivrablesPartielsDto corrigerLivrable(Long id, String status);
-
-    Collection<GroupeDto> addApprenantsToBriefs(Long id, Collection<GroupeDto> groupeDto);
 
 
 }

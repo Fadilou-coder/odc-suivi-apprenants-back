@@ -21,14 +21,7 @@ public interface ApprenantApi {
             @RequestParam("adresse") String adresse,
             @RequestParam("cni") String cni,
             @RequestParam("avatar") MultipartFile avatar,
-            @RequestParam("dateNaissance") String dateNaissance,
-            @RequestParam("motif") String motif,
-            @RequestParam("genre") String genre,
-            @RequestParam("niveauEntree") String niveauEntree,
-            @RequestParam("handicap") String handicap,
-            @RequestParam("orphelin") String orphelin,
-            @RequestParam("etablissementPrecedent") String etablissementPrecedent
-            ) throws IOException;
+            @RequestParam("dateNaissance") String dateNaissance) throws IOException;
 
     @GetMapping("/apprenants")
     List<ApprenantDto> findAll();
@@ -51,12 +44,5 @@ public interface ApprenantApi {
                      @RequestParam("cni") String cni,
                      @RequestParam("avatar") MultipartFile avatar,
                      @RequestParam("dateNaissance") String dateNaissance,
-                     @RequestParam("etat") String etat,
-                     @RequestParam("motif") String motif,
-                     @RequestParam("genre") String genre,
-                     @RequestParam("niveauEntree") String niveauEntree,
-                     @RequestParam("handicap") String handicap,
-                     @RequestParam("orphelin") String orphelin,
-                     @RequestParam("etablissementPrecedent") String etablissementPrecedent
-                     ) throws IOException;
+                     @RequestParam("etat") String etat) throws IOException;
 }
