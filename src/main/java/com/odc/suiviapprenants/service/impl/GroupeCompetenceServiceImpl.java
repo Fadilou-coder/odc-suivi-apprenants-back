@@ -128,7 +128,7 @@ public class GroupeCompetenceServiceImpl implements GroupeCompetenceService {
         groupeCompetence.setLibelle(groupeCompetenceDto.getLibelle());
         groupeCompetence.setDescription(groupeCompetenceDto.getDescription());
         editCompetences(groupeCompetenceDto, groupeCompetence);
-        editTags(groupeCompetenceDto, groupeCompetence);
+       // editTags(groupeCompetenceDto, groupeCompetence);
 
         validateGroupeCompetences(GroupeCompetenceDto.fromEntity(groupeCompetence));
 
