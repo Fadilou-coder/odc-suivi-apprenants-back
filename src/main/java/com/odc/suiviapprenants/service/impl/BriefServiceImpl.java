@@ -539,6 +539,20 @@ public class BriefServiceImpl implements BriefService {
     }
 
     @Override
+    public LivrablesPartielsDto deleteLivrable(Long id) {
+        if (id != null && livrablePartielRepository.findById(id).isPresent()) {
+           LivrablePartiel livrablePartiel = livrablePartielRepository.findById(id).get();
+           livrablePartielRepository.findByArchiveFalseAndLibelleAndDescription(livrablePartiel.getLibelle(), livrablePartiel.getDescription()).forEach(l -> {
+               l.setArchive(true);
+               l.setBriefApprenant(null);
+           });
+           livrablePartielRepository.flush();
+            return LivrablesPartielsDto.fromEntity(livrablePartiel);
+        }
+        return null;
+    }
+
+    @Override
     public Collection<GroupeDto> addApprenantsToBriefs(Long id, Collection<GroupeDto> groupeDto) {
         if (briefRepository.findById(id).isPresent()) {
             Brief brief = briefRepository.findById(id).get();
