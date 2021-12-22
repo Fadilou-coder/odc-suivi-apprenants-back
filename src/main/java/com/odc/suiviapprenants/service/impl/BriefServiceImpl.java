@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -306,23 +307,33 @@ public class BriefServiceImpl implements BriefService {
     @Override
     public LivrablesPartielsDto  addLivrablesPartiels(LivrablesPartielsDto livrablesPartielsDto, Long id) {
         if (briefRepository.findById(id).isPresent()) {
-            LivrablePartiel livrablePartiel = LivrablesPartielsDto.toEntity(livrablesPartielsDto);
+            if (livrablesPartielsDto.getId() != null){
+                if (livrablePartielRepository.findById(livrablesPartielsDto.getId()).isPresent())
+                    livrablePartielRepository.delete(livrablePartielRepository.findById(livrablesPartielsDto.getId()).get());
+                if (briefApprenantRepository.findByBriefIdAndApprenantId(id,null).isPresent())
+                    briefApprenantRepository.delete(briefApprenantRepository.findByBriefIdAndApprenantId(id,null).get());
+                livrablesPartielsDto.setId(null);
+            }
+            livrablesPartielsDto.setId(null);
             if (livrablesPartielsDto.getApprenants().size() > 1)
                 livrablesPartielsDto.setType("groupe");
             else if(livrablesPartielsDto.getApprenants().size() == 1)
                 livrablesPartielsDto.setType("individuel");
             else {
-                livrablePartiel.setBriefApprenant(briefApprenantRepository.save(new BriefApprenant(briefRepository.findById(id).get(), null)));
-                livrablePartielRepository.save(livrablePartiel);
+                livrablesPartielsDto.setBriefApprenant(BriefApprenantDto.fromEntity(briefApprenantRepository.save(new BriefApprenant(briefRepository.findById(id).get(), null))));
+                livrablePartielRepository.save(LivrablesPartielsDto.toEntity(livrablesPartielsDto));
             }
-
             livrablesPartielsDto.getApprenants().forEach(apprenantDto -> {
-                if (briefApprenantRepository.findByBriefIdAndApprenantId(id, apprenantDto.getId()).isPresent())
-                    livrablePartiel.setBriefApprenant(briefApprenantRepository.findByBriefIdAndApprenantId(id, apprenantDto.getId()).get());
-                if (livrablePartiel.getId() == null)
-                    livrablePartielRepository.save(livrablePartiel);
+                if (briefApprenantRepository.findByBriefIdAndApprenantId(id, apprenantDto.getId()).isPresent()) {
+                    if(!livrablePartielRepository.findByArchiveFalseAndBriefApprenantIdAndLibelleAndDescription(briefApprenantRepository.findByBriefIdAndApprenantId(id, apprenantDto.getId()).get().getId(), livrablesPartielsDto.getLibelle(), livrablesPartielsDto.getDescription()).isPresent()) {
+                        livrablesPartielsDto.setBriefApprenant(BriefApprenantDto.fromEntity(briefApprenantRepository.findByBriefIdAndApprenantId(id, apprenantDto.getId()).get()));
+                        livrablePartielRepository.save(LivrablesPartielsDto.toEntity(livrablesPartielsDto));
+                    }
+                }else {
+                    livrablesPartielsDto.setBriefApprenant(BriefApprenantDto.fromEntity(briefApprenantRepository.save(new BriefApprenant(briefRepository.findById(id).get(), apprenantRepository.findById(apprenantDto.getId()).get()))));
+                    livrablePartielRepository.save(LivrablesPartielsDto.toEntity(livrablesPartielsDto));
+                }
             });
-            livrablePartielRepository.flush();
             return LivrablesPartielsDto.fromEntity(LivrablesPartielsDto.toEntity(livrablesPartielsDto));
         }
         return null;
