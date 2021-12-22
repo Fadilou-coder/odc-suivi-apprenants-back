@@ -306,16 +306,23 @@ public class BriefServiceImpl implements BriefService {
     @Override
     public LivrablesPartielsDto  addLivrablesPartiels(LivrablesPartielsDto livrablesPartielsDto, Long id) {
         if (briefRepository.findById(id).isPresent()) {
+            LivrablePartiel livrablePartiel = LivrablesPartielsDto.toEntity(livrablesPartielsDto);
             if (livrablesPartielsDto.getApprenants().size() > 1)
                 livrablesPartielsDto.setType("groupe");
-            else
+            else if(livrablesPartielsDto.getApprenants().size() == 1)
                 livrablesPartielsDto.setType("individuel");
+            else {
+                livrablePartiel.setBriefApprenant(briefApprenantRepository.save(new BriefApprenant(briefRepository.findById(id).get(), null)));
+                livrablePartielRepository.save(livrablePartiel);
+            }
+
             livrablesPartielsDto.getApprenants().forEach(apprenantDto -> {
-                LivrablePartiel livrablePartiel = LivrablesPartielsDto.toEntity(livrablesPartielsDto);
                 if (briefApprenantRepository.findByBriefIdAndApprenantId(id, apprenantDto.getId()).isPresent())
                     livrablePartiel.setBriefApprenant(briefApprenantRepository.findByBriefIdAndApprenantId(id, apprenantDto.getId()).get());
-                livrablePartielRepository.save(livrablePartiel);
+                if (livrablePartiel.getId() == null)
+                    livrablePartielRepository.save(livrablePartiel);
             });
+            livrablePartielRepository.flush();
             return LivrablesPartielsDto.fromEntity(LivrablesPartielsDto.toEntity(livrablesPartielsDto));
         }
         return null;
@@ -553,4 +560,5 @@ public class BriefServiceImpl implements BriefService {
         }
         return new ArrayList<>();
     }
+
 }
