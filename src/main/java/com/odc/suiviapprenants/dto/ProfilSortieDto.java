@@ -1,6 +1,7 @@
 package com.odc.suiviapprenants.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.odc.suiviapprenants.model.ProfilSortie;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,9 @@ public class ProfilSortieDto {
     private Long id;
 
     private String libelle;
+
+    @JsonIgnore
+    private PromoDto promo;
 
     public static ProfilSortieDto fromEntity(ProfilSortie profilSortie){
         if (profilSortie == null) return null;

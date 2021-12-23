@@ -1,6 +1,4 @@
 package com.odc.suiviapprenants.dataFixture;
-
-
 import com.odc.suiviapprenants.model.Apprenant;
 import com.odc.suiviapprenants.model.Formateur;
 import com.odc.suiviapprenants.model.Groupe;
@@ -14,7 +12,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
 import java.util.ArrayList;
 import java.util.List;
 
