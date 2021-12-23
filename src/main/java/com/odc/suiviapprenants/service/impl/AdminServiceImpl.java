@@ -133,7 +133,7 @@ public class AdminServiceImpl implements AdminService {
 
         admin.setUsername(username);
         admin.setEmail(email);
-        admin.setPrenom(nom);
+        admin.setPrenom(prenom);
         admin.setNom(nom);
         admin.setNumeroTelephone(telephone);
         admin.setAdresse(adresse);

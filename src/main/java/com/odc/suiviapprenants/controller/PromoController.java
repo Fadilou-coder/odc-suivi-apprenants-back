@@ -2,6 +2,7 @@ package com.odc.suiviapprenants.controller;
 
 import com.odc.suiviapprenants.controller.api.PromoApi;
 import com.odc.suiviapprenants.dto.ApprenantDto;
+import com.odc.suiviapprenants.dto.ProfilSortieDto;
 import com.odc.suiviapprenants.dto.PromoDto;
 import com.odc.suiviapprenants.model.Apprenant;
 import com.odc.suiviapprenants.service.PromoService;
@@ -60,6 +61,11 @@ public class PromoController implements PromoApi {
     @Override
     public List<ApprenantDto> findApprenantsByPromoId(Long id) {
         return promoService.findApprenantsByPromoId(id);
+    }
+
+    @Override
+    public List<ProfilSortieDto> findProfilSortieByPromoId(Long id) {
+        return promoService.findProfilSortieByPromoId(id);
     }
 
     @Override

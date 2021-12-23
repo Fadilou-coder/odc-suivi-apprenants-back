@@ -32,6 +32,9 @@ public class Promo extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "promo")
     private Collection<Groupe> groupes;
 
+    @OneToMany(mappedBy = "promo")
+    private Collection<ProfilSortie> profilSortie;
+
     @ManyToMany
     @JsonIgnore
     private Collection<Admin> admins;

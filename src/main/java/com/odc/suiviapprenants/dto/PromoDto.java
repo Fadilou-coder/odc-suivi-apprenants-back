@@ -31,6 +31,8 @@ public class PromoDto {
     private List<String> apprenantsEmail;
     private List<FormateurDto> formateurs;
 
+    private List<ProfilSortieDto> profilSortie;
+
     public static PromoDto fromEntity(Promo promo){
         if (promo == null) return null;
        return   PromoDto.builder()
@@ -49,6 +51,10 @@ public class PromoDto {
                        promo.getFormateurs().stream().map(FormateurDto::fromEntity).collect(Collectors.toList())
                 )
                 .referentiel(ReferentielDto.fromEntity(promo.getReferentiel()))
+               .profilSortie(
+                       promo.getProfilSortie() != null
+                               ? promo.getProfilSortie().stream().map(ProfilSortieDto::fromEntity).collect(Collectors.toList()) : null
+               )
                 .build();
     }
     public static Promo toEntity(PromoDto promoDto) {
@@ -72,7 +78,8 @@ public class PromoDto {
                                 .map(GroupeDto::toEntity)
                                 .collect(Collectors.toList()) : null
         );
-
+        if (promoDto.getProfilSortie() != null)
+            promo.setProfilSortie(promoDto.getProfilSortie().stream().map(ProfilSortieDto::toEntity).collect(Collectors.toList()));
         return promo;
 
     }
