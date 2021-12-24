@@ -81,17 +81,7 @@ public class PromoServiceImpl implements PromoService {
 
         if (apprenantsEmail !=null){
             for (String email : apprenantsEmail) {
-                if (apprenantRepository.findByEmail(email).isPresent()) {
-                    if (apprenantRepository.findByEmail(email).get().getGroupes().isEmpty()) {
-                        throw new InvalidEntityException("Cet apprenant est deja dans une promo : " + email, ErrorCodes.APPRENANT_ALREADY_IN_USE);
-                    }
-                    apprenants.add(apprenantRepository.findByEmail(email).get());
-                } else {
-                    Apprenant apprenant = new Apprenant();
-                    apprenant.setEmail(email);
-                    apprenant.setPassword(encoder.encode("passer"));
-                    apprenants.add(apprenant);
-                }
+                findAndAddApprenants(encoder, apprenants, email);
 
             }
             groupe1.setApprenants(apprenants);
@@ -154,45 +144,93 @@ public class PromoServiceImpl implements PromoService {
         if (promoRepository.findByIdAndArchiveFalse(id).isPresent())
         {
             Promo promo = promoRepository.findById(id).get();
-            if (promoDto.getGroupes() !=null){
-                promoDto.getGroupes().forEach(groupe -> {
-                    if (groupeRepository.findByIdAndPromo(groupe.getId(), promo).isPresent())
-                    {
-                        Groupe groupe2 = groupeRepository.findById(groupe.getId()).get();
-                        groupe2.setStatut("cloturer");
-                        groupe2.removeAllApprenant(groupe2.getApprenants());
-                        groupeRepository.flush();
-                    }
-                    else {
-                        Groupe groupe1 = new Groupe();
-                        groupe1.setNomGroupe(groupe.getNomGroupe());
-                        groupe1.setType(groupe.getType());
-                        groupe1.setStatut(groupe.getStatut());
-                        groupe1.setPromo(promo);
-                        groupeRepository.save(groupe1);
-                    }
-                });
+            Groupe groupe = groupeRepository.findByNomGroupeAndPromo("GROUPE PRINCIPALE",promo).get();
+//            if (promoDto.getGroupes() !=null){
+//                promoDto.getGroupes().forEach(groupe -> {
+//                    if (groupeRepository.findByIdAndPromo(groupe.getId(), promo).isPresent())
+//                    {
+//                        Groupe groupe2 = groupeRepository.findById(groupe.getId()).get();
+//                        groupe2.setStatut("cloturer");
+//                        groupe2.removeAllApprenant(groupe2.getApprenants());
+//                        groupeRepository.flush();
+//                    }
+//                    else {
+//                        Groupe groupe1 = new Groupe();
+//                        groupe1.setNomGroupe(groupe.getNomGroupe());
+//                        groupe1.setType(groupe.getType());
+//                        groupe1.setStatut(groupe.getStatut());
+//                        groupe1.setPromo(promo);
+//                        groupeRepository.save(groupe1);
+//                    }
+//                });
+//            }
+            PasswordEncoder encoder = new BCryptPasswordEncoder();
+            List<Apprenant> apprenants = new ArrayList<>();
+            valiadatePromo(promoDto);
+            if (promoDto.getApprenantsEmail() !=null){
+                for (String email : promoDto.getApprenantsEmail()) {
+                    findAndAddApprenants(encoder, apprenants, email);
+
+                }
+                groupe.setApprenants(apprenants);
             }
-            if (promoDto.getFormateurs() !=null){
+            else {groupe.setApprenants(null);}
+         //   if (promoDto.getFormateurs() !=null){
                 promoDto.getFormateurs().forEach(formateurDto -> {
-                    if (formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).isPresent())
-                    {
-                        if (!promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get()).isPresent()){
-                            promo.getFormateurs().add(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get());
-                            promoRepository.flush();
-                        }
-                        else {
-                            throw new InvalidOperationException(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get().getUsername() + " Est deja dans un promo en cours");
-                        }
-                    }
+                    promo.getFormateurs().add(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get());
+                    promoRepository.flush();
+//                    if (formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).isPresent())
+//                    {
+//                        if (!promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get()).isPresent()){
+//                            promo.getFormateurs().add(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get());
+//                            promoRepository.flush();
+//                        }
+//                        else {
+//                            throw new InvalidOperationException(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get().getUsername() + " Est deja dans un promo en cours");
+//                        }
+//                    }
                 });
-            }
+            //}
 
         }
         else {
             throw new InvalidEntityException("L'id promo n'est pas valide", ErrorCodes.PROMO_NOT_VALID);
         }
         return PromoDto.fromEntity(promoRepository.findByIdAndArchiveFalse(id).get());
+    }
+    public void valiadatePromo(PromoDto promoDto){
+        if(!promoDto.getApprenantsEmail().isEmpty()){
+            promoDto.getApprenantsEmail().forEach(email->{
+                if (apprenantRepository.findByEmail(email).isPresent()) {
+
+                    if (apprenantRepository.findByEmail(email).get().getGroupes().isEmpty()) {
+                        throw new InvalidEntityException("Cet apprenant est deja dans une promo : " + email, ErrorCodes.APPRENANT_ALREADY_IN_USE);
+                    }
+                }
+
+            });
+        }
+        if (!promoDto.getFormateurs().isEmpty()){
+            promoDto.getFormateurs().forEach(formateurDto -> {
+                if (formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).isPresent() && promoRepository.findByEnCoursTrueAndArchiveFalseAndFormateurs(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get()).isPresent()){
+                    throw new InvalidEntityException(formateurRepository.findByIdAndArchiveFalse(formateurDto.getId()).get().getUsername() +" Est deja dans un promo en cours: " , ErrorCodes.FORMATEUR_ALREADY_IN_USE);
+                }
+
+            });
+        }
+    }
+    private void findAndAddApprenants(PasswordEncoder encoder, List<Apprenant> apprenants, String email) {
+        if (apprenantRepository.findByEmail(email).isPresent()) {
+            if (apprenantRepository.findByEmail(email).get().getGroupes().isEmpty()) {
+                throw new InvalidEntityException("Cet apprenant est deja dans une promo : " + email, ErrorCodes.APPRENANT_ALREADY_IN_USE);
+            }
+            apprenants.add(apprenantRepository.findByEmail(email).get());
+        } else {
+            Apprenant apprenant = new Apprenant();
+            apprenant.setEmail(email);
+            apprenant.setPassword(encoder.encode("passer"));
+            apprenants.add(apprenant);
+        }
     }
 
     @Override
