@@ -14,13 +14,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +33,7 @@ public class PromoServiceImpl implements PromoService {
     AdminRepository adminRepository;
     GroupeRepository groupeRepository;
     FormateurRepository formateurRepository;
+    ProfilSortieRepository profilSortieRepository;
 
     public PromoDto insertInPromoDto (String langue, String title,
                                       String description, String lieu, String dateDebut,
@@ -242,6 +241,15 @@ public class PromoServiceImpl implements PromoService {
         Groupe groupe = groupeRepository.findByNomGroupeAndPromo("GROUPE PRINCIPALE",promo).get();
         return groupe.getApprenants().stream().map(ApprenantDto::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProfilSortieDto> findProfilSortieByPromoId(Long id) {
+        if (id == null) {
+            log.error("Promo Id is null");
+            return null;
+        }
+         return profilSortieRepository.findByPromo(promoRepository.findById(id).get()).stream().map(ProfilSortieDto::fromEntity).collect(Collectors.toList());
     }
 
     @Override

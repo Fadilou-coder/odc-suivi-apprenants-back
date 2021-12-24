@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.controller.api;
 import com.odc.suiviapprenants.dto.ApprenantDto;
+import com.odc.suiviapprenants.dto.ProfilSortieDto;
 import com.odc.suiviapprenants.dto.PromoDto;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +33,9 @@ public interface PromoApi {
 
     @GetMapping("/promos/{id}/apprenants")
     List<ApprenantDto> findApprenantsByPromoId(@PathVariable Long id);
+
+    @GetMapping("/promos/{id}/profilsorties")
+    List<ProfilSortieDto> findProfilSortieByPromoId(@PathVariable Long id);
 
     @PutMapping("/promos/{id}")
     PromoDto put(@RequestBody PromoDto promoDto, @PathVariable Long id);

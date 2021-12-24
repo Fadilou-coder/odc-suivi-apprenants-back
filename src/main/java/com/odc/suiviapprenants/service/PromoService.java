@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.service;
 import com.odc.suiviapprenants.dto.ApprenantDto;
+import com.odc.suiviapprenants.dto.ProfilSortieDto;
 import com.odc.suiviapprenants.dto.PromoDto;
 import com.odc.suiviapprenants.model.Apprenant;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,5 +30,7 @@ public interface PromoService {
     PromoDto put(PromoDto promoDto,Long id);
 
     List<ApprenantDto> findApprenantsByPromoId(Long id);
+
+    List<ProfilSortieDto> findProfilSortieByPromoId(Long id);
     PromoDto delete(Long id);
 }

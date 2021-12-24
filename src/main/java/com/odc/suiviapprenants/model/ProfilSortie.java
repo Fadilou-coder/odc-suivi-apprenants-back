@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.Collection;
 
 @Entity
 @Data
@@ -14,5 +15,8 @@ public class ProfilSortie extends AbstractEntity{
 
 
     private String libelle;
+
+    @ManyToOne(cascade= CascadeType.MERGE)
+    private Promo promo;
 
 }

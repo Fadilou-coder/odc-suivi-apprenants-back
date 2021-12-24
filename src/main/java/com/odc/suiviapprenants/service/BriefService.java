@@ -73,6 +73,8 @@ public interface BriefService {
 
     LivrablesPartielsDto corrigerLivrable(Long id, String status);
 
+    LivrablesPartielsDto deleteLivrable(Long id);
+
     Collection<GroupeDto> addApprenantsToBriefs(Long id, Collection<GroupeDto> groupeDto);
 
 

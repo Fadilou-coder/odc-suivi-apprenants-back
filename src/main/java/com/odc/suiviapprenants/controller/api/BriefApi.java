@@ -97,6 +97,9 @@ public interface BriefApi {
     @PutMapping("livrablePartiel/{id}")
     LivrablesPartielsDto corrigerLivrable(@PathVariable Long id, @RequestBody String status);
 
+    @DeleteMapping("livrablePartiel/{id}")
+    LivrablesPartielsDto deleteLivrable(@PathVariable Long id);
+
     @PostMapping("/briefs/{id}/addAprrenants")
     Collection<GroupeDto> addApprenantsToBriefs(@PathVariable Long id, @RequestBody Collection<GroupeDto> groupeDto);
 

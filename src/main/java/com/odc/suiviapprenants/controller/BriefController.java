@@ -144,6 +144,11 @@ public class BriefController implements BriefApi {
     }
 
     @Override
+    public LivrablesPartielsDto deleteLivrable(Long id) {
+        return briefService.deleteLivrable(id);
+    }
+
+    @Override
     public Collection<GroupeDto> addApprenantsToBriefs(Long id, Collection<GroupeDto> groupeDto) {
         return briefService.addApprenantsToBriefs(id, groupeDto);
     }
