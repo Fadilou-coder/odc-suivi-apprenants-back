@@ -1,9 +1,11 @@
 package com.odc.suiviapprenants.service.impl;
+import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.dto.ProfilSortieDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
 import com.odc.suiviapprenants.model.ProfilSortie;
+import com.odc.suiviapprenants.repository.ApprenantRepository;
 import com.odc.suiviapprenants.repository.ProfilSortieRepository;
 import com.odc.suiviapprenants.service.ProfileSortieService;
 import com.odc.suiviapprenants.validator.ProfileSortieValidator;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProfileSortieImp implements ProfileSortieService {
     ProfilSortieRepository profilSortieRepository;
+    ApprenantRepository apprenantRepository;
 
     @Override
     public ProfilSortieDto save(ProfilSortieDto profilSortieDto) {
@@ -88,6 +91,15 @@ public class ProfileSortieImp implements ProfileSortieService {
         profilSortie.setLibelle(profilSortieDto.getLibelle());
         profilSortieRepository.flush();
         return profilSortieDto;
+    }
+
+    @Override
+    public List<ApprenantDto> findApprenantByProfilSortieId(Long id) {
+        if (id == null) {
+            log.error("Profil de Sortie Id is null");
+            return null;
+        }
+        return apprenantRepository.findByProfilSorties(profilSortieRepository.findById(id).get()).stream().map(ApprenantDto::fromEntity).collect(Collectors.toList());
     }
 
     private boolean profilSortieAlreadyExists(String libelle) {

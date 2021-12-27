@@ -211,7 +211,8 @@ public class PromoServiceImpl implements PromoService {
             log.error("Promo Id is null");
             return null;
         }
-         return profilSortieRepository.findByPromo(promoRepository.findById(id).get()).stream().map(ProfilSortieDto::fromEntity).collect(Collectors.toList());
+        Promo promo = promoRepository.findByIdAndArchiveFalse(id).get();
+         return profilSortieRepository.findByPromo(promo).stream().map(ProfilSortieDto::fromEntity).collect(Collectors.toList());
     }
 
     @Override

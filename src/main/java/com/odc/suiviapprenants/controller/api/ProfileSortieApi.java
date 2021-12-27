@@ -1,4 +1,5 @@
 package com.odc.suiviapprenants.controller.api;
+import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.dto.ProfilSortieDto;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,9 @@ public interface ProfileSortieApi {
 
     @GetMapping("/profileSortie/{id}")
     ProfilSortieDto findById(@PathVariable Long id);
+
+    @GetMapping("/profileSortie/{id}/apprenants")
+    List<ApprenantDto> findApprenantByProfilSortieId(@PathVariable Long id);
 
     @DeleteMapping("/profileSortie/{id}")
     void delete(@PathVariable Long id);

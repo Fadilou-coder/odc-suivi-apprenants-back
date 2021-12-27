@@ -116,7 +116,7 @@ public class ApprenantServiceImpl implements ApprenantService {
 
         apprenant.setUsername(username);
         apprenant.setEmail(email);
-        apprenant.setPrenom(prenom); //a changer
+        apprenant.setPrenom(prenom);
         apprenant.setNom(nom);
         apprenant.setNumeroTelephone(telephone);
         apprenant.setAdresse(adresse);

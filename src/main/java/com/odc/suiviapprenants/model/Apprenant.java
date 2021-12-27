@@ -49,7 +49,7 @@ public class Apprenant extends AppUser {
     @OneToMany(mappedBy = "apprenant")
     private Collection<Pret> prets;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "apprenants")
     private Collection<ProfilSortie> profilSorties;
 
     @OneToMany(mappedBy = "apprenant")

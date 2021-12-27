@@ -1,6 +1,7 @@
 package com.odc.suiviapprenants.controller;
 
 import com.odc.suiviapprenants.controller.api.ProfileSortieApi;
+import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.dto.ProfilSortieDto;
 import com.odc.suiviapprenants.service.ProfileSortieService;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,11 @@ public class ProfileSortieController implements ProfileSortieApi {
 
     @Override
     public ProfilSortieDto findById(Long id) {return profileSortieService.findById(id);}
+
+    @Override
+    public List<ApprenantDto> findApprenantByProfilSortieId(Long id) {
+        return profileSortieService.findApprenantByProfilSortieId(id);
+    }
 
     @Override
     public void delete(Long id) {profileSortieService.delete(id);}

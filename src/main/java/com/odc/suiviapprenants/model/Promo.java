@@ -32,7 +32,7 @@ public class Promo extends AbstractEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "promo")
     private Collection<Groupe> groupes;
 
-    @OneToMany(mappedBy = "promo")
+    @ManyToMany(mappedBy = "promo")
     private Collection<ProfilSortie> profilSortie;
 
     @ManyToMany

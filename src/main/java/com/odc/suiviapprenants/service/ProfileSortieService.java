@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.service;
 
+import com.odc.suiviapprenants.dto.ApprenantDto;
 import com.odc.suiviapprenants.dto.ProfilSortieDto;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface ProfileSortieService {
     void delete(Long id);
 
     ProfilSortieDto put(ProfilSortieDto profilSortieDto,Long id);
+
+    List<ApprenantDto> findApprenantByProfilSortieId(Long id);
 }

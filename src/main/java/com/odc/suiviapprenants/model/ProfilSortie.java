@@ -1,5 +1,6 @@
 package com.odc.suiviapprenants.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,13 +11,20 @@ import java.util.Collection;
 @Entity
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class ProfilSortie extends AbstractEntity{
 
 
     private String libelle;
 
-    @ManyToOne(cascade= CascadeType.MERGE)
-    private Promo promo;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private Collection <Promo> promo;
 
+    @ManyToMany
+    private Collection <Apprenant> apprenants;
+
+    public ProfilSortie(String libelle, Collection <Promo> promo, Collection <Apprenant> apprenants) {
+        this.libelle = libelle;
+        this.promo = promo;
+        this.apprenants = apprenants;
+    }
 }
