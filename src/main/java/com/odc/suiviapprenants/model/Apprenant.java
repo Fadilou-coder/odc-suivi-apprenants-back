@@ -23,8 +23,6 @@ public class Apprenant extends AppUser {
     private String orphelin;
     private String etablissementPrecedent;
 
-
-
     public Apprenant(
             String username, String password,
             String prenom, String nom, String email,
@@ -49,7 +47,7 @@ public class Apprenant extends AppUser {
     @OneToMany(mappedBy = "apprenant")
     private Collection<Pret> prets;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "apprenants")
     private Collection<ProfilSortie> profilSorties;
 
     @OneToMany(mappedBy = "apprenant")

@@ -1,6 +1,7 @@
 package com.odc.suiviapprenants.service;
 
 import com.odc.suiviapprenants.dto.ApprenantDto;
+import com.odc.suiviapprenants.dto.EmailDto;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -29,6 +30,10 @@ public interface ApprenantService {
     List<ApprenantDto> findAll();
 
     ApprenantDto findById(Long id);
+
+    List<ApprenantDto> findByApprenantNonConnecter();
+
+    EmailDto sendByEmail(EmailDto emailDto);
 
     void delete(Long id);
 

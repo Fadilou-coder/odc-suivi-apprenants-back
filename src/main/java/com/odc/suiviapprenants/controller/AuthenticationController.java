@@ -46,6 +46,8 @@ public class AuthenticationController implements AuthenticationApi {
             .map(GrantedAuthority::getAuthority)
             .collect(Collectors.toList());
     Long id = userRepository.findByUsernameAndArchiveFalse(userDetails.getUsername()).get().getId();
+    userRepository.findByUsernameAndArchiveFalse(userDetails.getUsername()).get().setConnected(true);
+    userRepository.flush();
 
     return ResponseEntity.ok(
             new AuthenticationResponse(jwt,roles, id)

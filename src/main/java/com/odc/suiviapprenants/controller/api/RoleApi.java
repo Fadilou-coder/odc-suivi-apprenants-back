@@ -2,9 +2,7 @@ package com.odc.suiviapprenants.controller.api;
 
 import com.odc.suiviapprenants.dto.AdminDto;
 import com.odc.suiviapprenants.dto.RoleDto;
-import com.odc.suiviapprenants.model.Role;
 import io.swagger.annotations.Api;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
