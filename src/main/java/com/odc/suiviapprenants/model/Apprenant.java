@@ -23,8 +23,6 @@ public class Apprenant extends AppUser {
     private String orphelin;
     private String etablissementPrecedent;
 
-
-
     public Apprenant(
             String username, String password,
             String prenom, String nom, String email,

@@ -1,11 +1,13 @@
 package com.odc.suiviapprenants.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
+@EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
 @NoArgsConstructor
@@ -36,6 +38,8 @@ public class AppUser extends AbstractEntity {
 
     @Lob
     protected byte[] avatar;
+
+    private boolean isConnected;
 
     public AppUser(String username, String password, String prenom, String nom, String email, String cni, String adresse, String numeroTelephone,
                    LocalDate dateNaissance) {

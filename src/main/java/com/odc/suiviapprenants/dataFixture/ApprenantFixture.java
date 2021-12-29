@@ -28,7 +28,7 @@ public class ApprenantFixture implements CommandLineRunner {
         for (int i = 0; i < 25; i++) {
             apprenantRepository.save(
                     new Apprenant("apprenant"+i, encodedPassword, "prenom"+i,
-                            "nom"+i, "apprenant@gmail.com",
+                            "nom"+i, "apprenant"+i+"@gmail.com",
                             "1 254 5678 9010"+i, "adresse"+i, "77000000"+i, "EN COURS",
                             "DEVWEB2020-12920001", "APPRENANT",LocalDate.parse("1990-02-21"),
                              "motif"+i, "genre"+i, "niveauEntree"+i, "handicap"+i, "orphelin"+i, "etablissementPrecedent"+i

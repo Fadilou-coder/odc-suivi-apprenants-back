@@ -1,10 +1,11 @@
 package com.odc.suiviapprenants.repository;
 import com.odc.suiviapprenants.model.AppUser;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.Optional;
 
-public interface UserRepository extends PagingAndSortingRepository<AppUser, Long> {
+public interface UserRepository extends JpaRepository<AppUser, Long> {
     Optional<AppUser> findByUsername(String username);
     Optional<AppUser> findByEmailAndIdNot(String email, Long id);
     Optional<AppUser> findByNumeroTelephoneAndIdNot(String num, Long id);

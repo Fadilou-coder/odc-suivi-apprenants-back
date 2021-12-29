@@ -2,6 +2,7 @@ package com.odc.suiviapprenants.controller;
 
 import com.odc.suiviapprenants.controller.api.ApprenantApi;
 import com.odc.suiviapprenants.dto.ApprenantDto;
+import com.odc.suiviapprenants.dto.EmailDto;
 import com.odc.suiviapprenants.service.ApprenantService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,8 +33,18 @@ public class ApprenantController implements ApprenantApi {
     }
 
     @Override
+    public List<ApprenantDto> findByApprenantNonConnecter() {
+        return apprenantService.findByApprenantNonConnecter();
+    }
+
+    @Override
     public void delete(Long id) {
         apprenantService.delete(id);
+    }
+
+    @Override
+    public EmailDto sendByEmail(EmailDto emailDto) {
+        return apprenantService.sendByEmail(emailDto);
     }
 
     @Override

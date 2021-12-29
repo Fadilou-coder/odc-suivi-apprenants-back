@@ -21,4 +21,6 @@ public interface ApprenantRepository extends JpaRepository<Apprenant, Long> {
     List<Apprenant> findByGroupes(Groupe groupe);
 
     List<Apprenant> findByProfilSorties(ProfilSortie profilSortie);
+
+    List<Apprenant> findAllByIsConnectedFalseAndArchiveFalse();
 }

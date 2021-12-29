@@ -1,6 +1,8 @@
 package com.odc.suiviapprenants.service.impl;
 
+import com.odc.suiviapprenants.EmailSenderService;
 import com.odc.suiviapprenants.dto.ApprenantDto;
+import com.odc.suiviapprenants.dto.EmailDto;
 import com.odc.suiviapprenants.exception.EntityNotFoundException;
 import com.odc.suiviapprenants.exception.ErrorCodes;
 import com.odc.suiviapprenants.exception.InvalidEntityException;
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 public class ApprenantServiceImpl implements ApprenantService {
     ApprenantRepository apprenantRepository;
     UserRepository userRepository;
+    private EmailSenderService emailSenderService;
 
     @Override
     public ApprenantDto save(String username, String email, String prenom, String nom, String telephone, String adresse, String cni,
@@ -86,6 +89,17 @@ public class ApprenantServiceImpl implements ApprenantService {
                         "Aucun utilisateur avec l'ID = " + id + " ne se trouve dans la BDD",
                         ErrorCodes.APPRENANT_NOT_FOUND)
         );
+    }
+
+    @Override
+    public List<ApprenantDto> findByApprenantNonConnecter() {
+        return  apprenantRepository.findAllByIsConnectedFalseAndArchiveFalse().stream().map(ApprenantDto::fromEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public EmailDto sendByEmail(EmailDto emailDto) {
+         emailSenderService.sendSimpleEmail(emailDto.getToEmail(), emailDto.getBody(), emailDto.getSubject());
+         return emailDto;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.odc.suiviapprenants.controller.api;
 
 import com.odc.suiviapprenants.dto.ApprenantDto;
+import com.odc.suiviapprenants.dto.EmailDto;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,9 +37,14 @@ public interface ApprenantApi {
     @GetMapping("/apprenants/{id}")
     ApprenantDto findById(@PathVariable Long id);
 
+    @GetMapping("/apprenantNonConnecter")
+    List<ApprenantDto> findByApprenantNonConnecter();
 
     @DeleteMapping("/apprenants/{id}")
     void delete(@PathVariable Long id);
+
+    @PostMapping("/sendEmail")
+    EmailDto sendByEmail(@RequestBody EmailDto emailDto);
 
     @PutMapping("/apprenants/{id}")
     ApprenantDto put(@PathVariable Long id,
