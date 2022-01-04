@@ -82,6 +82,9 @@ public interface BriefApi {
     @DeleteMapping ("/briefs/{id}")
     BriefDto ArchiverBrief(@PathVariable Long id);
 
+    @GetMapping("/briefs/{id}/competences")
+    Collection<BriefCompetenceDto> listCompByBrief(@PathVariable Long id);
+
     @PostMapping("/appprenant/{id}/competence/{idComp}")
     CompetenceValideDto validerCompetence(@PathVariable("id") Long id, @PathVariable("idComp") Long idComp);
 

@@ -119,6 +119,11 @@ public class BriefController implements BriefApi {
     }
 
     @Override
+    public Collection<BriefCompetenceDto> listCompByBrief(Long id) {
+        return briefService.listCompByBrief(id);
+    }
+
+    @Override
     public CompetenceValideDto validerCompetence(Long id, Long idComp) {
         return briefService.validerCompetence(id, idComp);
     }

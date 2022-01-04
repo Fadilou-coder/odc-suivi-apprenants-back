@@ -455,6 +455,15 @@ public class BriefServiceImpl implements BriefService {
     }
 
     @Override
+    public Collection<BriefCompetenceDto> listCompByBrief(Long id) {
+        if (id == null) return null;
+        if (briefRepository.findById(id).isPresent()){
+            return briefCompetenceRepository.findByBriefId(id).stream().map(BriefCompetenceDto::fromEntity).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
     public CompetenceValideDto validerCompetence(Long id, Long idComp) {
         if (briefCompetenceRepository.findByCompetenceId(idComp).isPresent()){
             CompetenceValideDto competenceValideDto = new CompetenceValideDto();
