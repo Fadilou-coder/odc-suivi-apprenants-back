@@ -455,10 +455,15 @@ public class BriefServiceImpl implements BriefService {
     }
 
     @Override
-    public Collection<BriefCompetenceDto> listCompByBrief(Long id) {
-        if (id == null) return null;
-        if (briefRepository.findById(id).isPresent()){
-            return briefCompetenceRepository.findByBriefId(id).stream().map(BriefCompetenceDto::fromEntity).collect(Collectors.toList());
+    public Collection<BriefCompetenceDto> listCompByBriefByApprenant(Long id, Long idBr) {
+        if (id == null || idBr == null) return null;
+        if (briefRepository.findById(idBr).isPresent() && briefApprenantRepository.findByBriefIdAndApprenantId(idBr, id).isPresent()){
+            Collection<BriefCompetenceDto> briefCompetences = briefCompetenceRepository.findByBriefId(idBr).stream().map(BriefCompetenceDto::fromEntity).collect(Collectors.toList());
+            briefCompetences.forEach( br -> {
+                if (competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(br.getCompetence().getId(), id, br.getNiveau().getId()).isPresent())
+                    br.setValide(true);
+            });
+            return briefCompetences;
         }
         return new ArrayList<>();
     }
@@ -469,18 +474,26 @@ public class BriefServiceImpl implements BriefService {
             CompetenceValideDto competenceValideDto = new CompetenceValideDto();
             competenceValideDto.setCompetence(CompetenceDto.fromEntity(competenceRepository.findById(idComp).get()));
             competenceValideDto.setApprenant(ApprenantDto.fromEntity(apprenantRepository.findById(id).get()));
-            if (Objects.equals(briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getLibelle(), "Niveau 1")){
-                competenceValideDto.setNiveau1(true);
-            }else if (Objects.equals(briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getLibelle(), "Niveau 2")){
-                competenceValideDto.setNiveau2(true);
-            }else competenceValideDto.setNiveau3(true);
-
-            return CompetenceValideDto.fromEntity(
-                    competenceValideRepository.save(CompetenceValideDto.toEntity(competenceValideDto))
-            );
+            competenceValideDto.setNiveauEvaluation(NiveauEvaluationDto.fromEntity(briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau()));
+            if (competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, id, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).isPresent())
+                return CompetenceValideDto.fromEntity(competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, id, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).get());
+            else
+                return CompetenceValideDto.fromEntity(
+                        competenceValideRepository.save(CompetenceValideDto.toEntity(competenceValideDto))
+                );
         }
         return null;
     }
+
+    @Override
+    public Void invaliderCompetence(Long idApp, Long idComp) {
+        if (briefCompetenceRepository.findByCompetenceId(idComp).isPresent()){
+            if (competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, idApp, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).isPresent())
+                competenceValideRepository.delete(competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, idApp, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).get());
+        }
+        return null;
+    }
+
 
     @Override
     public Collection<LivrablesPartielsDto> findLivrablesACorrigerByAprrenant(Long id, Long idApp) {

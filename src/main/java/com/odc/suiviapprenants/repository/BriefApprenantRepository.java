@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface BriefApprenantRepository extends JpaRepository<BriefApprenant, Long> {
     Optional<BriefApprenant> findByBriefIdAndApprenantId(Long brief_id, Long apprenant_id);
     List<BriefApprenant> findAllByApprenantId(Long id);
+    List<BriefApprenant> findAllByBriefId(Long id);
 }

@@ -9,9 +9,8 @@ import javax.persistence.ManyToOne;
 @Data
 public class CompetenceValide extends AbstractEntity {
 
-    private boolean niveau1;
-    private boolean niveau2;
-    private boolean niveau3;
+    @ManyToOne(optional = false)
+    private NiveauEvaluation niveau;
 
     @ManyToOne(optional = false)
     private Competence competence;

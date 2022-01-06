@@ -5,8 +5,6 @@ import lombok.Data;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import java.util.Collection;
 
 @Entity
 @Data
@@ -20,6 +18,6 @@ public class Message extends AbstractEntity{
     @ManyToOne
     private Apprenant apprenant;
 
-    @OneToMany(mappedBy = "message")
-    private Collection<Reponse> reponses;
+    @ManyToOne
+    private Formateur formateur;
 }

@@ -64,7 +64,4 @@ public class Apprenant extends AppUser {
 
     @OneToMany(mappedBy = "apprenant")
     private Collection<Message> messages;
-
-    @OneToMany(mappedBy = "apprenant")
-    private Collection<Reponse> reponses;
 }

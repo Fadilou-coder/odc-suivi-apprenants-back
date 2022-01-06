@@ -30,7 +30,7 @@ public class Formateur extends AppUser{
     private Collection<Brief> briefs;
 
     @OneToMany(mappedBy = "formateur")
-    private Collection<Reponse> reponses;
+    private Collection<Message> messages;
 
     public Formateur(String username, String password, String prenom, String nom, String email, String numeroTelephone, String role)
     {
