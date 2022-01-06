@@ -63,9 +63,11 @@ public interface BriefService {
 
     BriefDto archiverBrief(Long id);
 
-    Collection<BriefCompetenceDto> listCompByBrief(Long id);
+    Collection<BriefCompetenceDto> listCompByBriefByApprenant(Long id, Long idBr);
 
     CompetenceValideDto validerCompetence(Long id, Long idComp);
+
+    Void invaliderCompetence(Long idApp, Long idComp);
 
     Collection<LivrablesPartielsDto> findLivrablesACorrigerByAprrenant(Long id, Long idApp);
 

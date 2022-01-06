@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface CompetenceValideRepository extends JpaRepository<CompetenceValide, Long> {
     Optional<CompetenceValide> findByCompetenceIdAndApprenantId(Long competence_id, Long apprenant_id);
+    Optional<CompetenceValide> findByCompetenceIdAndApprenantIdAndNiveauId(Long competence_id, Long apprenant_id, Long niveau_id);
 }

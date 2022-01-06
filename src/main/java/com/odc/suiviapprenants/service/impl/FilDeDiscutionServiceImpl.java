@@ -6,8 +6,6 @@ import com.odc.suiviapprenants.repository.*;
 import com.odc.suiviapprenants.service.FilDeDiscutionService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,7 +23,6 @@ public class FilDeDiscutionServiceImpl implements FilDeDiscutionService {
     BriefApprenantRepository briefApprenantRepository;
     ApprenantRepository apprenantRepository;
     MessageRepository messageRepository;
-    ReponseRepository reponseRepository;
     FormateurRepository formateurRepository;
 
     @Override
@@ -34,46 +31,44 @@ public class FilDeDiscutionServiceImpl implements FilDeDiscutionService {
     }
 
     @Override
-    public List<FilDeDiscutionDto> findAllByBrief(Long id, Long idApp) {
-        BriefApprenant briefApprenant = briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get();
-        return fildeDiscutionRepositoty.findAllByBriefApprenantId(briefApprenant.getId()).stream().map(FilDeDiscutionDto::fromEntity).collect(Collectors.toList());
+    public FilDeDiscutionDto findAllByBrief(Long id) {
+        List<BriefApprenant> briefApprenants = briefApprenantRepository.findAllByBriefId(id);
+        List<FilDeDiscutionDto> filDeDiscutions = new ArrayList<>();
+        briefApprenants.forEach(briefApprenant -> {
+            if (fildeDiscutionRepositoty.findByBriefApprenantId(briefApprenant.getId()).isPresent()){
+                filDeDiscutions.add(FilDeDiscutionDto.fromEntity(fildeDiscutionRepositoty.findByBriefApprenantId(briefApprenant.getId()).get()));
+
+            }
+        });
+        if (filDeDiscutions.size() > 0)
+            return filDeDiscutions.get(0);
+        return null;
     }
 
     @Override
-    public MessageDto saveMessage(String libelle, MultipartFile pieceJointe, Long idApp, Long id) throws IOException {
-        MessageDto messageDto = new MessageDto(null, libelle, pieceJointe.getBytes(), new ArrayList<>(), FilDeDiscutionDto.fromEntity(fildeDiscutionRepositoty.findById(id).get()));
-        return MessageDto.fromEntity(messageRepository.save(MessageDto.toEntity(messageDto)));
+    public MessageDto saveMessage(String libelle, MultipartFile pieceJointe, Long idUser, Long id) throws IOException {
+        if (fildeDiscutionRepositoty.findById(id).isPresent() && apprenantRepository.findById(idUser).isPresent()) {
+            MessageDto messageDto = new MessageDto(null, libelle, pieceJointe.getBytes(), FilDeDiscutionDto.fromEntity(fildeDiscutionRepositoty.findById(id).get()), ApprenantDto.fromEntity(apprenantRepository.findById(idUser).get()), null);
+            return MessageDto.fromEntity(messageRepository.save(MessageDto.toEntity(messageDto)));
+        }else if (fildeDiscutionRepositoty.findById(id).isPresent() && formateurRepository.findById(idUser).isPresent()){
+            MessageDto messageDto = new MessageDto(null, libelle, pieceJointe.getBytes(), FilDeDiscutionDto.fromEntity(fildeDiscutionRepositoty.findById(id).get()), null, FormateurDto.fromEntity(formateurRepository.findById(idUser).get()));
+            return MessageDto.fromEntity(messageRepository.save(MessageDto.toEntity(messageDto)));
+        }
+        return null;
     }
 
-    @Override
-    public ReponseDto repondre(String libelle, MultipartFile pieceJointe, Long id) throws IOException {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = "";
-        FormateurDto formateurDto = null;
-        ApprenantDto apprenantDto = null;
-        if (principal instanceof UserDetails){
-            username = ((UserDetails)principal).getUsername();
-        } else {
-            username = principal.toString();
-        }
-        if (formateurRepository.findByUsernameAndArchiveFalse(username).isPresent()) {
-            formateurDto = FormateurDto.fromEntity(formateurRepository.findByUsernameAndArchiveFalse(username).get());
-        }else if (apprenantRepository.findByUsernameAndArchiveFalse(username) != null){
-            apprenantDto = ApprenantDto.fromEntity(apprenantRepository.findByUsernameAndArchiveFalse(username));
-        }
-        ReponseDto reponseDto = new ReponseDto(null, libelle, pieceJointe.getBytes(), 0, MessageDto.fromEntity(messageRepository.findById(id).get()), apprenantDto, formateurDto);
-        return ReponseDto.fromEntity(
-            reponseRepository.save(ReponseDto.toEntity(reponseDto))
-        );
-    }
 
     @Override
     public FilDeDiscutionDto saveFilDeDiscutionBrief(FilDeDiscutionDto filDeDiscutionDto, Long id, Long idApp) {
-        BriefApprenant briefApprenant = briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get();
-        filDeDiscutionDto.setApprenant(ApprenantDto.fromEntity(apprenantRepository.findById(idApp).get()));
-        filDeDiscutionDto.setBriefApprenant(BriefApprenantDto.fromEntity(briefApprenant));
-        return FilDeDiscutionDto.fromEntity(
-                fildeDiscutionRepositoty.save(FilDeDiscutionDto.toEntity(filDeDiscutionDto))
-        );
+        if (briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).isPresent()) {
+            BriefApprenant briefApprenant = briefApprenantRepository.findByBriefIdAndApprenantId(id, idApp).get();
+            if (apprenantRepository.findById(idApp).isPresent())
+                filDeDiscutionDto.setApprenant(ApprenantDto.fromEntity(apprenantRepository.findById(idApp).get()));
+            filDeDiscutionDto.setBriefApprenant(BriefApprenantDto.fromEntity(briefApprenant));
+            return FilDeDiscutionDto.fromEntity(
+                    fildeDiscutionRepositoty.save(FilDeDiscutionDto.toEntity(filDeDiscutionDto))
+            );
+        }
+        return null;
     }
 }
