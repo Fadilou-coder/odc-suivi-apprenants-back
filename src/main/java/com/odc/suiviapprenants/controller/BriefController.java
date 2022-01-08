@@ -129,11 +129,6 @@ public class BriefController implements BriefApi {
     }
 
     @Override
-    public void invaliderCompetence(Long idApp, Long idComp) {
-        briefService.invaliderCompetence(idApp, idComp);
-    }
-
-    @Override
     public Collection<LivrablesPartielsDto> findLivrablesACorrigerByAprrenant(Long id, Long idApp) {
         return briefService.findLivrablesACorrigerByAprrenant(id, idApp);
     }

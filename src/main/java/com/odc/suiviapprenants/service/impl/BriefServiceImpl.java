@@ -471,28 +471,24 @@ public class BriefServiceImpl implements BriefService {
     @Override
     public CompetenceValideDto validerCompetence(Long id, Long idComp) {
         if (briefCompetenceRepository.findByCompetenceId(idComp).isPresent()){
-            CompetenceValideDto competenceValideDto = new CompetenceValideDto();
-            competenceValideDto.setCompetence(CompetenceDto.fromEntity(competenceRepository.findById(idComp).get()));
-            competenceValideDto.setApprenant(ApprenantDto.fromEntity(apprenantRepository.findById(id).get()));
-            competenceValideDto.setNiveauEvaluation(NiveauEvaluationDto.fromEntity(briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau()));
             if (competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, id, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).isPresent())
-                return CompetenceValideDto.fromEntity(competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, id, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).get());
-            else
-                return CompetenceValideDto.fromEntity(
-                        competenceValideRepository.save(CompetenceValideDto.toEntity(competenceValideDto))
-                );
+                competenceValideRepository.delete(competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, id, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).get());
+            else {
+                CompetenceValideDto competenceValideDto = new CompetenceValideDto();
+                competenceValideDto.setCompetence(CompetenceDto.fromEntity(competenceRepository.findById(idComp).get()));
+                competenceValideDto.setApprenant(ApprenantDto.fromEntity(apprenantRepository.findById(id).get()));
+                competenceValideDto.setNiveauEvaluation(NiveauEvaluationDto.fromEntity(briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau()));
+                if (competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, id, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).isPresent())
+                    return CompetenceValideDto.fromEntity(competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, id, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).get());
+                else
+                    return CompetenceValideDto.fromEntity(
+                            competenceValideRepository.save(CompetenceValideDto.toEntity(competenceValideDto))
+                    );
+            }
         }
         return null;
     }
 
-    @Override
-    public Void invaliderCompetence(Long idApp, Long idComp) {
-        if (briefCompetenceRepository.findByCompetenceId(idComp).isPresent()){
-            if (competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, idApp, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).isPresent())
-                competenceValideRepository.delete(competenceValideRepository.findByCompetenceIdAndApprenantIdAndNiveauId(idComp, idApp, briefCompetenceRepository.findByCompetenceId(idComp).get().getNiveau().getId()).get());
-        }
-        return null;
-    }
 
 
     @Override

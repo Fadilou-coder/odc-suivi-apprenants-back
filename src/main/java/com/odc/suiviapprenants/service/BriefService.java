@@ -67,8 +67,6 @@ public interface BriefService {
 
     CompetenceValideDto validerCompetence(Long id, Long idComp);
 
-    Void invaliderCompetence(Long idApp, Long idComp);
-
     Collection<LivrablesPartielsDto> findLivrablesACorrigerByAprrenant(Long id, Long idApp);
 
     Collection<LivrablesPartielsDto> findLivrablesARefaireByAprrenant(Long id, Long idApp);

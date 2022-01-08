@@ -85,11 +85,8 @@ public interface BriefApi {
     @GetMapping("/briefs/{idBr}/apprenant/{id}/competences")
     Collection<BriefCompetenceDto> listCompByBrief(@PathVariable("id") Long id, @PathVariable("idBr") Long idBr);
 
-    @PostMapping("/appprenant/{id}/competence/{idComp}")
+    @PostMapping("/apprenant/{id}/competence/{idComp}")
     CompetenceValideDto validerCompetence(@PathVariable("id") Long id, @PathVariable("idComp") Long idComp);
-
-    @DeleteMapping("/appprenant/{id}/competence/{idComp}")
-    void invaliderCompetence(@PathVariable("id") Long idApp, @PathVariable("idComp") Long idComp);
 
     @GetMapping("/briefs/{id}/apprenants/{idApp}/livrablesACorriger")
     Collection<LivrablesPartielsDto> findLivrablesACorrigerByAprrenant(@PathVariable("id") Long id, @PathVariable("idApp") Long idApp);
