@@ -52,7 +52,7 @@ public class MessageDto {
                         message.getFormateur() == null ? null:
                                 FormateurDto.fromEntity(message.getFormateur())
                 )
-                .creationDate(LocalDate.ofInstant(message.getCreationDate(), zone))
+                .creationDate(message.getCreationDate().atZone(zone).toLocalDate())
                 .build();
 
     }
