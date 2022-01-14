@@ -158,4 +158,14 @@ public class BriefController implements BriefApi {
         return briefService.addApprenantsToBriefs(id, groupeDto);
     }
 
+    @Override
+    public Collection<ApprenantDto> findApprenantsByBrief(Long id) {
+        return briefService.findApprenantsByBrief(id);
+    }
+
+    @Override
+    public Collection<CompetenceDto> findCompetencesByBrief(Long id) {
+        return briefService.findCompetencesByBrief(id);
+    }
+
 }

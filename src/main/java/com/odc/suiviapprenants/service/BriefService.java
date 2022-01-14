@@ -79,5 +79,9 @@ public interface BriefService {
 
     Collection<GroupeDto> addApprenantsToBriefs(Long id, Collection<GroupeDto> groupeDto);
 
+    Collection<ApprenantDto> findApprenantsByBrief(Long id);
+
+    Collection<CompetenceDto> findCompetencesByBrief(Long id);
+
 
 }

@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -612,6 +611,31 @@ public class BriefServiceImpl implements BriefService {
             brief.setStatut("En cours");
             briefRepository.flush();
             return groupeDto;
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Collection<ApprenantDto> findApprenantsByBrief(Long id) {
+        if (briefRepository.findById(id).isPresent()) {
+            List<Apprenant> apprenants = new ArrayList<>();
+            briefApprenantRepository.findAllByBriefId(id).forEach(briefApprenant -> {
+                apprenants.add(briefApprenant.getApprenant());
+            });
+            return apprenants.stream().map(ApprenantDto::fromEntity).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    @Override
+    public Collection<CompetenceDto> findCompetencesByBrief(Long id) {
+        if (briefRepository.findById(id).isPresent()) {
+            List<Competence> competences = new ArrayList<>();
+            briefCompetenceRepository.findByBriefId(id).forEach(briefCompetence -> {
+                competences.add(briefCompetence.getCompetence());
+            });
+
+            return competences.stream().map(CompetenceDto::fromEntity).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }

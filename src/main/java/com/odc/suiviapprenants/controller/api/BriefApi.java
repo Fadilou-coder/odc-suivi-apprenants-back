@@ -106,4 +106,10 @@ public interface BriefApi {
     @PostMapping("/briefs/{id}/addAprrenants")
     Collection<GroupeDto> addApprenantsToBriefs(@PathVariable Long id, @RequestBody Collection<GroupeDto> groupeDto);
 
+    @GetMapping("/briefs/{id}/apprenants")
+    Collection<ApprenantDto> findApprenantsByBrief(@PathVariable Long id);
+
+    @GetMapping("/briefs/{id}/competences")
+    Collection<CompetenceDto> findCompetencesByBrief(@PathVariable Long id);
+
 }

@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Builder
 @Data
 @AllArgsConstructor
@@ -16,6 +18,8 @@ public class MessageDto {
     private byte[] pieceJointe;
     @JsonIgnore
     FilDeDiscutionDto filDeDiscution;
+
+    private LocalDate creationDate;
 
     ApprenantDto apprenant;
 
@@ -36,6 +40,7 @@ public class MessageDto {
                         message.getFormateur() == null ? null:
                                 FormateurDto.fromEntity(message.getFormateur())
                 )
+                .creationDate(LocalDate.from(message.getCreationDate()))
                 .build();
 
     }
