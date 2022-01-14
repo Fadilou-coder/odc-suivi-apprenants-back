@@ -19,4 +19,11 @@ public class LivrablePartiel extends AbstractEntity{
 
     @ManyToOne(cascade = CascadeType.MERGE)
     private BriefApprenant briefApprenant;
+
+    public LivrablePartiel(String libelle, String description, LocalDate delai, String type) {
+        this.libelle = libelle;
+        this.description = description;
+        this.delai = delai;
+        this.type = type;
+    }
 }

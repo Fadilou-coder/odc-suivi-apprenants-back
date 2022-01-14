@@ -574,6 +574,7 @@ public class BriefServiceImpl implements BriefService {
     public Collection<GroupeDto> addApprenantsToBriefs(Long id, Collection<GroupeDto> groupeDto) {
         if (briefRepository.findById(id).isPresent()) {
             Brief brief = briefRepository.findById(id).get();
+            Collection<LivrablesPartielsDto> livrablesPartiels = this.ListLivrablesPartiels(id);
 
             groupeDto.forEach(g -> {
                 if (g.getId() != null){
@@ -582,7 +583,12 @@ public class BriefServiceImpl implements BriefService {
                             briefGroupeRepository.save(new BriefGroupe(groupeRepository.findById(g.getId()).get(), brief));
                             groupeRepository.findById(g.getId()).get().getApprenants().forEach(apprenant -> {
                                 if (!briefApprenantRepository.findByBriefIdAndApprenantId(brief.getId(), apprenant.getId()).isPresent()) {
-                                    briefApprenantRepository.save(new BriefApprenant(brief, apprenant));
+                                    BriefApprenant briefApprenant = briefApprenantRepository.save(new BriefApprenant(brief, apprenant));
+                                    livrablesPartiels.forEach(lv -> {
+                                        LivrablePartiel livrablePartiel = new LivrablePartiel(lv.getLibelle(), lv.getDescription(), lv.getDelai(), lv.getType());
+                                        livrablePartiel.setBriefApprenant(briefApprenant);
+                                        livrablePartielRepository.save(livrablePartiel);
+                                    });
                                 }
                             });
                         }
@@ -591,7 +597,12 @@ public class BriefServiceImpl implements BriefService {
                     g.getApprenants().forEach(apprenantDto -> {
                         if (apprenantRepository.findById(apprenantDto.getId()).isPresent()) {
                             if (!briefApprenantRepository.findByBriefIdAndApprenantId(brief.getId(), apprenantDto.getId()).isPresent()) {
-                                briefApprenantRepository.save(new BriefApprenant(brief, apprenantRepository.findById(apprenantDto.getId()).get()));
+                                BriefApprenant briefApprenant = briefApprenantRepository.save(new BriefApprenant(brief, apprenantRepository.findById(apprenantDto.getId()).get()));
+                                livrablesPartiels.forEach(lv -> {
+                                    LivrablePartiel livrablePartiel = new LivrablePartiel(lv.getLibelle(), lv.getDescription(), lv.getDelai(), lv.getType());
+                                    livrablePartiel.setBriefApprenant(briefApprenant);
+                                    livrablePartielRepository.save(livrablePartiel);
+                                });
                             }
                         }
                     });
