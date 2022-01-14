@@ -21,6 +21,15 @@ public class MessageDto {
 
     private LocalDate creationDate;
 
+    public MessageDto(Long id, String libelle, byte[] pieceJointe, FilDeDiscutionDto filDeDiscution, ApprenantDto apprenant, FormateurDto formateur) {
+        this.id = id;
+        this.libelle = libelle;
+        this.pieceJointe = pieceJointe;
+        this.filDeDiscution = filDeDiscution;
+        this.apprenant = apprenant;
+        this.formateur = formateur;
+    }
+
     ApprenantDto apprenant;
 
     FormateurDto formateur;
