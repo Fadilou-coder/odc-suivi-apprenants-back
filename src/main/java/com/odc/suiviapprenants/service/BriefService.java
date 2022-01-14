@@ -81,7 +81,7 @@ public interface BriefService {
 
     Collection<ApprenantDto> findApprenantsByBrief(Long id);
 
-    Collection<CompetenceDto> findCompetencesByBrief(Long id);
+    Collection<BriefCompetenceDto> findCompetencesByBrief(Long id);
 
 
 }

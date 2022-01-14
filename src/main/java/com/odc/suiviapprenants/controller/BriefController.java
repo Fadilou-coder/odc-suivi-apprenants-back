@@ -164,7 +164,7 @@ public class BriefController implements BriefApi {
     }
 
     @Override
-    public Collection<CompetenceDto> findCompetencesByBrief(Long id) {
+    public Collection<BriefCompetenceDto> findCompetencesByBrief(Long id) {
         return briefService.findCompetencesByBrief(id);
     }
 

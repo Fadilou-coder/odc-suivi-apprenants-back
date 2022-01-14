@@ -110,6 +110,6 @@ public interface BriefApi {
     Collection<ApprenantDto> findApprenantsByBrief(@PathVariable Long id);
 
     @GetMapping("/briefs/{id}/competences")
-    Collection<CompetenceDto> findCompetencesByBrief(@PathVariable Long id);
+    Collection<BriefCompetenceDto> findCompetencesByBrief(@PathVariable Long id);
 
 }

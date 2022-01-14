@@ -628,14 +628,9 @@ public class BriefServiceImpl implements BriefService {
     }
 
     @Override
-    public Collection<CompetenceDto> findCompetencesByBrief(Long id) {
+    public Collection<BriefCompetenceDto> findCompetencesByBrief(Long id) {
         if (briefRepository.findById(id).isPresent()) {
-            List<Competence> competences = new ArrayList<>();
-            briefCompetenceRepository.findByBriefId(id).forEach(briefCompetence -> {
-                competences.add(briefCompetence.getCompetence());
-            });
-
-            return competences.stream().map(CompetenceDto::fromEntity).collect(Collectors.toList());
+            return briefCompetenceRepository.findByBriefId(id).stream().map(BriefCompetenceDto::fromEntity).collect(Collectors.toList());
         }
         return new ArrayList<>();
     }
