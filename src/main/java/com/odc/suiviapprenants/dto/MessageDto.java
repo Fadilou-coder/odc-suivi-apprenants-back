@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 @Builder
 @Data
@@ -20,6 +21,7 @@ public class MessageDto {
     FilDeDiscutionDto filDeDiscution;
 
     private LocalDate creationDate;
+
 
     public MessageDto(Long id, String libelle, byte[] pieceJointe, FilDeDiscutionDto filDeDiscution, ApprenantDto apprenant, FormateurDto formateur) {
         this.id = id;
@@ -37,6 +39,7 @@ public class MessageDto {
     public static MessageDto fromEntity(Message message){
 
         if (message == null) return null;
+        ZoneId zone = ZoneId.of("America/Edmonton");
         return MessageDto.builder()
                 .id(message.getId())
                 .libelle(message.getLibelle())
@@ -49,7 +52,7 @@ public class MessageDto {
                         message.getFormateur() == null ? null:
                                 FormateurDto.fromEntity(message.getFormateur())
                 )
-                .creationDate(LocalDate.from(message.getCreationDate()))
+                .creationDate(LocalDate.ofInstant(message.getCreationDate(), zone))
                 .build();
 
     }
