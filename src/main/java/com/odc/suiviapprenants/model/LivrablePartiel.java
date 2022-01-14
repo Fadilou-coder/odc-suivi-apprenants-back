@@ -1,13 +1,14 @@
 package com.odc.suiviapprenants.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Collection;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class LivrablePartiel extends AbstractEntity{
     private String libelle;
     private String description;
