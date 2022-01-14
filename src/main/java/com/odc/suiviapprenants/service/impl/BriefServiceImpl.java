@@ -97,7 +97,7 @@ public class BriefServiceImpl implements BriefService {
                 modalitePedagodiques,
                 criterePerformances,
                 modaliteEvaluations,
-                "En cours",
+                "Non assigné",
                 false,
                 image.getBytes(),
                 tagList,
@@ -226,6 +226,7 @@ public class BriefServiceImpl implements BriefService {
 
             briefDto.setId(null);
             briefDto.setLivrableAttendus(livrablesAttendusList);
+            briefDto.setStatut("Non assigné");
             briefDto.setBriefApprenants(new ArrayList<>());
             briefDto.setBriefGroupes(new ArrayList<>());
             briefDto.setBriefCompetences(new ArrayList<>());
@@ -585,7 +586,7 @@ public class BriefServiceImpl implements BriefService {
                                 if (!briefApprenantRepository.findByBriefIdAndApprenantId(brief.getId(), apprenant.getId()).isPresent()) {
                                     BriefApprenant briefApprenant = briefApprenantRepository.save(new BriefApprenant(brief, apprenant));
                                     livrablesPartiels.forEach(lv -> {
-                                        LivrablePartiel livrablePartiel = new LivrablePartiel(lv.getLibelle(), lv.getDescription(), lv.getDelai(), lv.getType());
+                                        LivrablePartiel livrablePartiel = new LivrablePartiel(lv.getLibelle(), lv.getDescription(), lv.getDelai(), "groupe");
                                         livrablePartiel.setBriefApprenant(briefApprenant);
                                         livrablePartielRepository.save(livrablePartiel);
                                     });
@@ -599,7 +600,7 @@ public class BriefServiceImpl implements BriefService {
                             if (!briefApprenantRepository.findByBriefIdAndApprenantId(brief.getId(), apprenantDto.getId()).isPresent()) {
                                 BriefApprenant briefApprenant = briefApprenantRepository.save(new BriefApprenant(brief, apprenantRepository.findById(apprenantDto.getId()).get()));
                                 livrablesPartiels.forEach(lv -> {
-                                    LivrablePartiel livrablePartiel = new LivrablePartiel(lv.getLibelle(), lv.getDescription(), lv.getDelai(), lv.getType());
+                                    LivrablePartiel livrablePartiel = new LivrablePartiel(lv.getLibelle(), lv.getDescription(), lv.getDelai(), "groupe");
                                     livrablePartiel.setBriefApprenant(briefApprenant);
                                     livrablePartielRepository.save(livrablePartiel);
                                 });
