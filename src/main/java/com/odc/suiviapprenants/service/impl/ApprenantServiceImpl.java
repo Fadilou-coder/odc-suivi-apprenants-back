@@ -83,7 +83,6 @@ public class ApprenantServiceImpl implements ApprenantService {
             log.error("User ID is null");
             return null;
         }
-
         return apprenantRepository.findByIdAndArchiveFalse(id).map(ApprenantDto::fromEntity).orElseThrow(() ->
                 new EntityNotFoundException(
                         "Aucun utilisateur avec l'ID = " + id + " ne se trouve dans la BDD",
